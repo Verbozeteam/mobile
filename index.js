@@ -1,4 +1,4 @@
 import { AppRegistry } from 'react-native';
-import App from './App';
+import VerbozeMobile from './VerbozeMobile';
 
-AppRegistry.registerComponent('VerbozeMobile', () => App);
+AppRegistry.registerComponent('VerbozeMobile', () => VerbozeMobile);
