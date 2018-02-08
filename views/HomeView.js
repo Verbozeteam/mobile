@@ -1,7 +1,9 @@
 /* @flow */
 
 import React, { Component } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { Text, StyleSheet } from 'react-native';
+
+import LinearGradient from 'react-native-linear-gradient';
 
 type PropsType = {};
 type StateType = {};
@@ -12,11 +14,14 @@ export default class HomeView extends Component<PropsType, StateType> {
 
   };
 
+  _background_gradient: [string, string] = ['#1E1E1E', '#080808'];
+
   render() {
     return (
-      <View style={styles.container}>
+      <LinearGradient colors={this._background_gradient}
+        style={styles.container}>
         <Text style={styles.header}>V E R B O Z E</Text>
-      </View>
+      </LinearGradient>
     );
   }
 }
@@ -24,7 +29,6 @@ export default class HomeView extends Component<PropsType, StateType> {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#000000'
   },
   header: {
     position: 'absolute',
