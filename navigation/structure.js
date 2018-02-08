@@ -76,7 +76,7 @@ export const options = {
       fontWeight: 'bold'
     },
     style: {
-      backgroundColor: 'transparent'
+      backgroundColor: 'transparent',
     }
   }
 };
