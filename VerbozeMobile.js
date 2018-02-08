@@ -1,8 +1,7 @@
 /* @flow */
 
 import React, { Component } from 'react';
-
-import HomeView from './views/HomeView';
+import Navigation from './navigation/Navigation';
 
 type PropsType = {};
 type StateType = {};
@@ -15,7 +14,7 @@ export default class VerbozeMobile extends Component<PropsType, StateType> {
 
   render() {
     return (
-      <HomeView />
+      <Navigation />
     );
   }
 }
