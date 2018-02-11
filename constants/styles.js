@@ -13,9 +13,11 @@ export const Gradients = {
 };
 
 export const TypeFaces = {
-  header: {
-    fontSize: 40,
+  centered_header: {
+    fontSize: 32,
     fontFamily: 'CeraPRO-Medium',
-    color: Colors.white
+    color: Colors.white,
+    textAlign: 'center',
+    width: '100%',
   }
 };

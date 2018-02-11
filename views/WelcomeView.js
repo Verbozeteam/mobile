@@ -33,8 +33,6 @@ const styles = StyleSheet.create({
   header: {
     position: 'absolute',
     bottom: '50%',
-    width: '100%',
-    textAlign: 'center',
-    ...TypeFaces.header
+    ...TypeFaces.centered_header
   }
 })
