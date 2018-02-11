@@ -1,33 +1,26 @@
 /* @flow */
 
 import React, { Component } from 'react';
-import { Button, Text, StyleSheet } from 'react-native';
+import { Text, StyleSheet } from 'react-native';
 
 import LinearGradient from 'react-native-linear-gradient';
 
 import { Gradients, TypeFaces } from '../constants/styles';
 
-type PropsType = {
-  navigation: Object
-};
+type PropsType = {};
 type StateType = {};
 
-export default class WelcomeView extends Component<PropsType, StateType> {
+export default class RoomsView extends Component<PropsType, StateType> {
 
   static defaultProps = {
 
   };
 
   render() {
-    const { navigation } = this.props;
-
     return (
       <LinearGradient colors={Gradients.background_dark}
         style={styles.container}>
-        <Text style={styles.header}>Welcome</Text>
-        <Button
-          title={'Next'}
-          onPress={() => navigation.navigate('Configure')} />
+        <Text style={styles.header}>Rooms</Text>
       </LinearGradient>
     );
   }
@@ -42,4 +35,4 @@ const styles = StyleSheet.create({
     bottom: '50%',
     ...TypeFaces.centered_header
   }
-})
+});

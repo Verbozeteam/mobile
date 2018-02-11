@@ -1,10 +1,17 @@
 /* @flow */
 
 import React, { Component } from 'react';
+import { Button, View, Text, StyleSheet, SafeAreaView } from 'react-native';
 
-import { View, Text, StyleSheet } from 'react-native';
+import ConfigureView from './ConfigureView';
 
-type PropsType = {};
+import LinearGradient from 'react-native-linear-gradient';
+
+import { Gradients, TypeFaces } from '../constants/styles';
+
+type PropsType = {
+  navigation: Object
+};
 type StateType = {};
 
 export default class SettingsView extends Component<PropsType, StateType> {
@@ -14,10 +21,17 @@ export default class SettingsView extends Component<PropsType, StateType> {
   };
 
   render() {
+    const { navigation } = this.props;
+
     return (
-      <View style={styles.container}>
-        <Text style={styles.header}>Settings</Text>
-      </View>
+      <LinearGradient colors={Gradients.background_dark}
+        style={styles.container}>
+        <SafeAreaView>
+          <Button
+            title={'Configure'}
+            onPress={() => navigation.navigate('Configure')} />
+        </SafeAreaView>
+      </LinearGradient>
     );
   }
 }
@@ -26,12 +40,5 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#000000'
-  },
-  header: {
-    position: 'absolute',
-    bottom: '50%',
-    color: '#FFFFFF',
-    width: '100%',
-    textAlign: 'center',
   }
 });

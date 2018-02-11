@@ -13,6 +13,10 @@ export const Gradients = {
 };
 
 export const TypeFaces = {
+  ios_tabbar_label: {
+    fontSize: 12,
+    fontFamily: 'CeraPRO-Regular'
+  },
   centered_header: {
     fontSize: 32,
     fontFamily: 'CeraPRO-Medium',
