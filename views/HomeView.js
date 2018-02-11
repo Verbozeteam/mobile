@@ -5,6 +5,8 @@ import { Text, StyleSheet } from 'react-native';
 
 import LinearGradient from 'react-native-linear-gradient';
 
+import { Gradients, TypeFaces } from '../constants/styles';
+
 type PropsType = {};
 type StateType = {};
 
@@ -14,11 +16,9 @@ export default class HomeView extends Component<PropsType, StateType> {
 
   };
 
-  _background_gradient: [string, string] = ['#1E1E1E', '#080808'];
-
   render() {
     return (
-      <LinearGradient colors={this._background_gradient}
+      <LinearGradient colors={Gradients.background_dark}
         style={styles.container}>
         <Text style={styles.header}>V E R B O Z E</Text>
       </LinearGradient>
@@ -33,9 +33,8 @@ const styles = StyleSheet.create({
   header: {
     position: 'absolute',
     bottom: '50%',
-    color: '#FFFFFF',
     width: '100%',
     textAlign: 'center',
-    fontSize: 40
+    ...TypeFaces.header
   }
 });

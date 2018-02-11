@@ -15,7 +15,7 @@ export const Gradients = {
 export const TypeFaces = {
   header: {
     fontSize: 40,
-    fontWeight: 'bold',
+    fontFamily: 'CeraPRO-Medium',
     color: Colors.white
   }
 };
