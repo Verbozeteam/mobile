@@ -2,14 +2,19 @@
 
 import React from 'react';
 import { Image, StyleSheet } from 'react-native';
+import { TabNavigator } from 'react-navigation';
+
+import { TabBarBottomBlur } from './components/TabBarBottomBlur';
 
 import NotificationsView from '../views/NotificationsView';
-import HomeView from '../views/HomeView';
-import SettingsView from '../views/SettingsView';
+// import HomeView from '../views/HomeView';
+// import SettingsView from '../views/SettingsView';
+import HomeStack from './HomeStack';
+import SettingsStack from './SettingsStack';
 
-import { TabBarBottomBlur } from './TabBarBottomBlur';
+import { Colors, TypeFaces } from '../constants/styles';
 
-/* tab bar icon images */
+/* iOS tabbar icons */
 const notifications_tabbar_icon = require('../assets/navigation/notifications.png');
 const notifications_tabbar_icon_selected = require('../assets/navigation/notifications_selected.png');
 const home_tabbar_icon = require('../assets/navigation/home.png');
@@ -17,7 +22,8 @@ const home_tabbar_icon_selected = require('../assets/navigation/home_selected.pn
 const settings_tabbar_icon = require('../assets/navigation/settings.png');
 const settings_tabbar_icon_selected = require('../assets/navigation/settings_selected.png');
 
-export const structure = {
+
+const structure = {
   Notifications: {
     screen: NotificationsView,
     navigationOptions: {
@@ -27,11 +33,10 @@ export const structure = {
             notifications_tabbar_icon} />
       ),
       tabBarLabel: 'Notifications',
-      drawerLabel: 'Notifications'
     }
   },
   Home: {
-    screen: HomeView,
+    screen: HomeStack,
     navigationOptions: {
       tabBarIcon: (state: {focused: boolean}) => (
         <Image style={styles.tabbar_icon}
@@ -39,11 +44,10 @@ export const structure = {
             home_tabbar_icon} />
       ),
       tabBarLabel: 'Home',
-      drawerLabel: 'Home',
     }
   },
   Settings: {
-    screen: SettingsView,
+    screen: SettingsStack,
     navigationOptions: {
       tabBarIcon: (state: {focused: boolean}) => (
         <Image style={styles.tabbar_icon}
@@ -51,7 +55,6 @@ export const structure = {
             settings_tabbar_icon} />
       ),
       tabBarLabel: 'Settings',
-      drawerLabel: 'Settings'
     }
   }
 };
@@ -64,19 +67,18 @@ const styles = StyleSheet.create({
   }
 });
 
-export const options = {
+const options = {
   lazy: true,
   initialRouteName: 'Home',
   tabBarComponent: TabBarBottomBlur,
   tabBarOptions: {
-    activeTintColor: '#FFFFFF',
-    inactiveTintColor: '#707070',
-    labelStyle: {
-      fontSize: 12,
-      fontWeight: 'bold'
-    },
+    activeTintColor: Colors.white,
+    inactiveTintColor: Colors.gray,
+    labelStyle: TypeFaces.ios_tabbar_label,
     style: {
-      backgroundColor: 'transparent',
+      backgroundColor: 'transparent'
     }
   }
 };
+
+export default TabNavigator(structure, options);

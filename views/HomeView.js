@@ -9,6 +9,8 @@ import WelcomeBanner from '../components/home/WelcomeBanner';
 import RoomsSections from '../components/home/RoomsSection';
 import QuickAccessSection from '../components/home/QuickAccessSection';
 
+import { Gradients, TypeFaces } from '../constants/styles';
+
 type PropsType = {};
 type StateType = {};
 
@@ -18,11 +20,9 @@ export default class HomeView extends Component<PropsType, StateType> {
 
   };
 
-  _background_gradient: [string, string] = ['#1E1E1E', '#080808'];
-
   render() {
     return (
-      <LinearGradient colors={this._background_gradient}
+      <LinearGradient colors={Gradients.background_dark}
         style={styles.container}>
         <SafeAreaView style={ styles.safeArea }>
           <WelcomeBanner name="Mohammed" />
