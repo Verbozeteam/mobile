@@ -7,6 +7,7 @@
     "test": "jest",
     "flow": "flow"
   },
+  "postinstall": "./scripts/post.sh",
   "rnpm": {
     "assets": [
       "./assets/fonts"
