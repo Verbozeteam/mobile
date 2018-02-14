@@ -16,6 +16,7 @@
     "react": "16.2.0",
     "react-native": "0.53.0",
     "react-native-blur": "^3.2.2",
+    "react-native-camera": "^1.0.0",
     "react-native-linear-gradient": "^2.4.0",
     "react-navigation": "^1.0.0"
   },
