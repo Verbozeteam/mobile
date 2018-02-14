@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import { View, Text, Dimensions, StyleSheet } from 'react-native';
 
 import LinearGradient from 'react-native-linear-gradient';
-// import QRCodeScanner from 'react-native-qrcode-scanner';
+import QRCodeScanner from 'react-native-qrcode-scanner';
 
 import { Gradients, TypeFaces } from '../constants/styles';
 
