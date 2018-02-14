@@ -1,7 +1,9 @@
 /* @flow */
 
 import React, { Component } from 'react';
-import { StatusBar } from 'react-native';
+
+import { StatusBar, Platform } from 'react-native';
+
 import { StackNavigator } from 'react-navigation';
 
 import MainNavigator from './navigation/MainNavigator';
@@ -17,8 +19,9 @@ export default class VerbozeMobile extends Component<PropsType, StateType> {
   };
 
   componentWillMount() {
-    /* set status bar color to light */
-    StatusBar.setBarStyle('light-content', true);
+
+	/* set status bar color to light if iOS */
+	Platform.OS === 'ios' ? StatusBar.setBarStyle('light-content', true) : StatusBar.setBackgroundColor('#1E1E1E');
   }
 
   render() {

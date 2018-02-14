@@ -1,9 +1,13 @@
 /* @flow */
 
 import React, { Component } from 'react';
-import { Text, StyleSheet } from 'react-native';
+import { Text, StyleSheet, SafeAreaView } from 'react-native';
 
 import LinearGradient from 'react-native-linear-gradient';
+
+import WelcomeBanner from '../components/home/WelcomeBanner';
+import RoomsSections from '../components/home/RoomsSection';
+import QuickAccessSection from '../components/home/QuickAccessSection';
 
 import { Gradients, TypeFaces } from '../constants/styles';
 
@@ -20,7 +24,11 @@ export default class HomeView extends Component<PropsType, StateType> {
     return (
       <LinearGradient colors={Gradients.background_dark}
         style={styles.container}>
-        <Text style={styles.header}>V E R B O Z E</Text>
+        <SafeAreaView style={ styles.safeArea }>
+          <WelcomeBanner name="Mohammed" />
+          <RoomsSections />
+          <QuickAccessSection />
+        </SafeAreaView>
       </LinearGradient>
     );
   }
@@ -30,9 +38,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  header: {
-    position: 'absolute',
-    bottom: '50%',
-    ...TypeFaces.centered_header
+  safeArea: {
+    flex: 1
   }
 });

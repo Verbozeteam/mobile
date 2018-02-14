@@ -23,5 +23,36 @@ export const TypeFaces = {
     color: Colors.white,
     textAlign: 'center',
     width: '100%',
+  },
+  welcome_banner: {
+    fontSize: 27,
+    color: Colors.white,
+    fontFamily: 'CeraPRO-Regular',
+  },
+  section_and_card_heading: {
+    color: Colors.white,
+    fontSize: 22,
+    fontFamily: 'CeraPRO-Regular',
+  },
+  room_card_name: {
+    color: Colors.white,
+    fontSize: 20,
+    fontFamily: 'CeraPRO-Light'
+  },
+  room_card_stats: {
+    color: Colors.white,
+    fontSize: 14,
+    fontFamily: 'CeraPRO-Light'
+  },
+  quick_access_card_name: {
+    color: Colors.white,
+    fontSize: 14,
+    fontFamily: 'CeraPRO-Light'
+  },
+  quick_access_card_action: {
+    color: Colors.white,
+    fontSize: 14,
+    fontFamily: 'CeraPRO-Medium'
   }
+
 };
