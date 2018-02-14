@@ -22,7 +22,7 @@ export default class VerbozeMobile extends Component<PropsType, StateType> {
   }
 
   render() {
-    const configure_done: boolean = true;
+    const configure_done: boolean = false;
 
     if (configure_done) {
       return <MainNavigator />

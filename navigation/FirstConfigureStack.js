@@ -7,7 +7,10 @@ import ConfigureView from '../views/ConfigureView';
 
 const structure = {
   Welcome: {
-    screen: WelcomeView
+    screen: WelcomeView,
+    navigationOptions: {
+      header: null
+    }
   },
   Configure: {
     screen: ConfigureView
