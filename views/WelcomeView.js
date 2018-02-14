@@ -1,8 +1,8 @@
 /* @flow */
 
 import React, { Component } from 'react';
-import { View, Text, TextInput, Image, StyleSheet, Platform, LayoutAnimation,
-  UIManager } from 'react-native';
+import { AsyncStorage, Animated, Dimensions, Image, View, Text, TextInput,
+  StyleSheet, } from 'react-native';
 
 import LinearGradient from 'react-native-linear-gradient';
 
@@ -13,128 +13,135 @@ type PropsType = {
 };
 
 type StateType = {
-  name: string,
-  animation_stage: number
+  show_welcome_input: boolean
 };
 
 export default class WelcomeView extends Component<PropsType, StateType> {
 
-  _logo: number = require('../assets/images/logo/verboze_logo.png');
-  _animation_start_delay: number = 2500;
-  _animation_duration: number = 1000;
+  _logo: number = require('../assets/images/logo/verboze_logo.png')
+  _animation_delay: number = 500;
+  _animation_duration: number = 1500;
 
-  static defaultProps = {
-
-  };
+  _welcome_input_flex: Object;
+  _welcome_input_opacity: Object;
 
   state = {
-    name: '',
-    animation_stage: 0
+    show_welcome_input: false
   };
 
-  componentDidMount() {
-    if (Platform.OS === 'android') {
-      UIManager.setLayoutAnimationEnabledExperimental &&
-        UIManager.setLayoutAnimationEnabledExperimental(true);
-    }
+  componentWillMount() {
+    /* initialize animation variables */
+    this._welcome_input_flex = new Animated.Value(0);
+    this._welcome_input_opacity = new Animated.Value(0);
+  }
 
-    setTimeout(() => this.animateLogo(), this._animation_start_delay);
+  componentDidMount() {
+    /* begin animation sequence by animating logo */
+    this.animateLogo();
   }
 
   animateLogo() {
-    LayoutAnimation.configureNext({
-      duration: this._animation_duration,
-      update: {
-        type: 'easeInEaseOut'
-      }
-    }, () => this.animateInput());
-
-    this.setState({
-      animation_stage: 1
-    });
-  }
-
-  animateInput() {
-    LayoutAnimation.configureNext({
+    /* animate logo to move up by increasing flex value of view below,
+      animation occurs after some initial delay */
+    Animated.timing(this._welcome_input_flex, {
+      toValue: 2,
       duration: this._animation_duration / 2,
-      create: {
-        type: 'easeInEaseOut',
-        property: 'opacity'
-      }
-    });
-
-    this.setState({
-      animation_stage: 2
-    });
+      delay: this._animation_delay
+    }).start(() => this.animateWelcomeAndInput())
   }
 
-  _renderInput() {
-    const { navigation } = this.props;
+  animateWelcomeAndInput() {
+    /* show welcome and input view so keyboard autofocus applies */
+    this.setState({
+      show_welcome_input: true
+    });
 
-    return (
-      <View>
-        <Text style={TypeFaces.centered_header}>Welcome</Text>
-        <View style={styles.input_container}>
-          <TextInput style={styles.input}
-            placeholderTextColor={Colors.light_gray}
+    /* animate welcome and input view to fade in */
+    Animated.timing(this._welcome_input_opacity, {
+      toValue: 1,
+      duration: this._animation_duration / 2
+    }).start();
+  }
+
+  submitName(evt: Object) {
+    const name = evt.nativeEvent.text;
+    // await AsyncStorage.setItem('user_name', name);
+  }
+
+  renderWelcomeAndInput() {
+    const { show_welcome_input } = this.state;
+
+    const flex = this._welcome_input_flex;
+    const opacity = this._welcome_input_opacity;
+
+    var content = null;
+    if (show_welcome_input) {
+      content = (
+        <Animated.View style={{opacity}}>
+          <Text style={TypeFaces.centered_header}>Welcome</Text>
+          <TextInput style={styles.name_input}
             autoFocus={true}
             autoCapitalize={'words'}
-            returnKeyType={'next'}
-            onSubmitEditing={() => navigation.navigate('Configure')}
+            autoCorrect={false}
+            spellCheck={false}
+            placeholder={'your name'}
+            placeholderTextColor={Colors.light_gray}
+            underlineColorAndroid={'transparent'}
+            disableFullscreenUI={true}
             keyboardAppearance={'dark'}
-            placeholder={'your name'} />
-        </View>
-      </View>
+            returnKeyType={'next'}
+            onSubmitEditing={this.submitName.bind(this)} />
+        </Animated.View>
+      )
+    }
+
+    return (
+      <Animated.View style={[styles.welcome_input_container, {flex}]}>
+        {content}
+      </Animated.View>
     );
+  }
+
+  renderLogo() {
+    return (
+      <View style={styles.logo_container}>
+        <Image source={this._logo}
+          resizeMode={'contain'} />
+      </View>
+    )
   }
 
   render() {
     const { navigation } = this.props;
 
-    var flex_height: number = 0;
-    if (this.state.animation_stage > 0) {
-      flex_height = 2;
-    }
+    const { height, width } = Dimensions.get('screen');
 
     return (
-      <LinearGradient colors={Gradients.background_dark}
-        style={styles.container}>
-        <View style={styles.logo_container}>
-          <Image style={styles.logo}
-            source={this._logo} resizeMode={'contain'} />
-        </View>
-        <View style={{flex: flex_height}}>
-          {(this.state.animation_stage == 2) ? this._renderInput() : null}
-        </View>
+      <LinearGradient colors={Gradients.background_dark} style={{flex: 1}}>
+        {this.renderLogo()}
+        {this.renderWelcomeAndInput()}
       </LinearGradient>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
   logo_container: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center'
   },
-  logo: {
-
-  },
-  input_container: {
-    paddingRight: 30,
+  welcome_input_container: {
     paddingLeft: 30,
-    paddingTop: 2
+    paddingRight: 30,
+    paddingTop: 20
   },
-  input: {
-    color: Colors.white,
-    fontSize: 27,
-    textAlign: 'center',
-    fontFamily: 'CeraPRO-Medium',
+  name_input: {
+    ...TypeFaces.centered_large_input,
+    marginTop: 20,
     width: '100%',
     height: 55,
-    backgroundColor: 'rgba(255, 255, 255, 0.1)',
-  },
+    color: Colors.white,
+    backgroundColor: Colors.transparent_white
+  }
 })
