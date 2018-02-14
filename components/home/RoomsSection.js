@@ -12,33 +12,41 @@ type StateType = {};
 export default class RoomsSection extends Component<PropsType, StateType> {
   _living_room = require('../../assets/home/home-living-room.jpg');
 
+  /* Room Type Icons */
+  _living_room_icon = require('../../assets/home/living_room.png');
+
   _room_cards_details = [
     {
       name: "Living Room",
+      icon: this._living_room_icon,
       totalLights: 10,
       lightsOn: 5,
       temperature: 23.5
     },
     {
       name: "Master Bedroom",
+      icon: this._living_room_icon,
       totalLights: 4,
       lightsOn: 0,
       temperature: 27.0
     },
     {
       name: "Hamood's Bedroom",
+      icon: this._living_room_icon,
       totalLights: 4,
       lightsOn: 0,
       temperature: 27.0
     },
     {
       name: "Kitchen",
+      icon: this._living_room_icon,
       totalLights: 8,
       lightsOn: 4,
       temperature: 21.0
     },
     {
       name: "Bathroom",
+      icon: this._living_room_icon,
       totalLights: 2,
       lightsOn: 0,
       temperature: 22.2
@@ -53,13 +61,13 @@ export default class RoomsSection extends Component<PropsType, StateType> {
         <RoomCard
           key={i}
           name={ this._room_cards_details[i].name }
+          icon={ this._room_cards_details[i].icon }
           totalLights={ this._room_cards_details[i].totalLights }
           lightsOn={ this._room_cards_details[i].lightsOn }
           temperature={ this._room_cards_details[i].temperature }
         />
       )
     }
-
     return room_cards;
   }
 
@@ -94,9 +102,10 @@ const styles = StyleSheet.create({
     opacity: 0.4
   },
   contentContainer: {
-    paddingLeft: 10,
-    alignItems: 'center',
-    paddingRight: 10
+    paddingTop: 15,
+    paddingBottom: 15,
+    paddingRight: 10,
+    paddingLeft: 10
   },
   livingRoomImage: {
     resizeMode: 'contain',

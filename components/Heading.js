@@ -3,6 +3,8 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, Platform } from 'react-native';
 
+import { TypeFaces } from '../constants/styles'
+
 type PropsType = {
   text: string
 };
@@ -27,9 +29,9 @@ const styles = StyleSheet.create({
   },
   sectionHeader: {
     paddingTop: 15,
-    color: '#FFFFFF',
     textAlign: 'left',
-    fontSize: 22,
+    ...TypeFaces.section_and_card_heading
   },
+
 });
 

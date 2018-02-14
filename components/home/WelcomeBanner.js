@@ -3,6 +3,8 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, Platform } from 'react-native';
 
+import { TypeFaces } from '../../constants/styles';
+
 type PropsType = {
   name: string
 };
@@ -24,18 +26,9 @@ const styles = StyleSheet.create({
     flex: 2,
   },
   header: {
-    color: '#FFFFFF',
     backgroundColor: 'transparent',
     paddingLeft: 20,
-
-    ...Platform.select({
-      ios: {
-        fontSize: 30,
-      },
-      android: {
-        fontSize: 32,
-      },
-    }),
-
+    marginTop: 25,
+    ...TypeFaces.welcome_banner
   }
 });
