@@ -31,7 +31,6 @@ export default class RoomCard extends Component<PropsType, StateType> {
 
 
   _measure(evt: Object, type: string) {
-    console.log("_MEASURE");
     if (type === 'card' && !this._adjusted_card){
       this._adjusted_card = true;
       this._default_width = evt.nativeEvent.layout.height * 0.95;
