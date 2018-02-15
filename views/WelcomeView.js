@@ -3,7 +3,6 @@
 import React, { Component } from 'react';
 import { AsyncStorage, Animated, Dimensions, Image, View, Text, TextInput,
   SafeAreaView, StyleSheet } from 'react-native';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { setUsersName } from '../actions/ConfigurationActions';

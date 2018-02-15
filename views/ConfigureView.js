@@ -3,7 +3,6 @@
 import React, { Component } from 'react';
 import { AsyncStorage, View, SafeAreaView, Text, Dimensions, StyleSheet }
   from 'react-native';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { setConfigurationToken } from '../actions/ConfigurationActions';

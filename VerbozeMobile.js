@@ -2,7 +2,6 @@
 
 import React, { Component } from 'react';
 import { StatusBar, AsyncStorage, Platform } from 'react-native';
-import { StatusBar, Platform } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 import { connect } from 'react-redux';
 
@@ -55,7 +54,7 @@ class VerbozeMobile extends Component<PropsType, StateType> {
 
     /* clear all AsyncStorage for development purposes */
     if (__DEV__) {
-      // AsyncStorage.clear();
+      AsyncStorage.clear();
     }
 
     /* get user's name and configuration token */
