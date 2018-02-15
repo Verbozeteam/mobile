@@ -3,20 +3,38 @@
 import React, { Component } from 'react';
 import { AsyncStorage, Animated, Dimensions, Image, View, Text, TextInput,
   SafeAreaView, StyleSheet } from 'react-native';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+
+import { setUsersName } from '../actions/ConfigurationActions';
 
 import LinearGradient from 'react-native-linear-gradient';
 
 import { Colors, Gradients, TypeFaces } from '../constants/styles';
 
 type PropsType = {
-  navigation: Object
+  navigation: Object,
+  users_name: string,
+
+  setUsersName: (users_name: string) => null
 };
 
 type StateType = {
   show_welcome_input: boolean
 };
 
-export default class WelcomeView extends Component<PropsType, StateType> {
+const mapStateToProps = (state: Object) => {
+  return {};
+};
+
+const mapDispatchToProps = (dispatch: Function) => {
+  return {
+    setUsersName: (users_name: string) =>
+      dispatch(setUsersName(users_name))
+  };
+};
+
+class WelcomeView extends Component<PropsType, StateType> {
 
   _logo: number = require('../assets/images/logo/verboze_logo.png')
   _animation_delay: number = 500;
@@ -64,13 +82,14 @@ export default class WelcomeView extends Component<PropsType, StateType> {
   }
 
   submitName(evt: Object) {
-    const { navigation } = this.props;
+    const { navigation, setUsersName } = this.props;
 
     const users_name = evt.nativeEvent.text;
 
     /* save name to AsyncStorage */
     try {
       AsyncStorage.setItem('users_name', users_name, () => {
+        setUsersName(users_name);
         navigation.navigate('Configure');
       });
     } catch (err) {
@@ -162,4 +181,7 @@ const styles = StyleSheet.create({
     color: Colors.white,
     backgroundColor: Colors.transparent_white
   }
-})
+});
+
+WelcomeView = connect(mapStateToProps, mapDispatchToProps) (WelcomeView);
+export default WelcomeView;

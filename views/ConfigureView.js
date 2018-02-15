@@ -3,6 +3,10 @@
 import React, { Component } from 'react';
 import { AsyncStorage, View, SafeAreaView, Text, Dimensions, StyleSheet }
   from 'react-native';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+
+import { setConfigurationToken } from '../actions/ConfigurationActions';
 
 import LinearGradient from 'react-native-linear-gradient';
 import QRCodeScanner from 'react-native-qrcode-scanner';
@@ -10,12 +14,25 @@ import QRCodeScanner from 'react-native-qrcode-scanner';
 import { Colors, Gradients, TypeFaces } from '../constants/styles';
 
 type PropsType = {
-  navigation: Object
+  navigation: Object,
+
+  setConfigurationToken: (configuration_token: string) => null
 };
 
 type StateType = {};
 
-export default class ConfigureView extends Component<PropsType, StateType> {
+const mapStateToProps = (state: Object) => {
+  return {};
+};
+
+const mapDispatchToProps = (dispatch: Function) => {
+  return {
+    setConfigurationToken: (configuration_token: string) =>
+      dispatch(setConfigurationToken(configuration_token))
+  };
+};
+
+class ConfigureView extends Component<PropsType, StateType> {
 
   _camera_view_dimensions: {height: number, width: number};
 
@@ -29,13 +46,13 @@ export default class ConfigureView extends Component<PropsType, StateType> {
   }
 
   onRead(evt: Object) {
-    const { navigation } = this.props;
-    const token = '12345678';
+    const { setConfigurationToken } = this.props;
+    const token = evt.data;
 
     /* save token to AsyncStorage */
     try {
       AsyncStorage.setItem('configuration_token', token, () => {
-        navigation.navigate('Home');
+        setConfigurationToken(token);
       });
     } catch (err) {
       console.error(err);
@@ -107,4 +124,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     width: '80%'
   }
-})
+});
+
+ConfigureView = connect(mapStateToProps, mapDispatchToProps) (ConfigureView);
+export default ConfigureView;
