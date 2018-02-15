@@ -1,9 +1,9 @@
 /* @flow */
 
 import React, { Component } from 'react';
-import { StatusBar, AsyncStorage } from 'react-native';
+import { StatusBar, AsyncStorage, Platform } from 'react-native';
+import { StatusBar, Platform } from 'react-native';
 import { StackNavigator } from 'react-navigation';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { setUsersName, setConfigurationToken } from './actions/ConfigurationActions';
@@ -51,7 +51,7 @@ class VerbozeMobile extends Component<PropsType, StateType> {
 
   componentWillMount() {
     /* set status bar color to light */
-    StatusBar.setBarStyle('light-content', true);
+    Platform.OS === 'ios' ? StatusBar.setBarStyle('light-content', true) : StatusBar.setBackgroundColor('#1E1E1E');
 
     /* clear all AsyncStorage for development purposes */
     if (__DEV__) {
