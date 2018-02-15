@@ -54,7 +54,9 @@ class VerbozeMobile extends Component<PropsType, StateType> {
 
     /* clear all AsyncStorage for development purposes */
     if (__DEV__) {
-      AsyncStorage.clear();
+      // AsyncStorage.clear();
+      const { setConfigurationToken } = this.props;
+      setConfigurationToken('123456789-987654321');
     }
 
     /* get user's name and configuration token */
