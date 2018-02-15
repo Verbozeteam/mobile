@@ -31,5 +31,10 @@ export const TypeFaces = {
     color: Colors.white,
     textAlign: 'center',
     width: '100%'
+  },
+  regular: {
+    fontSize: 16,
+    fontFamily: 'CeraPRO-Regular',
+    color: Colors.white
   }
 };

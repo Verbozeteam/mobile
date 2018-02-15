@@ -2,7 +2,7 @@
 
 import React, { Component } from 'react';
 import { AsyncStorage, Animated, Dimensions, Image, View, Text, TextInput,
-  StyleSheet, } from 'react-native';
+  SafeAreaView, StyleSheet } from 'react-native';
 
 import LinearGradient from 'react-native-linear-gradient';
 
@@ -64,8 +64,18 @@ export default class WelcomeView extends Component<PropsType, StateType> {
   }
 
   submitName(evt: Object) {
-    const name = evt.nativeEvent.text;
-    // await AsyncStorage.setItem('user_name', name);
+    const { navigation } = this.props;
+
+    const users_name = evt.nativeEvent.text;
+
+    /* save name to AsyncStorage */
+    try {
+      AsyncStorage.setItem('users_name', users_name, () => {
+        navigation.navigate('Configure');
+      });
+    } catch (err) {
+      console.error(err);
+    }
   }
 
   renderWelcomeAndInput() {
@@ -114,18 +124,26 @@ export default class WelcomeView extends Component<PropsType, StateType> {
   render() {
     const { navigation } = this.props;
 
+    // TODO: height and width are set to prevent keyboard popping views up
+    // when keyboard shows, this needs to be handled better for smaller screens
     const { height, width } = Dimensions.get('screen');
 
     return (
-      <LinearGradient colors={Gradients.background_dark} style={{flex: 1}}>
-        {this.renderLogo()}
-        {this.renderWelcomeAndInput()}
+      <LinearGradient colors={Gradients.background_dark}
+        style={styles.container}>
+        <SafeAreaView style={styles.container}>
+          {this.renderLogo()}
+          {this.renderWelcomeAndInput()}
+        </SafeAreaView>
       </LinearGradient>
     );
   }
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
   logo_container: {
     flex: 1,
     alignItems: 'center',
