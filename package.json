@@ -4,10 +4,10 @@
   "private": true,
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
+    "postinstall": "./scripts/post.sh",
     "test": "jest",
     "flow": "flow"
   },
-  "postinstall": "./scripts/post.sh",
   "rnpm": {
     "assets": [
       "./assets/fonts"
