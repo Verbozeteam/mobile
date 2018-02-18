@@ -2,6 +2,7 @@
 
 import React, { Component } from 'react';
 import { Text, StyleSheet, SafeAreaView } from 'react-native';
+import { connect } from 'react-redux';
 
 import LinearGradient from 'react-native-linear-gradient';
 
@@ -11,21 +12,33 @@ import QuickAccessSection from '../components/home/QuickAccessSection';
 
 import { Gradients, TypeFaces } from '../constants/styles';
 
-type PropsType = {};
+type PropsType = {
+  navigation: Object,
+  users_name: string
+};
+
 type StateType = {};
 
-export default class HomeView extends Component<PropsType, StateType> {
-
-  static defaultProps = {
-
+const mapStateToProps = (state: Object) => {
+  return {
+    users_name: state.configuration.users_name
   };
+};
+
+const mapDispatchToProps = (dispatch: Function) => {
+  return {};
+};
+
+class HomeView extends Component<PropsType, StateType> {
 
   render() {
+    const { users_name } = this.props;
+
     return (
       <LinearGradient colors={Gradients.background_dark}
         style={styles.container}>
-        <SafeAreaView style={ styles.safeArea }>
-          <WelcomeBanner name="Mohammed" />
+        <SafeAreaView style={ styles.container }>
+          <WelcomeBanner name={users_name} />
           <RoomsSections />
           <QuickAccessSection />
         </SafeAreaView>
@@ -37,8 +50,8 @@ export default class HomeView extends Component<PropsType, StateType> {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-  },
-  safeArea: {
-    flex: 1
   }
 });
+
+HomeView = connect(mapStateToProps, mapDispatchToProps) (HomeView);
+export default HomeView;

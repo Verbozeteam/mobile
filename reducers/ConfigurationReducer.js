@@ -2,7 +2,8 @@
 
 import {
   SET_USERS_NAME,
-  SET_CONFIGURATION_TOKEN
+  SET_CONFIGURATION_TOKEN,
+  SET_CONNECTION_STATUS
 } from '../actions/ConfigurationActions';
 
 type StateType = {
