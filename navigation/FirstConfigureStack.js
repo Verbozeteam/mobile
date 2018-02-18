@@ -5,7 +5,7 @@ import { StackNavigator } from 'react-navigation';
 import WelcomeView from '../views/WelcomeView';
 import ConfigureView from '../views/ConfigureView';
 
-import { Colors, TypeFaces } from '../constants/styles';
+import { Colors } from '../constants/styles';
 
 
 const structure = {

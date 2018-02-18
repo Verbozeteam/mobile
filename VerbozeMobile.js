@@ -110,7 +110,6 @@ class VerbozeMobile extends Component<PropsType, StateType> {
 
   checkConfigurationCompleted(): boolean {
     const { users_name, configuration_token } = this.props;
-    console.log("user's name", users_name, 'configuration token', configuration_token);
 
     if (users_name && typeof users_name == 'string' &&
       configuration_token && typeof configuration_token == 'string') {

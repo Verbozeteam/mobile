@@ -116,7 +116,7 @@ class RoomCard extends Component<PropsType, StateType> {
 
     return (
       <TouchableOpacity activeOpacity={0.8}
-       onPress={() => navigation.navigate('Rooms')}>
+       onPress={() => navigation.navigate('Rooms', {room_id: room.id})}>
         <View style={[styles.container, container_style]}
           onLayout={(evt) => this.measure(evt, 'card')}>
           <View style={styles.card_icon}>
