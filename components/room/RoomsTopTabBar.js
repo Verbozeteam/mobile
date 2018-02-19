@@ -35,7 +35,7 @@ export default class RoomsTopTabBar extends Component<PropsType, StateType> {
         </View>
 
       </TouchableHighlight>
-    )
+    );
   }
 
   render() {
@@ -55,7 +55,6 @@ export default class RoomsTopTabBar extends Component<PropsType, StateType> {
           contentContainerStyle={styles.content_container}>
 
           {selectables}
-
         </ScrollView>
       </View>
     );

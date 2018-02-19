@@ -57,7 +57,7 @@ export default class RoomsView extends Component<PropsType, StateType> {
     if (scroll && index > -1 && this._scroll_view) {
       this._scroll_view.scrollTo({
         x: index * this._screen_width,
-        animated: (Platform.OS == 'ios') ? false : true
+        animated: true
       });
     }
   }
@@ -104,10 +104,12 @@ export default class RoomsView extends Component<PropsType, StateType> {
           <RoomsTopTabBar selected={selected_room}
             setSelectedRoom={this.setSelectedRoom.bind(this)}/>
 
+          {/* horizontal ScrollView for room controls */}
           <ScrollView ref={(c) => this._scroll_view = c}
             horizontal={true}
             pagingEnabled={true}
             onMomentumScrollEnd={this.onMomentumScrollEnd.bind(this)}>
+
             {this.renderRoomControls()}
           </ScrollView>
         </View>
