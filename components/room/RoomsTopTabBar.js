@@ -3,59 +3,59 @@
 import React, { Component } from 'react';
 import { View, Text, ScrollView, TouchableHighlight, StyleSheet } from 'react-native';
 
-import { BlurView } from 'react-native-blur';
-import { Colors, TypeFaces } from '../constants/styles';
+import { ConfigManager } from '../../js-api-utils/ConfigManager';
+import type { RoomType } from '../../js-api-utils/ConfigManager';
 
-type RoomType = {
-  id: string,
-  name: string
-};
+import { BlurView } from 'react-native-blur';
+import { Colors, TypeFaces } from '../../constants/styles';
 
 type PropsType = {
-  rooms: Array<RoomType>,
-  selected: string,
-  changeSelectedRoom: () => null
+  selected: string, /* ID of selected room */
+  setSelectedRoom: (room_id: string, index: number) => null
 };
 
 type StateType = {};
 
 export default class RoomsTopTabBar extends Component<PropsType, StateType> {
 
-  static defaultProps = {
-    rooms: []
-  };
+  renderSelectable(room: RoomType, index: number) {
+    const { selected, setSelectedRoom } = this.props;
 
-  renderSelectable(room: RoomType) {
-    const { selected, changeSelectedRoom } = this.props;
+    const selectable_style = (selected == room.id) ?
+      styles.selected : styles.non_selected;
 
     return (
       <TouchableHighlight key={'room-selectable-' + room.id}
         style={styles.selectable}
         underlayColor={Colors.gray}
-        onPress={() => changeSelectedRoom(room.id)}>
-        <View style={(selected == room.id) ? styles.selected : styles.non_selected}>
+        onPress={() => setSelectedRoom(room.id, index)}>
+
+        <View style={selectable_style}>
           <Text style={TypeFaces.regular}>{room.name}</Text>
         </View>
+
       </TouchableHighlight>
     )
   }
 
   render() {
-    const { rooms } = this.props;
+    const rooms: Array<RoomType> = ConfigManager.rooms;
 
     /* render selectables */
     const selectables = [];
     for (var i = 0; i < rooms.length; i++) {
-      selectables.push(this.renderSelectable(rooms[i]));
+      selectables.push(this.renderSelectable(rooms[i], i));
     }
 
     return (
       <View style={styles.container}>
+        {/* horizontal ScrollView of the tab bar */}
         <ScrollView horizontal={true}
           showsHorizontalScrollIndicator={false}
-          centerContent={true}
           contentContainerStyle={styles.content_container}>
+
           {selectables}
+
         </ScrollView>
       </View>
     );

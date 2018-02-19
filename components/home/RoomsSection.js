@@ -26,7 +26,7 @@ export default class RoomsSection extends Component<PropsType, StateType> {
 
   renderRoomCards() {
     try {
-      const rooms = ConfigManager.config.rooms;
+      const rooms = ConfigManager.rooms;
       const room_cards = [];
       for (var i = 0; i < rooms.length; i++) {
         room_cards.push(

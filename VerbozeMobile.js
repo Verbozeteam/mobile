@@ -45,11 +45,6 @@ class VerbozeMobile extends Component<PropsType, StateType> {
 
   _ws_url: string = 'wss://www.verboze.com/stream/35b4d595ef074543a2fa686650024d98';
 
-  state = {
-    users_name: '',
-    configuration_token: '',
-  }
-
   componentWillMount() {
     /* set status bar color to light */
     Platform.OS === 'ios' ? StatusBar.setBarStyle('light-content', true) : StatusBar.setBackgroundColor('#1E1E1E');
