@@ -1,86 +1,58 @@
 /* @flow */
 
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Image, ScrollView, Platform } from 'react-native';
+import { View, StyleSheet, Image, ScrollView } from 'react-native';
 
-import RoomCard from './RoomCard';
+import { ConfigManager } from '../../js-api-utils/ConfigManager';
+import type { ConfigType } from '../../js-api-utils/ConfigManager';
+
 import Heading from '../Heading';
+import RoomCard from './RoomCard';
 
 type PropsType = {};
 type StateType = {};
 
 export default class RoomsSection extends Component<PropsType, StateType> {
-  _living_room = require('../../assets/home/home-living-room.jpg');
 
-  /* Room Type Icons */
-  _living_room_icon = require('../../assets/home/living_room.png');
+  _unsubscribe = ConfigManager.registerConfigChangeCallback(
+    this.onConfigChange.bind(this));
 
-  _room_cards_details = [
-    {
-      name: "Living Room",
-      icon: this._living_room_icon,
-      totalLights: 10,
-      lightsOn: 5,
-      temperature: 23.5
-    },
-    {
-      name: "Master Bedroom",
-      icon: this._living_room_icon,
-      totalLights: 4,
-      lightsOn: 0,
-      temperature: 27.0
-    },
-    {
-      name: "Hamood's Bedroom",
-      icon: this._living_room_icon,
-      totalLights: 4,
-      lightsOn: 0,
-      temperature: 27.0
-    },
-    {
-      name: "Kitchen",
-      icon: this._living_room_icon,
-      totalLights: 8,
-      lightsOn: 4,
-      temperature: 21.0
-    },
-    {
-      name: "Bathroom",
-      icon: this._living_room_icon,
-      totalLights: 2,
-      lightsOn: 0,
-      temperature: 22.2
-    },
-  ];
+  _living_room_banner = require('../../assets/home/home-living-room.jpg');
 
-  _renderRoomCards() {
-    const room_cards = [];
+  onConfigChange(config: ConfigType) {
+    /* if config changes, force a rerender */
+    this.forceUpdate();
+  }
 
-    for (var i = 0; i < this._room_cards_details.length; i++) {
-      room_cards.push(
-        <RoomCard
-          key={i}
-          name={ this._room_cards_details[i].name }
-          icon={ this._room_cards_details[i].icon }
-          totalLights={ this._room_cards_details[i].totalLights }
-          lightsOn={ this._room_cards_details[i].lightsOn }
-          temperature={ this._room_cards_details[i].temperature }
-        />
-      )
+  renderRoomCards() {
+    try {
+      const rooms = ConfigManager.config.rooms;
+      const room_cards = [];
+      for (var i = 0; i < rooms.length; i++) {
+        room_cards.push(
+          <RoomCard key={'room-card-' + rooms[i].id}
+            room={rooms[i]} />
+        );
+      }
+      return room_cards;
     }
-    return room_cards;
+
+    catch (err) {
+      return null;
+    }
   }
 
   render() {
     return (
-      <View style={ styles.container }>
-        <View style={ styles.imageContainer }>
-          <Image source={ this._living_room } style={ styles.livingRoomImage } />
+      <View style={styles.container}>
+        <View style={styles.banner_container}>
+          <Image source={this._living_room_banner} style={styles.living_room_banner} />
         </View>
-        <View style={ styles.scrollContainer }>
-          <Heading text="Rooms" />
-          <ScrollView horizontal={ true }  contentContainerStyle={ styles.contentContainer}>
-            { this._renderRoomCards() }
+        <View style={styles.scroll_container}>
+          <Heading text={'Rooms'} />
+          <ScrollView horizontal={true}
+            contentContainerStyle={styles.content_container}>
+            {this.renderRoomCards()}
           </ScrollView>
         </View>
       </View>
@@ -91,9 +63,9 @@ export default class RoomsSection extends Component<PropsType, StateType> {
 const styles = StyleSheet.create({
   container: {
     position: 'relative',
-    flex: 8,
+    flex: 8
   },
-  imageContainer: {
+  banner_container: {
     position: 'absolute',
     width: '100%',
     height: '100%',
@@ -101,19 +73,19 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     opacity: 0.4
   },
-  contentContainer: {
+  content_container: {
     paddingTop: 15,
     paddingBottom: 15,
     paddingRight: 10,
     paddingLeft: 10
   },
-  livingRoomImage: {
+  living_room_banner: {
     resizeMode: 'contain',
     height: '100%',
   },
-  scrollContainer: {
+  scroll_container: {
     flex: 1,
     flexDirection: 'column',
     justifyContent: 'space-between',
-  },
+  }
 });

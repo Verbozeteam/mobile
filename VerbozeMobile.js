@@ -5,10 +5,14 @@ import { StatusBar, AsyncStorage, Platform } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 import { connect } from 'react-redux';
 
+import { ConfigManager } from './js-api-utils/ConfigManager';
+import { WebSocketCommunication } from './js-api-utils/WebSocketCommunication';
 import { setUsersName, setConfigurationToken } from './actions/ConfigurationActions';
 
 import MainNavigator from './navigation/MainNavigator';
 import FirstConfigureStack from './navigation/FirstConfigureStack';
+
+import { dummy_config } from './dummy_config';
 
 type PropsType = {
   users_name: string,
@@ -39,9 +43,7 @@ const mapDispatchToProps = (dispatch: Function) => {
 
 class VerbozeMobile extends Component<PropsType, StateType> {
 
-  static defaultProps = {
-
-  };
+  _ws_url: string = 'wss://www.verboze.com/stream/35b4d595ef074543a2fa686650024d98';
 
   state = {
     users_name: '',
@@ -62,6 +64,20 @@ class VerbozeMobile extends Component<PropsType, StateType> {
     /* get user's name and configuration token */
     this.getUsersName();
     this.getConfigurationToken();
+  }
+
+  componentDidMount() {
+    /* create websocket connection */
+    WebSocketCommunication.setOnMessage(ConfigManager.onMiddlewareUpdate);
+    WebSocketCommunication.connect(this._ws_url);
+
+
+    // TODO: get config from websocket instead
+    ConfigManager.onMiddlewareUpdate(dummy_config);
+  }
+
+  fetchConfiguration() {
+
   }
 
   async getUsersName() {
