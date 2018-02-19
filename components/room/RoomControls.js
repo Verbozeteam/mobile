@@ -5,6 +5,8 @@ import { View, Text, StyleSheet, Dimensions } from 'react-native';
 
 import { ConfigManager } from '../../js-api-utils/ConfigManager';
 import type { RoomType } from '../../js-api-utils/ConfigManager';
+import { TypeFaces } from '../../constants/styles';
+
 
 type PropsType = {
   room_id: string
@@ -22,7 +24,7 @@ export default class RoomControls extends Component<PropsType, StateType> {
 
     return (
       <View style={[styles.container, {width: this._screen_width}]}>
-        <Text style={{color: 'white'}}>{room.name}</Text>
+        <Text style={TypeFaces.centered_header}>{room.name}</Text>
       </View>
     );
   }
@@ -31,5 +33,6 @@ export default class RoomControls extends Component<PropsType, StateType> {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    justifyContent: 'center'
   }
 });
