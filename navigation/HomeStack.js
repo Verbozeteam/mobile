@@ -20,7 +20,7 @@ const structure = {
 };
 
 const options = {
-  initialRouteName: 'Home',
+  initialRouteName: 'Rooms',
 };
 
 export default StackNavigator(structure, options);

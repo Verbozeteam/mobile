@@ -1,11 +1,14 @@
 /* @flow */
 
 import React, { Component } from 'react';
-import { Text, StyleSheet } from 'react-native';
+import { Text, StyleSheet, SafeAreaView } from 'react-native';
 
 import LinearGradient from 'react-native-linear-gradient';
 
 import { Gradients, TypeFaces } from '../constants/styles';
+
+import ControlCardsSection from '../components/room/ControlCardsSection';
+
 
 type PropsType = {};
 type StateType = {};
@@ -20,7 +23,9 @@ export default class RoomsView extends Component<PropsType, StateType> {
     return (
       <LinearGradient colors={Gradients.background_dark}
         style={styles.container}>
-        <Text style={styles.header}>Rooms</Text>
+        <SafeAreaView style={ styles.safeArea }>
+          <ControlCardsSection />
+        </SafeAreaView>
       </LinearGradient>
     );
   }
@@ -30,9 +35,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  header: {
-    position: 'absolute',
-    bottom: '50%',
-    ...TypeFaces.centered_header
+  safeArea: {
+    flex: 1
   }
 });

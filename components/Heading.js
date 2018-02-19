@@ -3,7 +3,7 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, Platform } from 'react-native';
 
-import { TypeFaces } from '../constants/styles'
+import { Colors, TypeFaces } from '../constants/styles'
 
 type PropsType = {
   text: string
@@ -23,7 +23,7 @@ export default class Heading extends Component<PropsType, StateType> {
 const styles = StyleSheet.create({
   sectionHeaderContainer: {
     marginLeft: 20,
-    borderBottomColor: '#BA3737',
+    borderBottomColor: Colors.red,
     borderBottomWidth: 3,
     alignSelf: 'flex-start'
   },
