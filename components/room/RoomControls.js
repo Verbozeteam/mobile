@@ -1,13 +1,15 @@
 /* @flow */
 
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Dimensions } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, Dimensions } from 'react-native';
 
 import { ConfigManager } from '../../js-api-utils/ConfigManager';
 import type { RoomType } from '../../js-api-utils/ConfigManager';
 import { TypeFaces } from '../../constants/styles';
 
-import ControlCardsSection from './ControlCardsSection';
+import LightsCard from './LightsCard';
+import ThermostatCard from './ThermostatCard';
+import CurtainsCard from './CurtainsCard';
 
 type PropsType = {
   room_id: string
@@ -24,9 +26,9 @@ export default class RoomControls extends Component<PropsType, StateType> {
     const room: RoomType | {} = ConfigManager.getRoom(room_id);
 
     return (
-      <View style={[styles.container, {width: this._screen_width}]}>
-        <ControlCardsSection />
-      </View>
+      <ScrollView style={[styles.container, {width: this._screen_width}]}>
+        <ThermostatCard />
+      </ScrollView>
     );
   }
 }
@@ -34,6 +36,5 @@ export default class RoomControls extends Component<PropsType, StateType> {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center'
   }
 });
