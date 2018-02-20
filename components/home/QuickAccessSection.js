@@ -45,10 +45,10 @@ export default class QuickAccessSection extends Component<PropsType, StateType> 
   render() {
     return (
       <View style={styles.container}>
-    <Heading text="Quick Access" />
-    <ScrollView horizontal={ true } contentContainerStyle={ styles.contentContainer}>
-      { this._renderQuickAccessButtons() }
-    </ScrollView>
+        <Heading text="Quick Access" style={{marginLeft: 20}}/>
+        <ScrollView horizontal={ true } contentContainerStyle={ styles.contentContainer}>
+          { this._renderQuickAccessButtons() }
+        </ScrollView>
       </View>
     );
   }
