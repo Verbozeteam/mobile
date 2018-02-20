@@ -46,6 +46,12 @@ export const TypeFaces = {
     fontFamily: 'CeraPRO-Light',
     color: Colors.white
   },
+  magic_button: {
+    fontSize: 16,
+    fontFamily: 'CeraPRO-Light',
+    color: Colors.white,
+    paddingTop: 4
+  },
   welcome_banner: {
     fontSize: 27,
     color: Colors.white,
