@@ -56,6 +56,26 @@ export const dummy_config = {
             ]
           }
         ]
+      }, {
+        id: 'room-2',
+        name: 'Bedroom',
+        groups: []
+      }, {
+        id: 'room-3',
+        name: 'Kitchen',
+        groups: []
+      }, {
+        id: 'room-4',
+        name: 'Bathroom',
+        groups: []
+      }, {
+        id: 'room-5',
+        name: 'Bedroom',
+        groups: []
+      }, {
+        id: 'room-6',
+        name: 'Guest Room',
+        groups: []
       }
     ],
     translations: {

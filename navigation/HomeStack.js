@@ -5,6 +5,7 @@ import { StackNavigator } from 'react-navigation';
 import HomeView from '../views/HomeView';
 import RoomsView from '../views/RoomsView';
 
+import { Colors } from '../constants/styles';
 
 const structure = {
   Home: {
@@ -15,7 +16,19 @@ const structure = {
     }
   },
   Rooms: {
-    screen: RoomsView
+    screen: RoomsView,
+    navigationOptions: {
+      headerStyle: {
+        backgroundColor: 'transparent',
+        position: 'absolute',
+        borderBottomWidth: 0,
+        top: 0,
+        right: 0,
+        left: 0,
+        elevation: 0
+      },
+      headerTintColor: Colors.red
+    }
   }
 };
 
