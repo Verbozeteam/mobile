@@ -10,7 +10,7 @@ const Divider = () => {
     <View style={styles.container}>
       <View style={styles.divider}></View>
     </View>
-  )
+  );
 }
 
 export default Divider;

@@ -22,7 +22,6 @@ export default class Heading extends Component<PropsType, StateType> {
 
 const styles = StyleSheet.create({
   sectionHeaderContainer: {
-    marginLeft: 20,
     borderBottomColor: Colors.red,
     borderBottomWidth: 3,
     alignSelf: 'flex-start'
@@ -34,4 +33,3 @@ const styles = StyleSheet.create({
   },
 
 });
-

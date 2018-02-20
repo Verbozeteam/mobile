@@ -21,6 +21,7 @@
     "react-native-iphone-x-helper": "^1.0.2",
     "react-native-linear-gradient": "^2.4.0",
     "react-native-qrcode-scanner": "0.0.30",
+    "react-native-svg": "^6.2.1",
     "react-navigation": "^1.0.0",
     "react-redux": "^5.0.6",
     "reconnecting-websocket": "^3.2.2",

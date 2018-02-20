@@ -129,8 +129,8 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.dark_gray
   },
   content_container: {
-    paddingLeft: 10,
-    paddingRight: 10,
+    paddingLeft: 5,
+    paddingRight: 5,
   },
   tab: {
     paddingRight: 15,
