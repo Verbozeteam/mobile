@@ -49,7 +49,7 @@ export default class RoomsSection extends Component<PropsType, StateType> {
           <Image source={this._living_room_banner} style={styles.living_room_banner} />
         </View>
         <View style={styles.scroll_container}>
-          <Heading text={'Rooms'} />
+          <Heading text={'Rooms'} style={{marginLeft: 20}}/>
           <ScrollView horizontal={true}
             contentContainerStyle={styles.content_container}>
             {this.renderRoomCards()}

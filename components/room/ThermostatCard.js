@@ -121,20 +121,17 @@ export default class ThermostatCard extends Component<PropsType, StateType> {
         <Text style={[TypeFaces.light, {paddingRight: 10}]}>Fan</Text>
         <MagicButton onPress={() => null}
           text={'Off'}
-          textColor={Colors.white}
-          textFontSize={TypeFaces.light.fontSize}
+          textStyle={TypeFaces.magic_button}
           offColor={Colors.gray}
           glowColor={Colors.red}/>
         <MagicButton onPress={() => null}
           text={'Lo'}
-          textColor={Colors.white}
-          textFontSize={TypeFaces.light.fontSize}
+          textStyle={TypeFaces.magic_button}
           offColor={Colors.gray}
           glowColor={Colors.red}/>
         <MagicButton onPress={() => null}
           text={'Hi'}
-          textColor={Colors.white}
-          textFontSize={TypeFaces.light.fontSize}
+          textStyle={TypeFaces.magic_button}
           offColor={Colors.gray}
           glowColor={Colors.red}/>
       </CardRow>

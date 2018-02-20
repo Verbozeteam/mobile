@@ -1,24 +1,24 @@
 /* @flow */
 
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Platform } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 
 import { Colors, TypeFaces } from '../constants/styles'
 
 type PropsType = {
-  text: string
+  text: string,
+  style?: number
 };
-type StateType = {};
 
-export default class Heading extends Component<PropsType, StateType> {
-  render(){
-    return (
-      <View style={ styles.sectionHeaderContainer }>
-        <Text style={ styles.sectionHeader }>{ this.props.text }</Text>
-      </View>
-    )
-  }
+const Heading = (props: PropsType) => {
+  return (
+    <View style={[styles.sectionHeaderContainer, props.style]}>
+      <Text style={styles.sectionHeader}>{props.text}</Text>
+    </View>
+  )
 }
+
+export default Heading;
 
 const styles = StyleSheet.create({
   sectionHeaderContainer: {

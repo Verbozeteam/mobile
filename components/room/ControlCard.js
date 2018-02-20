@@ -4,6 +4,7 @@ import * as React from 'react';
 import { View, Image, StyleSheet } from 'react-native';
 
 import Heading from '../Heading';
+import CardRow from'./CardRow';
 
 type PropsType = {
   children?: React.Node,
@@ -18,9 +19,9 @@ const ControlCard = (props: PropsType) => {
       <Image source={props.background} style={styles.background_image} />
 
       <View style={styles.controls}>
-        <View style={styles.title}>
+        <CardRow style={styles.title}>
           <Heading text={props.title} />
-        </View>
+        </CardRow>
 
         {props.children}
       </View>
@@ -32,7 +33,8 @@ export default ControlCard;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
+    marginVertical: 10
   },
   background_image: {
     position: 'absolute',
@@ -41,9 +43,11 @@ const styles = StyleSheet.create({
   },
   controls: {
     paddingTop: 10,
-    paddingBottom: 10,
+    paddingBottom: 20
+
   },
   title: {
+    justifyContent: 'flex-start',
     paddingLeft: 20,
   }
 });

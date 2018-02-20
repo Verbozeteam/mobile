@@ -2,7 +2,7 @@
 
 import React, { Component } from 'react';
 
-import { View, Text, StyleSheet, ScrollView, Dimensions } from 'react-native';
+import { View, Text, StyleSheet, Dimensions, ScrollView } from 'react-native';
 
 import { ConfigManager } from '../../js-api-utils/ConfigManager';
 import type { RoomType, GroupType, ThingMetadataType } from '../../js-api-utils/ConfigManager';
@@ -20,7 +20,9 @@ type StateType = {};
 
 export default class RoomControls extends Component<PropsType, StateType> {
 
-  _screenWidth = Dimensions.get('screen').width;
+  // _screenWidth = Dimensions.get('screen').width;
+  _screen_width = Dimensions.get('screen').width;
+  _screen_height = Dimensions.get('screen').height
 
   _supportedCategoryGroupType = {
     'light_switches': 'light_switches',
@@ -98,8 +100,10 @@ export default class RoomControls extends Component<PropsType, StateType> {
     const room: RoomType | null = ConfigManager.getRoom(roomId);
 
     return (
-        <ScrollView style={[styles.container, {width: this._screen_width}]}>
+        <ScrollView contentContainerStyle={styles.control_container}
+          style={[styles.container, {width: this._screen_width}]}>
           { this._renderAvailableControlGroups(room) }
+          <View style={{height: this._screen_height / 3}}></View>
         </ScrollView>
     );
   }
@@ -108,5 +112,8 @@ export default class RoomControls extends Component<PropsType, StateType> {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  control_container: {
+    paddingVertical: 10
   }
 });
