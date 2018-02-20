@@ -30,6 +30,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     paddingLeft: 20,
-    paddingRight: 20
+    paddingRight: 20,
   }
 });
