@@ -32,7 +32,7 @@ export default class RoomControls extends Component<PropsType, StateType> {
   _determineGroupCategoryType(cleanedGroupThings: Array<ThingMetadataType>) {
     var groupCategory = null;
 
-    if (cleanedGroupThings) {
+    if (cleanedGroupThings.length > 0) {
       groupCategory = this._supportedCategoryGroupType[cleanedGroupThings[0].category];
     }
 
@@ -68,7 +68,7 @@ export default class RoomControls extends Component<PropsType, StateType> {
       var group: GroupType = roomGroups[i];
       var groupCategory = null;
 
-      if (group && group.things) {
+      if (Object.keys(group).length > 0 && group.things.length > 0) {
         const cleanedGroupThings = group.things.filter(t => t.category !== 'empty');
         groupCategory = this._determineGroupCategoryType(cleanedGroupThings);
 
