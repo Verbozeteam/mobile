@@ -18,6 +18,10 @@ type StateType = {
   intensity: number,
 };
 
+export type LightSwitchType = {
+  id: string,
+};
+
 export default class LightSwtich extends Component<PropsType, StateType> {
 
   state = {
@@ -73,22 +77,26 @@ export default class LightSwtich extends Component<PropsType, StateType> {
     }
 
     var intensityAfterSwitch = 1 - intensity;
+
+    /* Waiting for fituri to implement the websocket stuff inorder for this to work */
     // var onPress = (() => this.changeIntensity(intensityAfterSwitch));
 
     return (
-      <MagicButton
-        width={ 45 }
-        height={ 45 }
-        extraStyle={{ marginRight: 10 }}
-        isOn={ intensity }
-        text={ "On" }
-        textColor={ '#ffffff' }
-        glowColor={ Colors.red_shadow }
-        onColor={ Colors.red }
-        // onPress={ onPress }
-        sideText={!id ? "ALL" : ConfigManager.thingMetas[id].name.toUpperCase()}
-        sideTextStyle={{ marginLeft: 10, lineHeight: 45 }}
-      />
+      <View style={{justifyContent: 'center', alignItems: 'flex-start'}}>
+        <MagicButton
+          width={ 45 }
+          height={ 45 }
+          extraStyle={{ marginRight: 10 }}
+          isOn={ intensity }
+          text={ (intensity > 0) ? "On" : "Off" }
+          textColor={ '#ffffff' }
+          glowColor={ Colors.red_shadow }
+          onColor={ Colors.red }
+          // onPress={ onPress }
+          sideText={!id ? "ALL" : ConfigManager.thingMetas[id].name.toUpperCase()}
+          sideTextStyle={{ marginLeft: 10, lineHeight: 45 }}
+        />
+      </View>
     );
   }
 }
