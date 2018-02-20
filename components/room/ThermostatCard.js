@@ -5,7 +5,8 @@ import { View, Image, Text, StyleSheet, Dimensions } from 'react-native';
 
 import { Colors, TypeFaces } from '../../constants/styles';
 
-import Heading from '../Heading';
+import ControlCard from './ControlCard';
+import CardRow from './CardRow';
 import Divider from './Divider';
 import MagicThermostatSlider from '../../react-components/MagicThermostatSlider';
 import MagicButton from '../../react-components/MagicButton';
@@ -66,7 +67,7 @@ export default class ThermostatCard extends Component<PropsType, StateType> {
         this.roundTemperature(Math.max(temperature - 0.5, this._min_temp)));
 
     return (
-      <View style={styles.row}>
+      <CardRow>
         <View style={{marginLeft: 30}}>
           <MagicButton onPress={decrement.bind(this)}
             icon={this._minus_icon}
@@ -83,7 +84,7 @@ export default class ThermostatCard extends Component<PropsType, StateType> {
             showBorder={false}
             glowColor={Colors.red}/>
         </View>
-      </View>
+      </CardRow>
     );
   }
 
@@ -91,7 +92,7 @@ export default class ThermostatCard extends Component<PropsType, StateType> {
     const { temperature } = this.state;
 
     return (
-      <View style={styles.double_row}>
+      <CardRow rows={2}>
         <MagicThermostatSlider width={this._screen_width - 40}
           round={this.roundTemperature.bind(this)}
           onChange={this.updateTemperature.bind(this)}
@@ -100,7 +101,7 @@ export default class ThermostatCard extends Component<PropsType, StateType> {
           value={temperature}
           minTemp={this._min_temp}
           maxTemp={this._max_temp} />
-      </View>
+      </CardRow>
     );
   }
 
@@ -108,15 +109,15 @@ export default class ThermostatCard extends Component<PropsType, StateType> {
     const { room_temperature } = this.state;
 
     return (
-      <View style={styles.row}>
+      <CardRow>
         <Text style={TypeFaces.light}>{room_temperature} ºC Room Temperature</Text>
-      </View>
+      </CardRow>
     );
   }
 
   renderFanControls() {
     return (
-      <View style={[styles.row, styles.fan_controls]}>
+      <CardRow style={styles.fan_controls}>
         <Text style={[TypeFaces.light, {paddingRight: 10}]}>Fan</Text>
         <MagicButton onPress={() => null}
           text={'Off'}
@@ -136,7 +137,7 @@ export default class ThermostatCard extends Component<PropsType, StateType> {
           textFontSize={TypeFaces.light.fontSize}
           offColor={Colors.gray}
           glowColor={Colors.red}/>
-      </View>
+      </CardRow>
     );
   }
 
@@ -144,40 +145,19 @@ export default class ThermostatCard extends Component<PropsType, StateType> {
     const { temperature, room_temperature } = this.state;
 
     return (
-      <View style={styles.container}>
-        {/* card background image */}
-        <Image source={this._background} style={styles.background_image} />
-
-        <View style={styles.controls}>
-          <View style={[styles.row, {justifyContent: 'flex-start'}]}>
-            <Heading text={'Thermostat'} />
-          </View>
-
-          {this.renderTemperatureAndButtons()}
-          {this.renderTemperatureSlider()}
-          {this.renderRoomTemperature()}
-          <Divider />
-          {this.renderFanControls()}
-        </View>
-
-      </View>
+      <ControlCard title={'Thermostat'}
+        background={this._background}>
+        {this.renderTemperatureAndButtons()}
+        {this.renderTemperatureSlider()}
+        {this.renderRoomTemperature()}
+        <Divider />
+        {this.renderFanControls()}
+      </ControlCard>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  background_image: {
-    position: 'absolute',
-    height: '100%',
-    width: '100%'
-  },
-  controls: {
-    paddingTop: 10,
-    paddingBottom: 10
-  },
   row: {
     flexDirection: 'row',
     height: 60,
