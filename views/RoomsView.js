@@ -85,13 +85,7 @@ export default class RoomsView extends React.Component<PropsType, StateType> {
     var index = Math.round(scroll / this._screen_width);
 
     /* respect bounds - should never have to but just in case */
-    if (index < 0) {
-      index = 0;
-    }
-    else if (index > length - 1) {
-      index = length - 1;
-    }
-
+    index = Math.min(Math.max(index, 0), length -1);
     this.setSelectedRoom(index);
   }
 
@@ -133,6 +127,7 @@ export default class RoomsView extends React.Component<PropsType, StateType> {
           horizontal={true}
           scrollEnabled={false}
           pagingEnabled={true}
+          scrollEnabled={false}
           onMomentumScrollEnd={(evt) =>
             this.onMomentumScrollEnd(evt, rooms.length)}>
 

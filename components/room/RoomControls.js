@@ -1,7 +1,8 @@
 /* @flow */
 
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Dimensions, ScrollView } from 'react-native';
+
+import { View, Text, StyleSheet, ScrollView, Dimensions } from 'react-native';
 
 import { ConfigManager } from '../../js-api-utils/ConfigManager';
 import type { RoomType, GroupType, ThingMetadataType } from '../../js-api-utils/ConfigManager';
@@ -97,11 +98,9 @@ export default class RoomControls extends Component<PropsType, StateType> {
     const room: RoomType | null = ConfigManager.getRoom(roomId);
 
     return (
-      <View style={[styles.container, {width: this._screenWidth}]}>
-        <ScrollView>
+        <ScrollView style={[styles.container, {width: this._screen_width}]}>
           { this._renderAvailableControlGroups(room) }
         </ScrollView>
-      </View>
     );
   }
 }
@@ -109,6 +108,5 @@ export default class RoomControls extends Component<PropsType, StateType> {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center'
   }
 });

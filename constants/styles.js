@@ -2,6 +2,7 @@
 
 export const Colors = {
   red: '#BA3737',
+  blue: '#2F75B8',
   white: '#FFFFFF',
   gray: '#707070',
   light_gray: '#D8D8D8',
@@ -40,6 +41,11 @@ export const TypeFaces = {
     fontFamily: 'CeraPRO-Regular',
     color: Colors.white
   },
+  light: {
+    fontSize: 16,
+    fontFamily: 'CeraPRO-Light',
+    color: Colors.white
+  },
   welcome_banner: {
     fontSize: 27,
     color: Colors.white,
@@ -69,5 +75,11 @@ export const TypeFaces = {
     color: Colors.white,
     fontSize: 14,
     fontFamily: 'CeraPRO-Medium'
+  },
+  thermostat_temperature: {
+    color: Colors.white,
+    fontSize: 32,
+    fontFamily: 'CeraPRO-Light',
+    textAlign: 'center'
   }
 };
