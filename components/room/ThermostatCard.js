@@ -36,7 +36,7 @@ export default class ThermostatCard extends Component<PropsType, StateType> {
   _plus_icon: number = require('../../assets/icons/plus.png');
   _screen_width: number = Dimensions.get('screen').width;
 
-  roundTemperature(temperature: number) {
+  roundTemperature(temperature: number): string {
     return (Math.round(temperature * 2) / 2).toFixed(1);
   }
 
@@ -58,18 +58,18 @@ export default class ThermostatCard extends Component<PropsType, StateType> {
   renderTemperatureAndButtons() {
     const { temperature } = this.state;
 
-    const increment = () =>
-      this.updateTemperature(
-        this.roundTemperature(Math.min(temperature + 0.5, this._max_temp)));
-
-    const decrement = () =>
-      this.updateTemperature(
-        this.roundTemperature(Math.max(temperature - 0.5, this._min_temp)));
+    // const increment = () =>
+    //   this.updateTemperature(
+    //     this.roundTemperature(Math.min(temperature + 0.5, this._max_temp)));
+    //
+    // const decrement = () =>
+    //   this.updateTemperature(
+    //     this.roundTemperature(Math.max(temperature - 0.5, this._min_temp)));
 
     return (
       <CardRow>
         <View style={{marginLeft: 30}}>
-          <MagicButton onPress={decrement.bind(this)}
+          <MagicButton onPress={() => null}
             icon={this._minus_icon}
             showBorder={false}
             offColor={Colors.gray}
@@ -79,7 +79,7 @@ export default class ThermostatCard extends Component<PropsType, StateType> {
           <Text style={TypeFaces.thermostat_temperature}>{temperature} ºC</Text>
         </View>
         <View style={{marginRight: 30}}>
-          <MagicButton onPress={increment.bind(this)}
+          <MagicButton onPress={() => null}
             icon={this._plus_icon}
             showBorder={false}
             glowColor={Colors.red}/>
@@ -147,11 +147,13 @@ export default class ThermostatCard extends Component<PropsType, StateType> {
     return (
       <ControlCard title={'Thermostat'}
         background={this._background}>
+
         {this.renderTemperatureAndButtons()}
         {this.renderTemperatureSlider()}
         {this.renderRoomTemperature()}
         <Divider />
         {this.renderFanControls()}
+
       </ControlCard>
     );
   }
