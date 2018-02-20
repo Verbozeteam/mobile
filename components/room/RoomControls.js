@@ -7,6 +7,7 @@ import { ConfigManager } from '../../js-api-utils/ConfigManager';
 import type { RoomType } from '../../js-api-utils/ConfigManager';
 import { TypeFaces } from '../../constants/styles';
 
+import ControlCardsSection from './ControlCardsSection';
 
 type PropsType = {
   room_id: string
@@ -24,7 +25,7 @@ export default class RoomControls extends Component<PropsType, StateType> {
 
     return (
       <View style={[styles.container, {width: this._screen_width}]}>
-        <Text style={TypeFaces.centered_header}>{room.name}</Text>
+        <ControlCardsSection />
       </View>
     );
   }

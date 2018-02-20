@@ -15,6 +15,7 @@ import { Header } from 'react-navigation';
 import RoomsTopTabBar from '../components/room/RoomsTopTabBar';
 import RoomControls from '../components/room/RoomControls';
 
+
 type PropsType = {
   navigation: Object
 };
@@ -136,7 +137,6 @@ export default class RoomsView extends React.Component<PropsType, StateType> {
 
           {this.renderRoomControls()}
         </ScrollView>
-
       </LinearGradient>
     );
   }
@@ -146,9 +146,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  header: {
-    position: 'absolute',
-    bottom: '50%',
-    ...TypeFaces.centered_header
+  safeArea: {
+    flex: 1
   }
 });
