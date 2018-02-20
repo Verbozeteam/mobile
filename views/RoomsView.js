@@ -102,7 +102,7 @@ export default class RoomsView extends React.Component<PropsType, StateType> {
     for (var i = 0; i < rooms.length; i++) {
       room_controls.push(
         <RoomControls key={'room-controls-' + rooms[i].id}
-          room_id={rooms[i].id} />
+          roomId={rooms[i].id} />
       );
     }
 
@@ -131,6 +131,7 @@ export default class RoomsView extends React.Component<PropsType, StateType> {
         {/* horizontal ScrollView for room controls */}
         <ScrollView ref={(c) => this._scroll_view = c}
           horizontal={true}
+          scrollEnabled={false}
           pagingEnabled={true}
           onMomentumScrollEnd={(evt) =>
             this.onMomentumScrollEnd(evt, rooms.length)}>
