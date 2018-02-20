@@ -7,6 +7,7 @@ import { ConfigManager } from '../../js-api-utils/ConfigManager';
 import type { RoomType } from '../../js-api-utils/ConfigManager';
 import { TypeFaces } from '../../constants/styles';
 
+import LightsCard from './LightsCard';
 import ThermostatCard from './ThermostatCard';
 import CurtainsCard from './CurtainsCard';
 

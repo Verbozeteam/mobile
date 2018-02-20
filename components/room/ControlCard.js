@@ -44,6 +44,7 @@ const styles = StyleSheet.create({
   controls: {
     paddingTop: 10,
     paddingBottom: 20
+
   },
   title: {
     justifyContent: 'flex-start',
