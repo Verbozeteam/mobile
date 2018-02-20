@@ -33,7 +33,8 @@ export default ControlCard;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
+    marginVertical: 10
   },
   background_image: {
     position: 'absolute',
@@ -42,7 +43,8 @@ const styles = StyleSheet.create({
   },
   controls: {
     paddingTop: 10,
-    paddingBottom: 10,
+    paddingBottom: 20
+
   },
   title: {
     justifyContent: 'flex-start',
