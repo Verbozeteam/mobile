@@ -66,8 +66,6 @@ export default class LightDimmer extends Component<PropsType, StateType> {
 
 
   changeIntensity(intensity: number) {
-    console.log("CHANGING INTENSITY");
-    console.log(intensity);
     /* WAITING FOR FITURI TO FINISH WEBSOCKET STUFF */
     // ConfigManager.setThingState(this.props.id, { intensity }, true);
   }

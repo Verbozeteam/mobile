@@ -41,7 +41,6 @@ export default class ThermostatCard extends Component<PropsType, StateType> {
   }
 
   updateTemperature(temperature: number) {
-    console.log('temperature', temperature);
     this.setState({
       temperature
     });

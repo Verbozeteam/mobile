@@ -42,9 +42,6 @@ export default class LightSwtich extends Component<PropsType, StateType> {
   }
 
   changeIntensity(intensity: number) {
-    console.log('THIS IS NEW PROPS');
-    console.log(this.props.id);
-    console.log(intensity);
     ConfigManager.setThingState(this.props.id, {intensity}, true);
   }
 
