@@ -6,7 +6,7 @@ import { View, StyleSheet } from 'react-native';
 type PropsType = {
   children?: React.Node,
   rows?: number,
-  style?: number
+  style?: Object | number
 };
 
 const CardRow = (props: PropsType) => {

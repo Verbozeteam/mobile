@@ -38,6 +38,7 @@ export default class CurtainControl extends Component<PropsType, StateType> {
             offColor={Colors.gray}
             glowColor={Colors.red} />
           <MagicButton icon={this._stop_icon}
+            iconStyle={{}}
             offColor={Colors.gray}
             glowColor={Colors.red} />
         </View>

@@ -7,7 +7,7 @@ import { Colors, TypeFaces } from '../constants/styles'
 
 type PropsType = {
   text: string,
-  style?: number
+  style?: Object | number
 };
 
 const Heading = (props: PropsType) => {

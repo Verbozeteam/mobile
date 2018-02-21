@@ -41,7 +41,6 @@ export default class ThermostatCard extends Component<PropsType, StateType> {
   }
 
   updateTemperature(temperature: number) {
-    console.log('temperature', temperature);
     this.setState({
       temperature
     });
@@ -71,6 +70,7 @@ export default class ThermostatCard extends Component<PropsType, StateType> {
         <View style={{marginLeft: 30}}>
           <MagicButton onPress={() => null}
             icon={this._minus_icon}
+            iconStyle={{}}
             showBorder={false}
             offColor={Colors.gray}
             glowColor={Colors.red}/>
@@ -81,6 +81,7 @@ export default class ThermostatCard extends Component<PropsType, StateType> {
         <View style={{marginRight: 30}}>
           <MagicButton onPress={() => null}
             icon={this._plus_icon}
+            iconStyle={{}}
             showBorder={false}
             glowColor={Colors.red}/>
         </View>
