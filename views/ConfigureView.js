@@ -18,7 +18,9 @@ type PropsType = {
   setWebSocketAddress: (websocket_address: string) => null
 };
 
-type StateType = {};
+type StateType = {
+  connecting: boolean
+};
 
 const mapStateToProps = (state: Object) => {
   return {};
@@ -33,6 +35,10 @@ const mapDispatchToProps = (dispatch: Function) => {
 
 class ConfigureView extends Component<PropsType, StateType> {
 
+  state = {
+    connecting: false
+  };
+
   _camera_view_dimensions: {height: number, width: number};
 
   componentWillMount() {
@@ -43,9 +49,9 @@ class ConfigureView extends Component<PropsType, StateType> {
       width: screen_width * 0.9
     };
 
-    if (__DEV__) {
-      this.onRead({data: 'wss://www.verboze.com/stream/35b4d595ef074543a2fa686650024d98/'});
-    }
+    // if (__DEV__) {
+    //   this.onRead({data: 'wss://www.verboze.com/stream/35b4d595ef074543a2fa686650024d98/'});
+    // }
   }
 
   onRead(evt: Object) {
@@ -56,6 +62,10 @@ class ConfigureView extends Component<PropsType, StateType> {
     try {
       AsyncStorage.setItem('@websocket_address', token, () => {
         setWebSocketAddress(token);
+
+        this.setState({
+          connecting: true
+        });
       });
     } catch (err) {
       console.error(err);
@@ -70,29 +80,41 @@ class ConfigureView extends Component<PropsType, StateType> {
     };
 
     return (
-      <View style={styles.camera_view_container}>
-        <View style={this._camera_view_dimensions}>
-          <QRCodeScanner onRead={this.onRead.bind(this)}
-            containerStyle={styles.camera_view}
-            cameraStyle={camera_style} />
+      <SafeAreaView style={styles.container}>
+        <Text style={TypeFaces.centered_header}>Configure</Text>
+        <View style={styles.camera_view_container}>
+          <View style={this._camera_view_dimensions}>
+            <QRCodeScanner onRead={this.onRead.bind(this)}
+              containerStyle={styles.camera_view}
+              cameraStyle={camera_style} />
+          </View>
         </View>
-      </View>
+      </SafeAreaView>
+    );
+  }
+
+  renderConnectingMessage() {
+    return (
+      <SafeAreaView style={styles.container}>
+        <Text style={TypeFaces.centered_header}>Connecting...</Text>
+      </SafeAreaView>
     );
   }
 
   render() {
+    const { connecting } = this.state;
+
+    var content = null;
+    if (connecting) {
+      content = this.renderConnectingMessage();
+    } else {
+      content = this.renderCameraView();
+    }
+
     return (
       <LinearGradient colors={Gradients.background_dark}
         style={styles.container}>
-        <SafeAreaView style={styles.container}>
-          <Text style={TypeFaces.centered_header}>Configure</Text>
-          {this.renderCameraView()}
-          <View style={styles.helper_text_container}>
-            <Text style={styles.helper_text}>
-              Scan the QR code on a tablet on one of your walls
-            </Text>
-          </View>
-        </SafeAreaView>
+        {content}
       </LinearGradient>
     );
   }

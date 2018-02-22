@@ -41,12 +41,15 @@ const mapDispatchToProps = (dispatch: Function) => {
 
 class VerbozeMobile extends Component<PropsType, StateType> {
 
-  _unsubscribe = ConfigManager.registerConfigChangeCallback((config) => {
-    this.setCachedConfiguration(JSON.stringify(config));
-    this.forceUpdate();
-  });
+  _unsubscribe: () => boolean = () => false;
 
   componentWillMount() {
+    this._unsubscribe =
+      ConfigManager.registerConfigChangeCallback((config) => {
+        this.setCachedConfiguration(JSON.stringify(config));
+        this.forceUpdate();
+      });
+
     /* set status bar color to light */
     Platform.OS === 'ios' ? StatusBar.setBarStyle('light-content', true) : StatusBar.setBackgroundColor('#1E1E1E');
 
@@ -69,6 +72,10 @@ class VerbozeMobile extends Component<PropsType, StateType> {
     if (websocket_address && WebSocketCommunication.url !== websocket_address) {
       this.connectWebSocket(websocket_address);
     }
+  }
+
+  componentWillUnmount() {
+    this._unsubscribe();
   }
 
   connectWebSocket(address: string) {
