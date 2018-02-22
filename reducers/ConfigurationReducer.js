@@ -2,18 +2,19 @@
 
 import {
   SET_USERS_NAME,
-  SET_CONFIGURATION_TOKEN,
-  SET_CONNECTION_STATUS
+  SET_WEBSOCKET_ADDRESS,
+  SET_CONNECTION_STATUS,
+  RESET_CONFIGURATION
 } from '../actions/ConfigurationActions';
 
 type StateType = {
   users_name: string,
-  configuration_token: string
+  websocket_address: string
 };
 
 const defaultState: StateType = {
   users_name: '',
-  configuration_token: ''
+  websocket_address: ''
 };
 
 const reducer = (state: StateType = defaultState, action: Object) => {
@@ -26,9 +27,13 @@ const reducer = (state: StateType = defaultState, action: Object) => {
       break;
 
     /* set configuration token */
-    case SET_CONFIGURATION_TOKEN:
-      new_state.configuration_token = action.configuration_token;
+    case SET_WEBSOCKET_ADDRESS:
+      new_state.websocket_address = action.websocket_address;
       break;
+
+    /* reset configuration */
+    case RESET_CONFIGURATION:
+      new_state = {...defaultState}
   }
 
   return new_state;

@@ -47,9 +47,9 @@ export default class RoomControls extends Component<PropsType, StateType> {
     );
   }
 
-  _renderThermostatCard(index: number, things: Array<ThingMetadataType>) {
+  _renderThermostatCard(index: number, meta: Array<ThingMetadataType>) {
     return (
-      <ThermostatCard key={ index } />
+      <ThermostatCard key={ index } meta={meta[0]} />
     );
   }
 

@@ -3,6 +3,9 @@
 import React, { Component } from 'react';
 import { View, Image, Text, StyleSheet, Dimensions } from 'react-native';
 
+import { ConfigManager } from '../../js-api-utils/ConfigManager';
+import type { ThingStateType, ThingMetadataType } from '../../js-api-utils/ConfigManager';
+
 import { Colors, TypeFaces } from '../../constants/styles';
 
 import ControlCard from './ControlCard';
@@ -11,10 +14,15 @@ import Divider from './Divider';
 import MagicThermostatSlider from '../../react-components/MagicThermostatSlider';
 import MagicButton from '../../react-components/MagicButton';
 
-type PropsType = {};
+type PropsType = {
+  meta: ThingMetadataType
+};
+
 type StateType = {
-  temperature: number,
-  room_temperature: number
+  set_pt: number,
+  temp: number,
+  fan: number,
+  fan_speeds: Array<string>,
 };
 
 export default class ThermostatCard extends Component<PropsType, StateType> {
@@ -23,10 +31,10 @@ export default class ThermostatCard extends Component<PropsType, StateType> {
     set_pt: 0,
     temp: 0,
     fan: 0,
-    fan_speeds: [],
-    temperature: 22.5,
-    room_temperature: 25.0
+    fan_speeds: ['Off'],
   };
+
+  _unsubscribe: () => void = () => null;
 
   _min_temp: number = 16;
   _max_temp: number = 32;
@@ -36,53 +44,92 @@ export default class ThermostatCard extends Component<PropsType, StateType> {
   _plus_icon: number = require('../../assets/icons/plus.png');
   _screen_width: number = Dimensions.get('screen').width;
 
-  roundTemperature(temperature: number): string {
-    return (Math.round(temperature * 2) / 2).toFixed(1);
+  componentWillMount() {
+    this.componentWillReceiveProps(this.props);
+  }
+
+  componentWillReceiveProps(nextProps: PropsType) {
+    const { meta } = nextProps;
+
+    this._unsubscribe();
+    this._unsubscribe =
+      ConfigManager.registerThingStateChangeCallback(
+        meta.id, this.onChange.bind(this));
+
+    if (meta.id in ConfigManager.things) {
+      this.onChange(ConfigManager.thingMetas[meta.id],
+        ConfigManager.things[meta.id]);
+    }
+  }
+
+  onChange(meta: ThingMetadataType, thermostat_state: ThingStateType) {
+    const { set_pt, temp, fan, fan_speeds } = this.state;
+
+    if (JSON.stringify(fan_speeds) !== JSON.stringify(meta.fan_speeds)
+      || set_pt !== thermostat_state.set_pt
+      || temp !== thermostat_state.temp
+      || fan !== thermostat_state.fan) {
+
+      this.setState({
+        set_pt: thermostat_state.set_pt,
+        temp: thermostat_state.temp,
+        fan: thermostat_state.fan,
+        fan_speeds: ['Off'].concat(meta.fan_speeds)
+      });
+    }
+  }
+
+  roundTemperature(temperature: number): number {
+    return (Math.round(temperature * 2) / 2);
   }
 
   updateTemperature(temperature: number) {
-    this.setState({
-      temperature
-    });
+    const { meta } = this.props;
+    ConfigManager.setThingState(meta.id, {set_pt: temperature}, true);
   }
 
-  changeTemperature(send_socket: boolean) {
+  incrementTemperature() {
+    const { set_pt } = this.state;
+    this.updateTemperature(Math.min(set_pt + 0.5, this._max_temp));
+  }
 
+  decrementTemperature() {
+    const { set_pt } = this.state;
+    this.updateTemperature(Math.max(set_pt - 0.5, this._min_temp));
   }
 
   changeFan(speed: number) {
-
+    const { meta } = this.props;
+    ConfigManager.setThingState(meta.id, {fan: speed}, true);
   }
 
   renderTemperatureAndButtons() {
-    const { temperature } = this.state;
+    const { set_pt, fan } = this.state;
 
-    // const increment = () =>
-    //   this.updateTemperature(
-    //     this.roundTemperature(Math.min(temperature + 0.5, this._max_temp)));
-    //
-    // const decrement = () =>
-    //   this.updateTemperature(
-    //     this.roundTemperature(Math.max(temperature - 0.5, this._min_temp)));
+    const thermostat_text: string = (fan > 0) ?
+      (set_pt.toFixed(1) + 'ºC') : 'Off';
 
     return (
       <CardRow>
         <View style={{marginLeft: 30}}>
-          <MagicButton onPress={() => null}
+          <MagicButton onPress={this.decrementTemperature.bind(this)}
             icon={this._minus_icon}
             iconStyle={{}}
             showBorder={false}
+            enabled={fan > 0 && set_pt > this._min_temp}
             offColor={Colors.gray}
             glowColor={Colors.red}/>
         </View>
         <View style={{flex: 1}}>
-          <Text style={TypeFaces.thermostat_temperature}>{temperature} ºC</Text>
+          <Text style={TypeFaces.thermostat_temperature}>{thermostat_text}</Text>
         </View>
         <View style={{marginRight: 30}}>
-          <MagicButton onPress={() => null}
+          <MagicButton onPress={this.incrementTemperature.bind(this)}
             icon={this._plus_icon}
             iconStyle={{}}
             showBorder={false}
+            enabled={fan > 0 && set_pt < this._max_temp}
+            offColor={Colors.gray}
             glowColor={Colors.red}/>
         </View>
       </CardRow>
@@ -90,7 +137,7 @@ export default class ThermostatCard extends Component<PropsType, StateType> {
   }
 
   renderTemperatureSlider() {
-    const { temperature } = this.state;
+    const { set_pt, fan} = this.state;
 
     return (
       <CardRow rows={2}>
@@ -99,7 +146,8 @@ export default class ThermostatCard extends Component<PropsType, StateType> {
           onChange={this.updateTemperature.bind(this)}
           margin={40}
           height={55}
-          value={temperature}
+          value={set_pt}
+          enabled={fan > 0}
           minTemp={this._min_temp}
           maxTemp={this._max_temp} />
       </CardRow>
@@ -107,41 +155,41 @@ export default class ThermostatCard extends Component<PropsType, StateType> {
   }
 
   renderRoomTemperature() {
-    const { room_temperature } = this.state;
+    const { temp } = this.state;
 
     return (
       <CardRow>
-        <Text style={TypeFaces.light}>{room_temperature} ºC Room Temperature</Text>
+        <Text style={TypeFaces.light}>Room Temperature {temp.toFixed(1)} ºC </Text>
       </CardRow>
     );
   }
 
   renderFanControls() {
+    const { fan, fan_speeds } = this.state;
+
+    const speeds = [];
+    for (var i = 0; i < fan_speeds.length; i++) {
+      const speed = i;
+      speeds.push(
+        <MagicButton key={'fan-speed-' + i}
+          onPress={() => this.changeFan(speed)}
+          text={fan_speeds[i]}
+          textStyle={TypeFaces.magic_button}
+          isOn={fan === i}
+          offColor={Colors.gray}
+          glowColor={Colors.red}/>
+      );
+    }
+
     return (
       <CardRow style={styles.fan_controls}>
         <Text style={[TypeFaces.light, {paddingRight: 10}]}>Fan</Text>
-        <MagicButton onPress={() => null}
-          text={'Off'}
-          textStyle={TypeFaces.magic_button}
-          offColor={Colors.gray}
-          glowColor={Colors.red}/>
-        <MagicButton onPress={() => null}
-          text={'Lo'}
-          textStyle={TypeFaces.magic_button}
-          offColor={Colors.gray}
-          glowColor={Colors.red}/>
-        <MagicButton onPress={() => null}
-          text={'Hi'}
-          textStyle={TypeFaces.magic_button}
-          offColor={Colors.gray}
-          glowColor={Colors.red}/>
+        {speeds}
       </CardRow>
     );
   }
 
   render() {
-    const { temperature, room_temperature } = this.state;
-
     return (
       <ControlCard title={'Thermostat'}
         background={this._background}>
