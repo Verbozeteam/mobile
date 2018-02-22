@@ -1,8 +1,8 @@
 /* @flow */
 
 import React, { Component } from 'react';
-
 import { View, Text, StyleSheet, Dimensions, ScrollView } from 'react-native';
+import PropTypes from 'prop-types';
 
 import { ConfigManager } from '../../js-api-utils/ConfigManager';
 import type { RoomType, GroupType, ThingMetadataType, PresetType } from '../../js-api-utils/ConfigManager';
@@ -16,9 +16,15 @@ type PropsType = {
   roomId: string
 };
 
-type StateType = {};
+type StateType = {
+  should_scroll: boolean
+};
 
 export default class RoomControls extends Component<PropsType, StateType> {
+
+  state = {
+    should_scroll: true
+  };
 
   _screen_width = Dimensions.get('screen').width;
   _screen_height = Dimensions.get('screen').height
@@ -29,6 +35,13 @@ export default class RoomControls extends Component<PropsType, StateType> {
     'curtains': 'curtains',
     'central_acs': 'central_acs'
   };
+
+  getChildContext() {
+    return {
+      shouldScroll: () => this.changeScrolling(true),
+      shouldNotScroll: () => this.changeScrolling(false)
+    };
+  }
 
   _determineGroupCategoryType(cleanedGroupThings: Array<ThingMetadataType>) {
     var groupCategory = null;
@@ -54,7 +67,6 @@ export default class RoomControls extends Component<PropsType, StateType> {
   }
 
   _renderCurtainCard(index: number, meta: Array<ThingMetadataType>) {
-    console.log('r', meta);
     return (
       <CurtainsCard key={ index } meta={meta}/>
     );
@@ -99,13 +111,21 @@ export default class RoomControls extends Component<PropsType, StateType> {
 
   }
 
+  changeScrolling(should_scroll: boolean) {
+    this.setState({
+      should_scroll
+    });
+  }
+
   render() {
+    const { should_scroll } = this.state;
     const { roomId } = this.props;
 
     const room: RoomType | null = ConfigManager.getRoom(roomId);
 
     return (
         <ScrollView contentContainerStyle={styles.control_container}
+          scrollEnabled={should_scroll}
           style={[styles.container, {width: this._screen_width}]}>
           { this._renderAvailableControlGroups(room) }
           <View style={{height: this._screen_height / 3}}></View>
@@ -113,6 +133,11 @@ export default class RoomControls extends Component<PropsType, StateType> {
     );
   }
 }
+
+RoomControls.childContextTypes = {
+  shouldScroll: PropTypes.func,
+  shouldNotScroll: PropTypes.func
+};
 
 const styles = StyleSheet.create({
   container: {

@@ -49,9 +49,9 @@ class ConfigureView extends Component<PropsType, StateType> {
       width: screen_width * 0.9
     };
 
-    // if (__DEV__) {
-    //   this.onRead({data: 'wss://www.verboze.com/stream/35b4d595ef074543a2fa686650024d98/'});
-    // }
+    if (__DEV__) {
+      this.onRead({data: 'wss://www.verboze.com/stream/35b4d595ef074543a2fa686650024d98/'});
+    }
   }
 
   onRead(evt: Object) {

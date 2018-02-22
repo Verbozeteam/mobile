@@ -54,8 +54,8 @@ class VerbozeMobile extends Component<PropsType, StateType> {
     Platform.OS === 'ios' ? StatusBar.setBarStyle('light-content', true) : StatusBar.setBackgroundColor('#1E1E1E');
 
     /* clear all AsyncStorage for development purposes */
-    AsyncStorage.clear();
     if (__DEV__) {
+      // AsyncStorage.clear();
     }
 
     ConfigManager.initialize(WebSocketCommunication);
