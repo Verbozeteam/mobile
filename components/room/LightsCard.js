@@ -32,34 +32,13 @@ type StateType = {};
 export default class LightsCard extends Component<PropsType, StateType> {
   _background: number = require('../../assets/images/lights_background.png');
 
-  _activatePreset(preset: PresetType) {
-    ConfigManager.setThingsStates(preset, true);
-  }
-
   _formatLightControls(presets: Array<PresetType>, dimmers: Array<LightDimmerType>, switches: Array<LightSwitchType>) {
 
     var lightControls = [];
 
     if (presets.length > 0){
-
-      var presetButtons = []
-      for (var i = 0; i < presets.length; i++) {
-        const index = i;
-        presetButtons.push(
-          <MagicButton
-            key={ 'presetbutton-' + i }
-            onPress={() => this._activatePreset(presets[index])}
-            text={ i + 1 }
-            textStyle={TypeFaces.magic_button}
-            offColor={Colors.gray}
-            glowColor={Colors.red}/>
-        );
-      }
-
       lightControls.push(
-        <LightPresets key={ 'presets-stuff' }>
-          { presetButtons }
-        </LightPresets>
+        <LightPresets key={ 'presets-stuff' } presets={presets} />
       );
 
       lightControls.push(<Divider key={ 'divider-1' } />);
