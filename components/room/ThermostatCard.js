@@ -2,6 +2,7 @@
 
 import React, { Component } from 'react';
 import { View, Image, Text, StyleSheet, Dimensions } from 'react-native';
+import PropTypes from 'prop-types';
 
 import { ConfigManager } from '../../js-api-utils/ConfigManager';
 import type { ThingStateType, ThingMetadataType } from '../../js-api-utils/ConfigManager';
@@ -142,6 +143,7 @@ export default class ThermostatCard extends Component<PropsType, StateType> {
 
   renderTemperatureSlider() {
     const { set_pt, fan} = this.state;
+    const { shouldScroll, shouldNotScroll } = this.context;
 
     return (
       <CardRow rows={2}>
@@ -152,6 +154,8 @@ export default class ThermostatCard extends Component<PropsType, StateType> {
           height={55}
           value={set_pt}
           enabled={fan > 0}
+          scrollStart={shouldNotScroll}
+          scrollEnd={shouldScroll}
           minTemp={this._min_temp}
           maxTemp={this._max_temp} />
       </CardRow>
@@ -208,6 +212,11 @@ export default class ThermostatCard extends Component<PropsType, StateType> {
     );
   }
 }
+
+ThermostatCard.contextTypes = {
+  shouldScroll: PropTypes.func,
+  shouldNotScroll: PropTypes.func
+};
 
 const styles = StyleSheet.create({
   row: {
