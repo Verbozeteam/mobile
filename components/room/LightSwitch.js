@@ -5,7 +5,7 @@ import { View, Text, StyleSheet } from 'react-native';
 
 import MagicButton from '../../react-components/MagicButton';
 
-import { Colors } from '../../constants/styles';
+import { Colors, TypeFaces } from '../../constants/styles';
 
 import { ConfigManager } from '../../js-api-utils/ConfigManager';
 import type { ThingStateType, ThingMetadataType } from '../../js-api-utils/ConfigManager';
@@ -76,22 +76,23 @@ export default class LightSwtich extends Component<PropsType, StateType> {
     var intensityAfterSwitch = 1 - intensity;
 
     /* Waiting for fituri to implement the websocket stuff inorder for this to work */
-    // var onPress = (() => this.changeIntensity(intensityAfterSwitch));
+    var onPress = (() => this.changeIntensity(intensityAfterSwitch));
 
     return (
       <View style={{justifyContent: 'center', alignItems: 'flex-start'}}>
         <MagicButton
           width={ 45 }
           height={ 45 }
-          extraStyle={{ marginRight: 10 }}
+          extraStyle={{ marginRight: 10}}
           isOn={ intensity }
           text={ (intensity > 0) ? "On" : "Off" }
-          textColor={ '#ffffff' }
+          textColor={ Colors.white }
           glowColor={ Colors.red_shadow }
           onColor={ Colors.red }
-          // onPress={ onPress }
-          sideText={!id ? "ALL" : ConfigManager.thingMetas[id].name.toUpperCase()}
-          sideTextStyle={{ marginLeft: 10, lineHeight: 45 }}
+          onPress={ onPress }
+          textStyle={TypeFaces.magic_button}
+          sideText={!id ? "ALL" : ConfigManager.thingMetas[id].name}
+          sideTextStyle={{ marginLeft: 10, lineHeight: 15, flexShrink: 1, ...TypeFaces.light_switch_label }}
         />
       </View>
     );

@@ -88,11 +88,14 @@ export const TypeFaces = {
     fontFamily: 'CeraPRO-Light',
     textAlign: 'center'
   },
-  light_dimmer_label : {
+  light_dimmer_label: {
     fontFamily: 'CeraPRO-Light',
     fontSize: 16,
-    // fontWeight: "300",
-    // letterSpacing: -0.01,
     color: Colors.white,
+  },
+  light_switch_label: {
+    fontFamily: 'CeraPRO-Light',
+    fontSize: 16,
+    textAlign: 'left'
   }
 };

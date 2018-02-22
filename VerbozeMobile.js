@@ -63,8 +63,14 @@ class VerbozeMobile extends Component<PropsType, StateType> {
 
   componentDidMount() {
     /* create websocket connection */
-    // WebSocketCommunication.setOnMessage(ConfigManager.onMiddlewareUpdate);
-    // WebSocketCommunication.connect(this._ws_url);
+    ConfigManager.initialize(WebSocketCommunication);
+    //WebSocketCommunication.connect(this._ws_url);
+
+    /*
+    ConfigManager.initialize(WebSocketCommunication);
+    WebSocketCommunication.connect(this._ws_url);
+    WebSocketCommunication.setOnConnected(() => WebSocketCommunication.sendMessage({"code": 0}));
+    */
 
 
     // TODO: get config from websocket instead

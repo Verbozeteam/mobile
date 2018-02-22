@@ -1,7 +1,7 @@
 /* @flow */
 
 import React, { Component } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Dimensions } from 'react-native';
 
 import CardRow from './CardRow';
 
@@ -29,9 +29,7 @@ export type LightDimmerType = {
 
 export default class LightDimmer extends Component<PropsType, StateType> {
 
-  _minus_icon: number = require('../../assets/icons/minus.png');
-  _plus_icon: number = require('../../assets/icons/plus.png');
-
+  _screenWidth: number = Dimensions.get('screen').width;
   _unsubscribe: () => any = () => null;
 
   _glowColor = Colors.red;
@@ -67,45 +65,42 @@ export default class LightDimmer extends Component<PropsType, StateType> {
 
   changeIntensity(intensity: number) {
     /* WAITING FOR FITURI TO FINISH WEBSOCKET STUFF */
-    // ConfigManager.setThingState(this.props.id, { intensity }, true);
+    ConfigManager.setThingState(this.props.id, { intensity }, true);
   }
 
 
   render() {
-    const { width, height } = this.props;
+    const { id, width, height } = this.props;
     const { intensity } = this.state;
 
     return (
       <View>
         <CardRow style={ styles.dimmerLabel }>
-          <Text style={ TypeFaces.light_dimmer_label } >Table Lamp</Text>
+          <Text style={ TypeFaces.light_dimmer_label } >{ ConfigManager.thingMetas[id].name }</Text>
         </CardRow>
-        <CardRow>
-          <View style={ styles.container }>
-            <MagicButton onPress={() => null}
-              width={ 40 }
-              height={ 40 }
-              icon={ this._minus_icon }
-              showBorder={ false }
-              glowColor={ Colors.red }
-            />
-            <MagicSlider
-              width={ width }
-              height={ height }
-              value={ intensity }
-              maxValue={ 100 }
-              glowColor={ this._glowColor }
-              round={ (value: number) => Math.round(value) }
-              onChange={ (_intensity) => this.changeIntensity(_intensity) }
-            />
-            <MagicButton onPress={() => null}
-              width={ 40 }
-              height={ 40 }
-              icon={ this._plus_icon }
-              showBorder={ false }
-              glowColor={ Colors.red }
-            />
-          </View>
+        <CardRow style={styles.container}>
+          <MagicButton
+            onPress={() => this.changeIntensity(intensity == 0 ? 100 : 0)}
+            width={ 45 }
+            height={ 45 }
+            isOn={ intensity }
+            text={ (intensity > 0) ? "On" : "Off" }
+            glowColor={ Colors.red }
+            textColor={ Colors.white }
+            glowColor={ Colors.red_shadow }
+            onColor={ Colors.red }
+            textStyle={TypeFaces.magic_button}
+            extraStyle={{ marginRight: 10 }}
+          />
+          <MagicSlider
+            width={this._screenWidth - 95}
+            height={ height }
+            value={ intensity }
+            maxValue={ 100 }
+            glowColor={ this._glowColor }
+            round={ (value: number) => Math.round(value) }
+            onChange={ (_intensity) => this.changeIntensity(_intensity) }
+          />
         </CardRow>
       </View>
     );

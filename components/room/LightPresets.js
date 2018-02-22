@@ -1,34 +1,45 @@
 /* @flow */
 
-import React, { Component } from 'react';
+import * as React from 'react';
+import { Component } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
-import { Colors } from '../../constants/styles';
+import { Colors, TypeFaces } from '../../constants/styles';
 
-import MagicSlider from '../../react-components/MagicSlider';
+import MagicButton from '../../react-components/MagicButton';
 
 import { ConfigManager } from '../../js-api-utils/ConfigManager';
 import type { ThingStateType, ThingMetadataType } from '../../js-api-utils/ConfigManager';
 
+import CardRow from './CardRow';
+
 type PropsType = {
-  id: string,
+  children?: React.Node,
 };
 
 type StateType = {};
 
-export type LightPresetsType = {
-  id: string,
-};
-
 export default class LightPresets extends Component<PropsType, StateType> {
 
-  redner() {
+  render() {
     return (
-      <Text>
-        THIS IS A LIGHT PRESETS
-      </Text>
+
+     <CardRow style={ styles.presetControls }>
+        <Text style={[TypeFaces.light, {paddingRight: 10}]}>Presets</Text>
+
+        { this.props.children }
+
+      </CardRow>
+
     );
   }
 
 }
 
+const styles = {
+  presetControls: {
+    paddingRight: 37,
+    paddingLeft: 37,
+    justifyContent: 'space-around'
+  }
+};

@@ -3,6 +3,8 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
+import { ConfigManager } from '../../js-api-utils/ConfigManager';
+
 import LightSwitch from './LightSwitch';
 import type { LightSwitchType } from './LightSwitch';
 
@@ -10,40 +12,62 @@ import LightDimmer from './LightDimmer';
 import type { LightDimmerType } from './LightDimmer';
 
 import LightPresets from './LightPresets';
-import type { LightPresetsType } from './LightPresets';
 
-import { Colors } from '../../constants/styles';
+import { Colors, TypeFaces } from '../../constants/styles';
 
-import type { RoomType, GroupType, ThingMetadataType } from '../../js-api-utils/ConfigManager';
+import MagicButton from '../../react-components/MagicButton';
+
+import type { RoomType, GroupType, ThingMetadataType, PresetType } from '../../js-api-utils/ConfigManager';
 
 import ControlCard from './ControlCard';
 import CardRow from './CardRow';
 import Divider from './Divider';
 
 type PropsType = {
-  lights: Array<ThingMetadataType>
+  lights: Array<ThingMetadataType>,
+  presets?: Array<PresetType>
 };
 type StateType = {};
 
 export default class LightsCard extends Component<PropsType, StateType> {
   _background: number = require('../../assets/images/lights_background.png');
 
-  _formatLightControls(presets: Array<LightSwitchType>, dimmers: Array<LightDimmerType>, switches: Array<LightSwitchType>) {
+  _activatePreset(preset: PresetType) {
+    ConfigManager.setThingsStates(preset, true);
+  }
+
+  _formatLightControls(presets: Array<PresetType>, dimmers: Array<LightDimmerType>, switches: Array<LightSwitchType>) {
 
     var lightControls = [];
 
     if (presets.length > 0){
-      lightControls = lightControls.concat(presets);
+
+      var presetButtons = []
+      for (var i = 0; i < presets.length; i++) {
+        const index = i;
+        presetButtons.push(
+          <MagicButton
+            key={ 'presetbutton-' + i }
+            onPress={() => this._activatePreset(presets[index])}
+            text={ i + 1 }
+            textStyle={TypeFaces.magic_button}
+            offColor={Colors.gray}
+            glowColor={Colors.red}/>
+        );
+      }
+
+      lightControls.push(
+        <LightPresets key={ 'presets-stuff' }>
+          { presetButtons }
+        </LightPresets>
+      );
+
       lightControls.push(<Divider key={ 'divider-1' } />);
     }
     if (dimmers.length > 0) {
       var formattedDimmers = [];
       for (var i = 0; i < dimmers.length; i++) {
-        formattedDimmers.push(
-          <CardRow key={ 'dimmer-' + i + '-cardrow' }>
-            { dimmers[i] }
-          </CardRow>
-        );
+        formattedDimmers.push(dimmers[i]);
       }
 
       lightControls = lightControls.concat(formattedDimmers);
@@ -51,25 +75,61 @@ export default class LightsCard extends Component<PropsType, StateType> {
       lightControls.push(<Divider key={ 'divider-2' } />);
     }
     if (switches.length > 0) {
-      lightControls = lightControls.concat(switches);
+      var formattedSwitches = [];
+      var lightSwitchRow = [];
+      var startNewRow;
+      for (var i = 0; i < switches.length; i++) {
+        /* since want 2 lightswtiches per row
+        *  we determine when is the new row based on the if
+        *  the index of lightswitch is divisble by 2 or not
+        */
+        startNewRow = i % 2; /* 0 -> add to same row | 1 -> start new row after this */
+        lightSwitchRow.push(
+          <View style={{ flex: 1 }} key={ 'lightswitchview-' + i } >
+            { switches[i] }
+          </View>
+        );
+        if (startNewRow) {
+          formattedSwitches.push(
+            <CardRow key={ 'lightswitchrow-' + i }
+            style={{ }}>
+              { lightSwitchRow }
+            </CardRow>
+          );
+          lightSwitchRow = [];
+        }
+      }
+      /* odd number of lights */
+      if (lightSwitchRow.length > 0) {
+        formattedSwitches.push(
+          <CardRow key={ 'lightswitchrow-' + i }
+          style={{  }}>
+            { lightSwitchRow }
+          </CardRow>
+        )
+      }
+
+      lightControls = lightControls.concat(formattedSwitches);
     }
 
     return lightControls
   }
 
   _renderLightControls() {
-    const { lights } = this.props;
-    const presets = [];
+    const { lights, presets } = this.props;
     const dimmers = [];
     const switches = [];
     var lightControl = [];
 
+    /* splitting light switches and dimmers */
     for (var i = 0; i < lights.length; i++) {
       var light: ThingMetadataType = lights[i];
       (light.category === 'light_switches') ?
         switches.push(<LightSwitch id={ light.id } key={ 'swtich-' + i } />)
         : dimmers.push(<LightDimmer id={ light.id } width={ 235 } height={ 40 } key={ 'dimmer-' + i } />);
     }
+
+
 
     return this._formatLightControls(presets, dimmers, switches);
 
