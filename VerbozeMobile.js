@@ -63,22 +63,8 @@ class VerbozeMobile extends Component<PropsType, StateType> {
     this.getCachedConfiguration();
   }
 
-<<<<<<< HEAD
   componentWillReceiveProps(nextProps: PropsType) {
     const { websocket_address } = nextProps;
-=======
-  componentDidMount() {
-    /* create websocket connection */
-    ConfigManager.initialize(WebSocketCommunication);
-    //WebSocketCommunication.connect(this._ws_url);
-
-    /*
-    ConfigManager.initialize(WebSocketCommunication);
-    WebSocketCommunication.connect(this._ws_url);
-    WebSocketCommunication.setOnConnected(() => WebSocketCommunication.sendMessage({"code": 0}));
-    */
-
->>>>>>> 0da92d9a4bacae775531cdfc18a1d6af1d881c4c
 
     if (websocket_address && WebSocketCommunication.url !== websocket_address) {
       this.connectWebSocket(websocket_address);
