@@ -5,7 +5,7 @@ import { AsyncStorage, View, SafeAreaView, Text, Dimensions, StyleSheet }
   from 'react-native';
 import { connect } from 'react-redux';
 
-import { setConfigurationToken } from '../actions/ConfigurationActions';
+import { setWebSocketAddress } from '../actions/ConfigurationActions';
 
 import LinearGradient from 'react-native-linear-gradient';
 import QRCodeScanner from 'react-native-qrcode-scanner';
@@ -15,7 +15,7 @@ import { Colors, Gradients, TypeFaces } from '../constants/styles';
 type PropsType = {
   navigation: Object,
 
-  setConfigurationToken: (configuration_token: string) => null
+  setWebSocketAddress: (websocket_address: string) => null
 };
 
 type StateType = {};
@@ -26,8 +26,8 @@ const mapStateToProps = (state: Object) => {
 
 const mapDispatchToProps = (dispatch: Function) => {
   return {
-    setConfigurationToken: (configuration_token: string) =>
-      dispatch(setConfigurationToken(configuration_token))
+    setWebSocketAddress: (websocket_address: string) =>
+      dispatch(setWebSocketAddress(websocket_address))
   };
 };
 
@@ -42,16 +42,20 @@ class ConfigureView extends Component<PropsType, StateType> {
       height: screen_width * 0.9,
       width: screen_width * 0.9
     };
+
+    if (__DEV__) {
+      this.onRead({data: 'wss://www.verboze.com/stream/35b4d595ef074543a2fa686650024d98/'});
+    }
   }
 
   onRead(evt: Object) {
-    const { setConfigurationToken } = this.props;
+    const { setWebSocketAddress } = this.props;
     const token = evt.data;
 
     /* save token to AsyncStorage */
     try {
-      AsyncStorage.setItem('configuration_token', token, () => {
-        setConfigurationToken(token);
+      AsyncStorage.setItem('@websocket_address', token, () => {
+        setWebSocketAddress(token);
       });
     } catch (err) {
       console.error(err);

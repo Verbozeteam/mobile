@@ -87,7 +87,7 @@ class WelcomeView extends Component<PropsType, StateType> {
 
     /* save name to AsyncStorage */
     try {
-      AsyncStorage.setItem('users_name', users_name, () => {
+      AsyncStorage.setItem('@users_name', users_name, () => {
         setUsersName(users_name);
         navigation.navigate('Configure');
       });

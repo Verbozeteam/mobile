@@ -1,25 +1,23 @@
 /* @flow */
 
 import React, { Component } from 'react';
-import { StatusBar, AsyncStorage, Platform } from 'react-native';
+import { StatusBar, Platform, AsyncStorage } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 import { connect } from 'react-redux';
 
 import { ConfigManager } from './js-api-utils/ConfigManager';
 import { WebSocketCommunication } from './js-api-utils/WebSocketCommunication';
-import { setUsersName, setConfigurationToken } from './actions/ConfigurationActions';
+import { setUsersName, setWebSocketAddress } from './actions/ConfigurationActions';
 
 import MainNavigator from './navigation/MainNavigator';
 import FirstConfigureStack from './navigation/FirstConfigureStack';
 
-import { dummy_config } from './dummy_config';
-
 type PropsType = {
   users_name: string,
-  configuration_token: string,
+  websocket_address: string,
 
   setUsersName: (users_name: string) => null,
-  setConfigurationToken: (configuration_token: string) => null
+  setWebSocketAddress: (websocket_address: string) => null
 };
 
 type StateType = {};
@@ -27,7 +25,7 @@ type StateType = {};
 const mapStateToProps = (state: Object) => {
   return {
     users_name: state.configuration.users_name,
-    configuration_token: state.configuration.configuration_token
+    websocket_address: state.configuration.websocket_address,
   };
 };
 
@@ -36,43 +34,54 @@ const mapDispatchToProps = (dispatch: Function) => {
     setUsersName: (users_name: string) =>
       dispatch(setUsersName(users_name)),
 
-    setConfigurationToken: (users_name: string) =>
-      dispatch(setConfigurationToken(users_name))
+    setWebSocketAddress: (websocket_address: string) =>
+      dispatch(setWebSocketAddress(websocket_address))
   };
 };
 
 class VerbozeMobile extends Component<PropsType, StateType> {
 
-  _ws_url: string = 'wss://www.verboze.com/stream/35b4d595ef074543a2fa686650024d98';
+  _unsubscribe = ConfigManager.registerConfigChangeCallback((config) => {
+    this.setCachedConfiguration(JSON.stringify(config));
+    this.forceUpdate();
+  });
 
   componentWillMount() {
     /* set status bar color to light */
     Platform.OS === 'ios' ? StatusBar.setBarStyle('light-content', true) : StatusBar.setBackgroundColor('#1E1E1E');
 
     /* clear all AsyncStorage for development purposes */
+    AsyncStorage.clear();
     if (__DEV__) {
-      // AsyncStorage.clear();
-      const { setConfigurationToken } = this.props;
-      setConfigurationToken('123456789-987654321');
     }
 
-    /* get user's name and configuration token */
+    ConfigManager.initialize(WebSocketCommunication);
+
+    /* get user's name, websocket address and cached configuration */
     this.getUsersName();
-    this.getConfigurationToken();
+    this.getWebsocketAddress();
+    this.getCachedConfiguration();
   }
 
-  componentDidMount() {
-    /* create websocket connection */
-    // WebSocketCommunication.setOnMessage(ConfigManager.onMiddlewareUpdate);
-    // WebSocketCommunication.connect(this._ws_url);
+  componentWillReceiveProps(nextProps: PropsType) {
+    const { websocket_address } = nextProps;
 
-
-    // TODO: get config from websocket instead
-    ConfigManager.onMiddlewareUpdate(dummy_config);
+    if (websocket_address && WebSocketCommunication.url !== websocket_address) {
+      this.connectWebSocket(websocket_address);
+    }
   }
 
-  fetchConfiguration() {
+  connectWebSocket(address: string) {
+    /* request {code: 0} once connected */
+    WebSocketCommunication.setOnConnected(() => {
+      WebSocketCommunication.sendMessage({code: 0});
+    });
 
+    try {
+      WebSocketCommunication.connect(address);
+    } catch (err) {
+      console.log('WebSocketCommunication failed to connect', err);
+    }
   }
 
   async getUsersName() {
@@ -80,44 +89,69 @@ class VerbozeMobile extends Component<PropsType, StateType> {
 
     /* get user's name from AsyncStorage and set to state if exists */
     try {
-      const users_name = await AsyncStorage.getItem('users_name');
+      const users_name = await AsyncStorage.getItem('@users_name');
       if (users_name !== null) {
         setUsersName(users_name);
       }
     } catch (err) {
-      console.error(err);
+      console.log(err);
     }
   }
 
-  async getConfigurationToken() {
-    const { setConfigurationToken } = this.props;
+  async getWebsocketAddress() {
+    const { setWebSocketAddress } = this.props;
 
     /* get configuration token from AsyncStorage and set to state if exist */
     try {
-      const token = await AsyncStorage.getItem('configuration_token');
-      if (token !== null) {
-        setConfigurationToken(token);
+      const address = await AsyncStorage.getItem('@websocket_address');
+      if (address !== null) {
+        setWebSocketAddress(address);
       }
     } catch (err) {
       console.error(err);
     }
   }
 
+  async getCachedConfiguration() {
+    /* get cached configuration from AsyncStorage and set ConfigManager
+      if exists */
+    try {
+      const config = await AsyncStorage.getItem('@cached_configuration');
+      if (config !== null) {
+        if (!ConfigManager.hasConfig) {
+          ConfigManager.setConfig(JSON.parse(config));
+          this.forceUpdate();
+        }
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  setCachedConfiguration(config) {
+    try {
+      AsyncStorage.setItem('@cached_configuration', config);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
   checkConfigurationCompleted(): boolean {
-    const { users_name, configuration_token } = this.props;
+    const { users_name, websocket_address } = this.props;
 
     if (users_name && typeof users_name == 'string' &&
-      configuration_token && typeof configuration_token == 'string') {
+      websocket_address && typeof websocket_address == 'string') {
 
       return true;
     }
+
     return false;
   }
 
   render() {
     const configuration_completed = this.checkConfigurationCompleted();
 
-    if (configuration_completed) {
+    if (configuration_completed && ConfigManager.hasConfig) {
       return <MainNavigator />;
     } else {
       return <FirstConfigureStack />;
