@@ -25,7 +25,77 @@ export const dummy_config = {
                 id: 'lightswitch-3',
                 name: 'Ceiling light',
                 category: 'light_switches'
+              }, {
+                id: 'lightswitch-4',
+                name: 'Back light',
+                category: 'light_switches'
+              }, {
+                id: 'lightswitch-5',
+                name: 'Back light',
+                category: 'light_switches'
+              }, {
+                id: 'lightswitch-6',
+                name: 'Back light best light ever fituri is a beast',
+                category: 'light_switches'
+              }, {
+                id: 'dimmer-2',
+                name: 'Side Table Lamp',
+                category: 'dimmers'
               }
+            ],
+            presets: [
+              {
+                'lightswitch-1': {
+                  intensity: 1
+                },
+                'lightswitch-2': {
+                  intensity: 1
+                },
+                'lightswitch-3': {
+                  intensity: 1
+                },
+                'lightswitch-4': {
+                  intensity: 0
+                },
+                'lightswitch-5': {
+                  intensity: 0
+                },
+                'lightswitch-6': {
+                  intensity: 0
+                },
+                'dimmer-1': {
+                  intensity: 50
+                },
+                'dimmer-2': {
+                  intensity: 100
+                },
+              },
+              {
+                'lightswitch-1': {
+                  intensity: 0
+                },
+                'lightswitch-2': {
+                  intensity: 0
+                },
+                'lightswitch-3': {
+                  intensity: 0
+                },
+                'lightswitch-4': {
+                  intensity: 0
+                },
+                'lightswitch-5': {
+                  intensity: 0
+                },
+                'lightswitch-6': {
+                  intensity: 0
+                },
+                'dimmer-1': {
+                  intensity: 0
+                },
+                'dimmer-2': {
+                  intensity: 0
+                },
+              },
             ]
           },
           {

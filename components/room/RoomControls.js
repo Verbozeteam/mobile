@@ -5,7 +5,7 @@ import React, { Component } from 'react';
 import { View, Text, StyleSheet, Dimensions, ScrollView } from 'react-native';
 
 import { ConfigManager } from '../../js-api-utils/ConfigManager';
-import type { RoomType, GroupType, ThingMetadataType } from '../../js-api-utils/ConfigManager';
+import type { RoomType, GroupType, ThingMetadataType, PresetType } from '../../js-api-utils/ConfigManager';
 import { TypeFaces } from '../../constants/styles';
 
 import LightsCard from './LightsCard';
@@ -20,7 +20,6 @@ type StateType = {};
 
 export default class RoomControls extends Component<PropsType, StateType> {
 
-  // _screenWidth = Dimensions.get('screen').width;
   _screen_width = Dimensions.get('screen').width;
   _screen_height = Dimensions.get('screen').height
 
@@ -42,9 +41,9 @@ export default class RoomControls extends Component<PropsType, StateType> {
 
   }
 
-  _renderLightsCard(index: number, things: Array<ThingMetadataType> ) {
+  _renderLightsCard(index: number, things: Array<ThingMetadataType>, presets?: Array<PresetType> = [] ) {
     return (
-      <LightsCard key={ index } lights={ things } />
+      <LightsCard key={ index } lights={ things } presets={ presets } />
     );
   }
 
@@ -76,7 +75,12 @@ export default class RoomControls extends Component<PropsType, StateType> {
 
         switch(groupCategory) {
           case 'light_switches':
-            availableControlGroups.push(this._renderLightsCard(i, cleanedGroupThings));
+            if (typeof group.presets !== 'undefined') {
+              availableControlGroups.push(this._renderLightsCard(i, cleanedGroupThings, group.presets));
+            }
+            else{
+              availableControlGroups.push(this._renderLightsCard(i, cleanedGroupThings));
+            }
             break;
           case 'central_acs':
             availableControlGroups.push(this._renderThermostatCard(i, cleanedGroupThings));

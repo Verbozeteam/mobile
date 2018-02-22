@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
     paddingRight: 20
   },
   divider: {
-    height: 0.2,
+    height: 1,
     width: '100%',
     backgroundColor: Colors.gray
   }
