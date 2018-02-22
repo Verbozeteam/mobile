@@ -14,12 +14,21 @@ type StateType = {};
 
 export default class RoomsSection extends Component<PropsType, StateType> {
 
-  _unsubscribe = ConfigManager.registerConfigChangeCallback(
-    this.onConfigChange.bind(this));
+  _unsubscribe: () => boolean = () => false;
 
   _living_room_banner = require('../../assets/home/home-living-room.jpg');
 
-  onConfigChange(config: ConfigType) {
+  componentWillMount() {
+    this._unsubscribe =
+      ConfigManager.registerConfigChangeCallback(
+        this.onChange.bind(this));
+  }
+
+  componentWillUnmount() {
+    this._unsubscribe();
+  }
+
+  onChange(config: ConfigType) {
     /* if config changes, force a rerender */
     this.forceUpdate();
   }

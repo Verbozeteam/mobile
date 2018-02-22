@@ -34,7 +34,7 @@ export default class ThermostatCard extends Component<PropsType, StateType> {
     fan_speeds: ['Off'],
   };
 
-  _unsubscribe: () => void = () => null;
+  _unsubscribe: () => boolean = () => false;
 
   _min_temp: number = 16;
   _max_temp: number = 32;
@@ -60,6 +60,10 @@ export default class ThermostatCard extends Component<PropsType, StateType> {
       this.onChange(ConfigManager.thingMetas[meta.id],
         ConfigManager.things[meta.id]);
     }
+  }
+
+  componentWillUnmount() {
+    this._unsubscribe();
   }
 
   onChange(meta: ThingMetadataType, thermostat_state: ThingStateType) {

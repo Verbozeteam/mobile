@@ -53,9 +53,10 @@ export default class RoomControls extends Component<PropsType, StateType> {
     );
   }
 
-  _renderCurtainCard(index: number, things: Array<ThingMetadataType>) {
+  _renderCurtainCard(index: number, meta: Array<ThingMetadataType>) {
+    console.log('r', meta);
     return (
-      <CurtainsCard key={ index } />
+      <CurtainsCard key={ index } meta={meta}/>
     );
   }
 
