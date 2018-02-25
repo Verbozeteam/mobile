@@ -126,6 +126,7 @@
    </AnalyzeAction>
    <ArchiveAction
       buildConfiguration = "Release"
+      customArchiveName = "Verboze"
       revealArchiveInOrganizer = "YES">
    </ArchiveAction>
 </Scheme>
