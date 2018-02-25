@@ -38,8 +38,8 @@ export default class RoomControls extends Component<PropsType, StateType> {
 
   getChildContext() {
     return {
-      shouldScroll: () => this.changeScrolling(true),
-      shouldNotScroll: () => this.changeScrolling(false)
+      blockParentScroll: () => this.changeScrolling(false),
+      unblockParentScroll: () => this.changeScrolling(true)
     };
   }
 
@@ -135,8 +135,8 @@ export default class RoomControls extends Component<PropsType, StateType> {
 }
 
 RoomControls.childContextTypes = {
-  shouldScroll: PropTypes.func,
-  shouldNotScroll: PropTypes.func
+  blockParentScroll: PropTypes.func,
+  unblockParentScroll: PropTypes.func
 };
 
 const styles = StyleSheet.create({

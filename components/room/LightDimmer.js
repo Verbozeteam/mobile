@@ -73,7 +73,7 @@ export default class LightDimmer extends Component<PropsType, StateType> {
   render() {
     const { id, width, height } = this.props;
     const { intensity } = this.state;
-    const { shouldScroll, shouldNotScroll } = this.context;
+    const { blockParentScroll, unblockParentScroll } = this.context;
 
     return (
       <View>
@@ -100,8 +100,8 @@ export default class LightDimmer extends Component<PropsType, StateType> {
             value={ intensity }
             maxValue={ 100 }
             glowColor={ this._glowColor }
-            scrollStart={shouldNotScroll}
-            scrollEnd={shouldScroll}
+            blockParentScroll={blockParentScroll}
+            unblockParentScroll={unblockParentScroll}
             round={ (value: number) => Math.round(value) }
             onChange={ (_intensity) => this.changeIntensity(_intensity) }
           />
@@ -112,8 +112,8 @@ export default class LightDimmer extends Component<PropsType, StateType> {
 }
 
 LightDimmer.contextTypes = {
-  shouldScroll: PropTypes.func,
-  shouldNotScroll: PropTypes.func
+  blockParentScroll: PropTypes.func,
+  unblockParentScroll: PropTypes.func
 };
 
 const styles = {
