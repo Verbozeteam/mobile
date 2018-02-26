@@ -14,14 +14,17 @@ import { Gradients, TypeFaces } from '../constants/styles';
 
 type PropsType = {
   navigation: Object,
-  users_name: string
+
+  users_name: string,
+  connection_status: 0 | 1 | 2
 };
 
 type StateType = {};
 
 const mapStateToProps = (state: Object) => {
   return {
-    users_name: state.configuration.users_name
+    users_name: state.configuration.users_name,
+    connection_status: state.configuration.connection_status
   };
 };
 
@@ -32,13 +35,14 @@ const mapDispatchToProps = (dispatch: Function) => {
 class HomeView extends Component<PropsType, StateType> {
 
   render() {
-    const { users_name } = this.props;
+    const { users_name, connection_status } = this.props;
 
     return (
       <LinearGradient colors={Gradients.background_dark}
         style={styles.container}>
         <SafeAreaView style={ styles.container }>
-          <WelcomeBanner name={users_name} />
+          <WelcomeBanner name={users_name}
+            connectionStatus={connection_status} />
           <RoomsSections />
           <QuickAccessSection />
         </SafeAreaView>

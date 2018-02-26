@@ -7,7 +7,8 @@ import { connect } from 'react-redux';
 
 import { ConfigManager } from './js-api-utils/ConfigManager';
 import { WebSocketCommunication } from './js-api-utils/WebSocketCommunication';
-import { setUsersName, setWebSocketAddress } from './actions/ConfigurationActions';
+import { setUsersName, setWebSocketAddress, setConnectionStatus }
+  from './actions/ConfigurationActions';
 
 import MainNavigator from './navigation/MainNavigator';
 import FirstConfigureStack from './navigation/FirstConfigureStack';
@@ -16,8 +17,9 @@ type PropsType = {
   users_name: string,
   websocket_address: string,
 
-  setUsersName: (users_name: string) => null,
-  setWebSocketAddress: (websocket_address: string) => null
+  setUsersName: (users_name: string) => void,
+  setWebSocketAddress: (websocket_address: string) => void,
+  setConnectionStatus: (connection_status: 0 | 1 | 2) => void
 };
 
 type StateType = {};
@@ -35,13 +37,18 @@ const mapDispatchToProps = (dispatch: Function) => {
       dispatch(setUsersName(users_name)),
 
     setWebSocketAddress: (websocket_address: string) =>
-      dispatch(setWebSocketAddress(websocket_address))
+      dispatch(setWebSocketAddress(websocket_address)),
+
+    setConnectionStatus: (connection_status: 0 | 1 | 2) =>
+      dispatch(setConnectionStatus(connection_status))
   };
 };
 
 class VerbozeMobile extends Component<PropsType, StateType> {
 
   _unsubscribe: () => boolean = () => false;
+
+  _configuration_code: number = 0;
 
   componentWillMount() {
     this._unsubscribe =
@@ -64,6 +71,8 @@ class VerbozeMobile extends Component<PropsType, StateType> {
     this.getUsersName();
     this.getWebsocketAddress();
     this.getCachedConfiguration();
+
+    this.setupWebSocketCommunication();
   }
 
   componentWillReceiveProps(nextProps: PropsType) {
@@ -78,11 +87,31 @@ class VerbozeMobile extends Component<PropsType, StateType> {
     this._unsubscribe();
   }
 
-  connectWebSocket(address: string) {
-    /* request {code: 0} once connected */
+  setupWebSocketCommunication() {
+    const { setConnectionStatus } = this.props;
+
+    /* request {code: 0} once connected and updated connection status*/
     WebSocketCommunication.setOnConnected(() => {
-      WebSocketCommunication.sendMessage({code: 0});
+      console.log('WebSocket connected');
+      WebSocketCommunication.sendMessage({code: this._configuration_code});
+      setConnectionStatus(2);
     });
+
+    WebSocketCommunication.setOnDisconnected(() => {
+      console.log('WebSocket disconnected');
+      setConnectionStatus(0);
+    });
+
+    WebSocketCommunication.setOnError((err?: Object = {}) => {
+      console.log('WebSocket error', err);
+      setConnectionStatus(0);
+    });
+  }
+
+  connectWebSocket(address: string) {
+    const { setConnectionStatus } = this.props;
+
+    setConnectionStatus(1);
 
     try {
       WebSocketCommunication.connect(address);

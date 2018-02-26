@@ -9,12 +9,14 @@ import {
 
 type StateType = {
   users_name: string,
-  websocket_address: string
+  websocket_address: string,
+  connection_status: 0 | 1 | 2
 };
 
 const defaultState: StateType = {
   users_name: '',
-  websocket_address: ''
+  websocket_address: '',
+  connection_status: 0
 };
 
 const reducer = (state: StateType = defaultState, action: Object) => {
@@ -29,6 +31,11 @@ const reducer = (state: StateType = defaultState, action: Object) => {
     /* set configuration token */
     case SET_WEBSOCKET_ADDRESS:
       new_state.websocket_address = action.websocket_address;
+      break;
+
+    /* set connection status */
+    case SET_CONNECTION_STATUS:
+      new_state.connection_status = action.connection_status;
       break;
 
     /* reset configuration */

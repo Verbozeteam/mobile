@@ -7,7 +7,7 @@ import { Colors, TypeFaces } from '../../constants/styles';
 
 type PropsType = {
   name: string,
-  connection_status: 0 | 1 | 2
+  connectionStatus: 0 | 1 | 2
 };
 
 type StateType = {};
@@ -15,15 +15,28 @@ type StateType = {};
 export default class WelcomeBanner extends Component<PropsType, StateType> {
 
   static defaultProps = {
-    connection_status: 0
+    connectionStatus: 0
   };
 
   renderConnectionStatus() {
-    const { connection_status } = this.props;
+    const { connectionStatus } = this.props;
+
+    var backgroundColor: string = '';
+    switch (connectionStatus) {
+      case 0:
+        backgroundColor = Colors.red;
+        break;
+      case 1:
+        backgroundColor = Colors.orange;
+        break;
+      case 2:
+        backgroundColor = Colors.green;
+        break;
+    }
 
     return (
       <View style={styles.connection_status_container}>
-        <View style={styles.connection_status}></View>
+        <View style={[styles.connection_status, {backgroundColor}]}></View>
       </View>
     );
   }
@@ -61,7 +74,6 @@ const styles = StyleSheet.create({
   connection_status: {
     height: 10,
     width: 10,
-    backgroundColor: Colors.red,
     borderRadius: 20
   }
 });
