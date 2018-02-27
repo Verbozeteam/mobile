@@ -40,7 +40,6 @@ export default class RoomsTopTabBar extends React.Component<PropsType, StateType
         requestAnimationFrame(() => initialScrollToTab());
       }
     }
-
     initialScrollToTab();
   }
 
@@ -76,13 +75,11 @@ export default class RoomsTopTabBar extends React.Component<PropsType, StateType
             position = this._scroll_view_width - this._screen_width;
           }
         }
-
         this._positions[index] = position;
       } else {
         requestAnimationFrame(() => alignTab());
       }
     }
-
     alignTab();
   }
 

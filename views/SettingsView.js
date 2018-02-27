@@ -1,7 +1,8 @@
 /* @flow */
 
 import React, { Component } from 'react';
-import { Button, View, Text, StyleSheet, SafeAreaView } from 'react-native';
+import { Button, View, Text, StyleSheet, SafeAreaView, AsyncStorage }
+  from 'react-native';
 import { connect } from 'react-redux';
 
 import { resetConfiguration } from '../actions/ConfigurationActions';
@@ -40,8 +41,9 @@ class SettingsView extends Component<PropsType, StateType> {
   reset() {
     const { resetConfiguration } = this.props;
     resetConfiguration();
-    WebSocketCommunication.disconnect();
+    WebSocketCommunication.reset();
     ConfigManager.reset();
+    AsyncStorage.clear();
   }
 
   render() {

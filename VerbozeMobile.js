@@ -105,9 +105,9 @@ class VerbozeMobile extends Component<PropsType, StateType> {
       console.log('WebSocket connected');
 
       // if (__DEV__) {
-      ConfigManager.onMiddlewareUpdate(dummy_config);
+      // ConfigManager.onMiddlewareUpdate(dummy_config);
       // } else {
-        // WebSocketCommunication.sendMessage({code: this._configuration_code});
+        WebSocketCommunication.sendMessage({code: this._configuration_code});
       // }
       setConnectionStatus(1);
     });
