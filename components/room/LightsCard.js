@@ -24,6 +24,7 @@ import CardRow from './CardRow';
 import Divider from './Divider';
 
 type PropsType = {
+  name: string,
   lights: Array<ThingMetadataType>,
   presets?: Array<PresetType>
 };
@@ -115,8 +116,10 @@ export default class LightsCard extends Component<PropsType, StateType> {
   }
 
   render() {
+    const { name } = this.props;
+
     return (
-      <ControlCard title={ 'Lights' }
+      <ControlCard title={name}
         background={ this._background }>
         { this._renderLightControls() }
       </ControlCard>

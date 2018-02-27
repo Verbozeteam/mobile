@@ -51,24 +51,33 @@ export default class RoomControls extends Component<PropsType, StateType> {
     }
 
     return groupCategory;
-
   }
 
-  _renderLightsCard(index: number, things: Array<ThingMetadataType>, presets?: Array<PresetType> = [] ) {
+  _renderLightsCard(index: number, name: string,
+    things: Array<ThingMetadataType>, presets?: Array<PresetType> = [] ) {
+
     return (
-      <LightsCard key={ index } lights={ things } presets={ presets } />
+      <LightsCard key={index}
+        name={name}
+        lights={things}
+        presets={presets} />
     );
   }
 
   _renderThermostatCard(index: number, meta: Array<ThingMetadataType>) {
     return (
-      <ThermostatCard key={ index } meta={meta[0]} />
+      <ThermostatCard key={index}
+        meta={meta[0]} />
     );
   }
 
-  _renderCurtainCard(index: number, meta: Array<ThingMetadataType>) {
+  _renderCurtainCard(index: number, name: string,
+    meta: Array<ThingMetadataType>) {
+
     return (
-      <CurtainsCard key={ index } meta={meta}/>
+      <CurtainsCard key={index}
+        name={name}
+        meta={meta} />
     );
   }
 
@@ -77,7 +86,10 @@ export default class RoomControls extends Component<PropsType, StateType> {
 
     const roomGroups = room.groups;
 
-    var availableControlGroups = [];
+    const light_controls = [];
+    const curtain_controls = [];
+    const thermostat_controls = [];
+
     for (var i = 0; i < roomGroups.length; i++) {
       var group: GroupType = roomGroups[i];
       var groupCategory = null;
@@ -89,26 +101,26 @@ export default class RoomControls extends Component<PropsType, StateType> {
         switch(groupCategory) {
           case 'light_switches':
             if (typeof group.presets !== 'undefined') {
-              availableControlGroups.push(this._renderLightsCard(i, cleanedGroupThings, group.presets));
+              light_controls.push(this._renderLightsCard(i, group.name,
+                cleanedGroupThings, group.presets));
             }
             else{
-              availableControlGroups.push(this._renderLightsCard(i, cleanedGroupThings));
+              light_controls.push(this._renderLightsCard(i, group.name,
+                cleanedGroupThings));
             }
             break;
-          case 'central_acs':
-            availableControlGroups.push(this._renderThermostatCard(i, cleanedGroupThings));
-            break;
           case 'curtains':
-            availableControlGroups.push(this._renderCurtainCard(i, cleanedGroupThings));
+            curtain_controls.push(this._renderCurtainCard(i, group.name,
+              cleanedGroupThings));
+            break;
+          case 'central_acs':
+            thermostat_controls.push(this._renderThermostatCard(i, cleanedGroupThings));
             break;
         }
-
       }
-
     }
 
-    return availableControlGroups;
-
+    return [].concat(light_controls, curtain_controls, thermostat_controls);
   }
 
   changeScrolling(should_scroll: boolean) {

@@ -16,6 +16,7 @@ import Divider from './Divider';
 import CurtainControl from './CurtainControl';
 
 type PropsType = {
+  name: string,
   meta: Array<ThingMetadataType>
 };
 
@@ -104,7 +105,7 @@ export default class CurtainsCard extends Component<PropsType, StateType> {
   }
 
   render() {
-    const { meta } = this.props;
+    const { meta, name } = this.props;
 
     const curtain_controls = [];
     for (var i = 0; i < meta.length; i++) {
@@ -112,7 +113,7 @@ export default class CurtainsCard extends Component<PropsType, StateType> {
     }
 
     return (
-      <ControlCard title={'Curtains'}
+      <ControlCard title={name}
         background={this._background}>
 
         {this.renderCurtain(meta, 'All', meta.length)}
