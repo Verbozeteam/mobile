@@ -83,7 +83,7 @@ class WelcomeView extends Component<PropsType, StateType> {
   submitName(evt: Object) {
     const { navigation, setUsersName } = this.props;
 
-    const users_name = evt.nativeEvent.text;
+    const users_name = evt.nativeEvent.text.trim();
 
     /* save name to AsyncStorage */
     try {

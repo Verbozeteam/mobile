@@ -104,11 +104,8 @@ class VerbozeMobile extends Component<PropsType, StateType> {
     WebSocketCommunication.setOnConnected(() => {
       console.log('WebSocket connected');
 
-      // if (__DEV__) {
       // ConfigManager.onMiddlewareUpdate(dummy_config);
-      // } else {
-        WebSocketCommunication.sendMessage({code: this._configuration_code});
-      // }
+      WebSocketCommunication.sendMessage({code: this._configuration_code});
       setConnectionStatus(1);
     });
 
@@ -189,7 +186,6 @@ class VerbozeMobile extends Component<PropsType, StateType> {
 
   checkConfigurationCompleted(): boolean {
     const { users_name, websocket_address } = this.props;
-    console.log(users_name, websocket_address);
 
     if (users_name && typeof users_name == 'string' &&
       websocket_address && typeof websocket_address == 'string') {
