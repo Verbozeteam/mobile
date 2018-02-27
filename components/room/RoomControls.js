@@ -1,12 +1,15 @@
 /* @flow */
 
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Dimensions, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, Dimensions, ScrollView, Platform }
+  from 'react-native';
 import PropTypes from 'prop-types';
 
 import { ConfigManager } from '../../js-api-utils/ConfigManager';
 import type { RoomType, GroupType, ThingMetadataType, PresetType } from '../../js-api-utils/ConfigManager';
 import { TypeFaces } from '../../constants/styles';
+
+import { ifIphoneX } from 'react-native-iphone-x-helper'
 
 import LightsCard from './LightsCard';
 import ThermostatCard from './ThermostatCard';
@@ -26,8 +29,10 @@ export default class RoomControls extends Component<PropsType, StateType> {
     should_scroll: true
   };
 
-  _screen_width = Dimensions.get('screen').width;
-  _screen_height = Dimensions.get('screen').height
+  _screen_width: number = Dimensions.get('screen').width;
+  _screen_height: number = Dimensions.get('screen').height
+
+  _tabbar_height: number = (Platform.OS == 'ios') ? ifIphoneX(83, 49) : 0;
 
   _supportedCategoryGroupType = {
     'light_switches': 'light_switches',
@@ -140,7 +145,7 @@ export default class RoomControls extends Component<PropsType, StateType> {
           scrollEnabled={should_scroll}
           style={[styles.container, {width: this._screen_width}]}>
           { this._renderAvailableControlGroups(room) }
-          <View style={{height: this._screen_height / 3}}></View>
+          <View style={{height: this._tabbar_height}}></View>
         </ScrollView>
     );
   }
