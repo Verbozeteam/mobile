@@ -13,6 +13,8 @@ import { setUsersName, setWebSocketAddress, setConnectionStatus }
 import MainNavigator from './navigation/MainNavigator';
 import FirstConfigureStack from './navigation/FirstConfigureStack';
 
+import { dummy_config } from './dummy_config';
+
 type PropsType = {
   users_name: string,
   websocket_address: string,
@@ -66,6 +68,7 @@ class VerbozeMobile extends Component<PropsType, StateType> {
     }
 
     ConfigManager.initialize(WebSocketCommunication);
+    ConfigManager.setOnConfigReceived(this.configurationReceived.bind(this));
 
     /* get user's name, websocket address and cached configuration */
     this.getUsersName();
@@ -87,14 +90,26 @@ class VerbozeMobile extends Component<PropsType, StateType> {
     this._unsubscribe();
   }
 
+  configurationReceived() {
+    const { setConnectionStatus } = this.props;
+
+    /* update connection status */
+    setConnectionStatus(2);
+  }
+
   setupWebSocketCommunication() {
     const { setConnectionStatus } = this.props;
 
-    /* request {code: 0} once connected and updated connection status*/
+    /* request {code: 0} once connected */
     WebSocketCommunication.setOnConnected(() => {
       console.log('WebSocket connected');
-      WebSocketCommunication.sendMessage({code: this._configuration_code});
-      setConnectionStatus(2);
+
+      // if (__DEV__) {
+      ConfigManager.onMiddlewareUpdate(dummy_config);
+      // } else {
+        // WebSocketCommunication.sendMessage({code: this._configuration_code});
+      // }
+      setConnectionStatus(1);
     });
 
     WebSocketCommunication.setOnDisconnected(() => {
@@ -174,6 +189,7 @@ class VerbozeMobile extends Component<PropsType, StateType> {
 
   checkConfigurationCompleted(): boolean {
     const { users_name, websocket_address } = this.props;
+    console.log(users_name, websocket_address);
 
     if (users_name && typeof users_name == 'string' &&
       websocket_address && typeof websocket_address == 'string') {

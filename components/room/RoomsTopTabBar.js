@@ -27,18 +27,21 @@ export default class RoomsTopTabBar extends React.Component<PropsType, StateType
     const rooms: Array<RoomType> = ConfigManager.rooms;
     const { selectedIndex } = this.props;
 
-    this._positions = new Array(rooms.length);
+    this._positions = new Array(rooms.length).fill(-1, 0, rooms.length);
 
-    /* first render - get width of ScrollView */
-    requestAnimationFrame(() => {
-      /* second render - calculate positions of tabs (uses ScrollView width) */
-      requestAnimationFrame(() => {
-        /* third render - scroll ScrollView to position selected tab */
-        requestAnimationFrame(() => {
-          this.scrollToTab(selectedIndex, false);
-        })
-      });
-    });
+    /* perform initial scroll after positions of all tabs calculated */
+    const initialScrollToTab = () => {
+      const positions_complete: boolean = this._positions.reduce(
+        (acc: boolean, curr: number) => acc && (curr != -1), true);
+
+      if (positions_complete) {
+        this.scrollToTab(selectedIndex, false);
+      } else {
+        requestAnimationFrame(() => initialScrollToTab());
+      }
+    }
+
+    initialScrollToTab();
   }
 
   componentWillReceiveProps(nextProps: PropsType) {
@@ -46,24 +49,41 @@ export default class RoomsTopTabBar extends React.Component<PropsType, StateType
     this.scrollToTab(selectedIndex);
   }
 
+  componentDidUpdate() {
+    this._first_render = false;
+  }
+
   measureTab(evt: Event, index: number) {
-    /* align position of tab to middle of the screen for scrolls */
+    /* position of tab relative to center of the screen*/
     var position = evt.nativeEvent.layout.x +
       (evt.nativeEvent.layout.width / 2) - (this._screen_width / 2);
 
-    requestAnimationFrame(() => {
-      /* if most left, align to left of screen rather than middle */
-      if (position < 0) {
-        position = 0;
-      }
 
-      /* if most right, align to right of sreen rather than middle */
-      if (position > this._scroll_view_width - this._screen_width) {
-        position = this._scroll_view_width - this._screen_width;
-      }
+    const alignTab = () => {
+      if (this._scroll_view_width != -1) {
+        /* if scroll view shorter than screen width, don't scroll to any tab */
+        if (this._scroll_view_width <= this._screen_width) {
+          position = 0;
+        }
+        else {
+          /* if most left, align to left of screen rather than middle */
+          if (position < 0) {
+            position = 0;
+          }
 
-      this._positions[index] = position;
-    });
+          /* if most right, align to right of screen rather than middle */
+          if (position > this._scroll_view_width - this._screen_width) {
+            position = this._scroll_view_width - this._screen_width;
+          }
+        }
+
+        this._positions[index] = position;
+      } else {
+        requestAnimationFrame(() => alignTab());
+      }
+    }
+
+    alignTab();
   }
 
   scrollToTab(index: number, animated?: boolean = true) {
