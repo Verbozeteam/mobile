@@ -4,6 +4,8 @@ import React, { Component } from 'react';
 import { View, Text, StyleSheet, Dimensions } from 'react-native';
 import PropTypes from 'prop-types';
 
+import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
+
 import CardRow from './CardRow';
 
 import { Colors, TypeFaces } from '../../constants/styles';
@@ -83,6 +85,7 @@ export default class LightDimmer extends Component<PropsType, StateType> {
         <CardRow style={styles.container}>
           <MagicButton
             onPress={() => this.changeIntensity(intensity == 0 ? 100 : 0)}
+            haptic={() => ReactNativeHapticFeedback.trigger('impactMedium')}
             width={ 45 }
             height={ 45 }
             isOn={ intensity }
@@ -103,7 +106,8 @@ export default class LightDimmer extends Component<PropsType, StateType> {
             blockParentScroll={blockParentScroll}
             unblockParentScroll={unblockParentScroll}
             round={ (value: number) => Math.round(value) }
-            onChange={ (_intensity) => this.changeIntensity(_intensity) }
+            onChange={(_intensity) => this.changeIntensity(_intensity)}
+            haptic={() => ReactNativeHapticFeedback.trigger('impactMedium')}
           />
         </CardRow>
       </View>

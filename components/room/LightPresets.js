@@ -4,6 +4,8 @@ import * as React from 'react';
 import { Component } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
+import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
+
 import { Colors, TypeFaces } from '../../constants/styles';
 
 import MagicButton from '../../react-components/MagicButton';
@@ -94,6 +96,7 @@ export default class LightPresets extends Component<PropsType, StateType> {
         <MagicButton
           key={ 'presetbutton-' + i }
           onPress={() => this.activatePreset(presets[index])}
+          haptic={() => ReactNativeHapticFeedback.trigger('impactMedium')}
           isOn={ currentPreset === index }
           text={ i + 1 }
           textStyle={TypeFaces.magic_button}

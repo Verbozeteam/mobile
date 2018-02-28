@@ -15,8 +15,6 @@ import LightPresets from './LightPresets';
 
 import { Colors, TypeFaces } from '../../constants/styles';
 
-import MagicButton from '../../react-components/MagicButton';
-
 import type { RoomType, GroupType, ThingMetadataType, PresetType } from '../../js-api-utils/ConfigManager';
 
 import ControlCard from './ControlCard';

@@ -3,6 +3,8 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
+import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
+
 import { Colors, TypeFaces } from '../../constants/styles';
 
 import MagicButton from '../../react-components/MagicButton';
@@ -29,6 +31,7 @@ export default class CurtainControl extends Component<PropsType, StateType> {
         <View style={styles.controls}>
           <MagicButton text={'Open'}
             onPressIn={open}
+            haptic={ReactNativeHapticFeedback.trigger('impactMedium')}
             onPressOut={stop}
             width={80}
             extraStyle={{marginRight: 2.5}}
@@ -37,6 +40,7 @@ export default class CurtainControl extends Component<PropsType, StateType> {
             glowColor={Colors.red} />
           <MagicButton text={'Close'}
             onPressIn={close}
+            haptic={ReactNativeHapticFeedback.trigger('impactMedium')}
             onPressOut={stop}
             width={80}
             extraStyle={{marginRight: 5}}
@@ -46,6 +50,7 @@ export default class CurtainControl extends Component<PropsType, StateType> {
           <MagicButton icon={this._stop_icon}
             iconStyle={{}}
             onPress={stop}
+            haptic={() => ReactNativeHapticFeedback.trigger('impactMedium')}
             offColor={Colors.gray}
             glowColor={Colors.red} />
         </View>
