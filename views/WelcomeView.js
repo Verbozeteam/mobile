@@ -50,6 +50,9 @@ class WelcomeView extends Component<PropsType, StateType> {
     /* initialize animation variables */
     this._welcome_input_flex = new Animated.Value(0);
     this._welcome_input_opacity = new Animated.Value(0);
+
+    /* reset AsyncStorage */
+    AsyncStorage.clear();
   }
 
   componentDidMount() {

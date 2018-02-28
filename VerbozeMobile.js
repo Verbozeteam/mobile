@@ -148,7 +148,9 @@ class VerbozeMobile extends Component<PropsType, StateType> {
     WebSocketCommunication.setOnConnected(() => {
       console.log('WebSocket connected');
 
-      ConfigManager.onMiddlewareUpdate(dummy_config);
+      if (__DEV__) {
+        ConfigManager.onMiddlewareUpdate(dummy_config);
+      }
 
       /* request configuration on connect - and request every 5 seconds until
          received */
