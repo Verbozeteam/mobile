@@ -1,7 +1,7 @@
 /* @flow */
 
 import React, { Component } from 'react';
-import { StatusBar, Platform, AsyncStorage } from 'react-native';
+import { AppState, StatusBar, Platform, AsyncStorage } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 import { connect } from 'react-redux';
 
@@ -18,18 +18,22 @@ import { dummy_config } from './dummy_config';
 type PropsType = {
   users_name: string,
   websocket_address: string,
+  connection_status: 0 | 1 | 2,
 
   setUsersName: (users_name: string) => void,
   setWebSocketAddress: (websocket_address: string) => void,
   setConnectionStatus: (connection_status: 0 | 1 | 2) => void
 };
 
-type StateType = {};
+type StateType = {
+  appState: string
+};
 
 const mapStateToProps = (state: Object) => {
   return {
     users_name: state.configuration.users_name,
     websocket_address: state.configuration.websocket_address,
+    connection_status: state.configuration.connection_status
   };
 };
 
@@ -47,6 +51,10 @@ const mapDispatchToProps = (dispatch: Function) => {
 };
 
 class VerbozeMobile extends Component<PropsType, StateType> {
+
+  state = {
+    appState: AppState.currentState
+  };
 
   _unsubscribe: () => boolean = () => false;
 
@@ -80,6 +88,10 @@ class VerbozeMobile extends Component<PropsType, StateType> {
     this.setupWebSocketCommunication();
   }
 
+  componentDidMount() {
+    AppState.addEventListener('change', this.handleAppStateChange.bind(this));
+  }
+
   componentWillReceiveProps(nextProps: PropsType) {
     const { websocket_address } = nextProps;
 
@@ -89,7 +101,29 @@ class VerbozeMobile extends Component<PropsType, StateType> {
   }
 
   componentWillUnmount() {
+    AppState.removeEventListener('change', this.handleAppStateChange.bind(this));
     this._unsubscribe();
+  }
+
+  handleAppStateChange(nextAppState: string) {
+    const { connection_status, websocket_address } = this.props;
+    const { appState } = this.state;
+
+    /* check if app moved from inactive or background to foreground */
+    if (appState && appState.match(/inactive|background/) &&
+      nextAppState === 'active') {
+      console.log('app moved to foreground');
+
+      /* if WebSocket not connected, connect immediately */
+      if (connection_status < 1) {
+        console.log('app state invoked websocket connection.')
+        this.connectWebSocket(websocket_address);
+      }
+    }
+
+    this.setState({
+      appState: nextAppState
+    });
   }
 
   requestConfiguration() {
@@ -114,7 +148,7 @@ class VerbozeMobile extends Component<PropsType, StateType> {
     WebSocketCommunication.setOnConnected(() => {
       console.log('WebSocket connected');
 
-      // ConfigManager.onMiddlewareUpdate(dummy_config);
+      ConfigManager.onMiddlewareUpdate(dummy_config);
 
       /* request configuration on connect - and request every 5 seconds until
          received */
@@ -142,6 +176,7 @@ class VerbozeMobile extends Component<PropsType, StateType> {
     setConnectionStatus(1);
 
     try {
+      WebSocketCommunication.disconnect();
       WebSocketCommunication.connect(address);
     } catch (err) {
       console.log('WebSocketCommunication failed to connect', err);

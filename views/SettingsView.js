@@ -55,6 +55,7 @@ class SettingsView extends Component<PropsType, StateType> {
       {
         data: [
           {
+            key: 'users_name',
             title: users_name,
             action: () => navigation.navigate('ChangeName')
           }
@@ -62,32 +63,17 @@ class SettingsView extends Component<PropsType, StateType> {
       }, {
         data: [
           {
+            key: 'configure',
             title: 'Configure',
             action: () => navigation.navigate('Configure')
           }, {
+            key: 'reset',
             title: 'Reset',
             action: this.reset.bind(this)
           }
         ]
       }
     ];
-
-    // const sections = [
-    //   [
-    //     {
-    //       title: users_name,
-    //       action: () => navigation.navigate('ChangeName')
-    //     }
-    //   ], [
-    //     {
-    //       title: 'Configure',
-    //       action: () => navigation.navigate('Configure')
-    //     }, {
-    //       title: 'Reset',
-    //       action: () => this.reset()
-    //     }
-    //   ]
-    // ];
 
     this.setState({
       sections
@@ -111,25 +97,19 @@ class SettingsView extends Component<PropsType, StateType> {
   }
 
   renderSectionHeader(something) {
-    console.log(something);
 
-    return <Text>Section Header</Text>;
+    return <View style={styles.section_padding}></View>;
   }
 
   renderListItem(item: Object) {
-    return <Text>{item.item.title}</Text>;
+    return <Button
+      title={item.item.title}
+      onPress={item.item.action} />
   }
 
   render() {
     const { navigation } = this.props;
     const { sections } = this.state;
-
-    // <Button
-    //   title={'Configure'}
-    //   onPress={() => navigation.navigate('Configure')} />
-    // <Button
-    //   title={'Reset'}
-    //   onPress={() => this.reset()} />
 
     return (
       <LinearGradient colors={Gradients.background_dark}
@@ -151,6 +131,9 @@ class SettingsView extends Component<PropsType, StateType> {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  section_padding: {
+    height: 50
   }
 });
 
