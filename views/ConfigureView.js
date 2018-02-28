@@ -15,7 +15,7 @@ import { Colors, Gradients, TypeFaces } from '../constants/styles';
 type PropsType = {
   navigation: Object,
 
-  setWebSocketAddress: (websocket_address: string) => null
+  setWebSocketAddress: (websocket_address: string) => void
 };
 
 type StateType = {
