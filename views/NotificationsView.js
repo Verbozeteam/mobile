@@ -20,7 +20,9 @@ export default class NotificationsView extends Component<PropsType, StateType> {
       <LinearGradient colors={Gradients.background_dark}
         style={styles.container}>
         <SafeAreaView>
+          <View style={{flex: 2}}></View>
           <Text style={TypeFaces.centered_header}>No notifications</Text>
+          <View style={{flex: 3}}></View>
         </SafeAreaView>
       </LinearGradient>
     );

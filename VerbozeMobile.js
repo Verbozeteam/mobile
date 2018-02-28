@@ -52,6 +52,8 @@ class VerbozeMobile extends Component<PropsType, StateType> {
 
   _configuration_code: number = 0;
 
+  _configuration_interval: IntervalID;
+
   componentWillMount() {
     this._unsubscribe =
       ConfigManager.registerConfigChangeCallback((config) => {
@@ -90,8 +92,16 @@ class VerbozeMobile extends Component<PropsType, StateType> {
     this._unsubscribe();
   }
 
+  requestConfiguration() {
+    WebSocketCommunication.sendMessage({code: this._configuration_code});
+  }
+
   configurationReceived() {
     const { setConnectionStatus } = this.props;
+
+    if (this._configuration_interval) {
+      clearInterval(this._configuration_interval);
+    }
 
     /* update connection status */
     setConnectionStatus(2);
@@ -105,7 +115,13 @@ class VerbozeMobile extends Component<PropsType, StateType> {
       console.log('WebSocket connected');
 
       // ConfigManager.onMiddlewareUpdate(dummy_config);
-      WebSocketCommunication.sendMessage({code: this._configuration_code});
+
+      /* request configuration on connect - and request every 5 seconds until
+         received */
+      this.requestConfiguration();
+      this._configuration_interval =
+        setInterval(this.requestConfiguration.bind(this), 5000);
+
       setConnectionStatus(1);
     });
 
