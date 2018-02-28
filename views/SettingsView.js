@@ -68,7 +68,6 @@ class SettingsView extends Component<PropsType, StateType> {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#000000'
   }
 });
 

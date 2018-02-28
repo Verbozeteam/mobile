@@ -1,7 +1,10 @@
 /* @flow */
 
 import React, { Component } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, SafeAreaView } from 'react-native';
+
+import LinearGradient from 'react-native-linear-gradient';
+import { Gradients, TypeFaces } from '../constants/styles';
 
 type PropsType = {};
 type StateType = {};
@@ -14,9 +17,12 @@ export default class NotificationsView extends Component<PropsType, StateType> {
 
   render() {
     return (
-      <View style={styles.container}>
-        <Text style={styles.header}>Notifications</Text>
-      </View>
+      <LinearGradient colors={Gradients.background_dark}
+        style={styles.container}>
+        <SafeAreaView>
+          <Text style={TypeFaces.centered_header}>No notifications</Text>
+        </SafeAreaView>
+      </LinearGradient>
     );
   }
 }
@@ -24,13 +30,7 @@ export default class NotificationsView extends Component<PropsType, StateType> {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#000000'
-  },
-  header: {
-    position: 'absolute',
-    bottom: '50%',
-    color: '#FFFFFF',
-    width: '100%',
-    textAlign: 'center',
+    justifyContent: 'center',
+    alignItems: 'center'
   }
 });
