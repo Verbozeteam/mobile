@@ -30,7 +30,7 @@ public class MainApplication extends Application implements ReactApplication {
           new RNCameraPackage(),
           new BlurViewPackage(),
           new LinearGradientPackage(),
-          new SvgPackage(),
+          new SvgPackage()
       );
     }
 
