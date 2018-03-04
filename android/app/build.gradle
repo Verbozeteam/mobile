@@ -149,7 +149,6 @@ dependencies {
     compile project(':react-native-blur')
     compile project(':react-native-linear-gradient')
     compile project(':react-native-svg')
-    compile project(':react-native-haptic-feedback')
     compile (project(':react-native-camera')) {
       exclude group: "com.android.support"
     }
