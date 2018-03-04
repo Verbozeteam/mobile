@@ -1,16 +1,16 @@
 /* @flow */
 
-import React, { Component } from 'react';
-import { AsyncStorage, View, SafeAreaView, Text, Dimensions, StyleSheet }
+import * as React from 'react';
+import { View, Text, Button, SafeAreaView, Dimensions, StyleSheet }
   from 'react-native';
 import { connect } from 'react-redux';
 
+import LocalStorage from '../js-api-utils/LocalStorage';
 import { setWebSocketAddress } from '../actions/ConfigurationActions';
 
 import LinearGradient from 'react-native-linear-gradient';
-import QRCodeScanner from 'react-native-qrcode-scanner';
-
 import { Colors, Gradients, TypeFaces } from '../constants/styles';
+import QRCodeScanner from 'react-native-qrcode-scanner';
 
 type PropsType = {
   navigation: Object,
@@ -19,7 +19,8 @@ type PropsType = {
 };
 
 type StateType = {
-  connecting: boolean
+  connecting: boolean,
+  reattempt: boolean,
 };
 
 const mapStateToProps = (state: Object) => {
@@ -33,11 +34,15 @@ const mapDispatchToProps = (dispatch: Function) => {
   };
 };
 
-class ConfigureView extends Component<PropsType, StateType> {
+class ConfigureView extends React.Component<PropsType, StateType> {
 
   state = {
-    connecting: false
+    connecting: false,
+    reattempt: false,
   };
+
+  /* QR code scanner node reference */
+  _qr_code_scanner: React.Ref<QRCodeScanner>;
 
   _camera_view_dimensions: {height: number, width: number};
 
@@ -48,31 +53,80 @@ class ConfigureView extends Component<PropsType, StateType> {
       height: screen_width * 0.9,
       width: screen_width * 0.9
     };
+  }
 
-    if (__DEV__) {
-      this.onRead({data: 'wss://www.verboze.com/stream/35b4d595ef074543a2fa686650024d98/'});
-    }
+  componentDidMount() {
+    console.log('ConfigureView mounted');
+  }
+
+  componentWillUnmount() {
+    console.log('ConfigureView will unmount');
   }
 
   onRead(evt: Object) {
     const { setWebSocketAddress } = this.props;
-    const token = evt.data;
+    const websocket_address = evt.data;
 
-    /* save token to AsyncStorage */
-    try {
-      AsyncStorage.setItem('@websocket_address', token, () => {
-        setWebSocketAddress(token);
+    console.log('onRead', websocket_address);
+
+    if (!this.validateWss(websocket_address)) {
+      this._qr_code_scanner.reactivate();
+      this.setState({
+        reattempt: true
+      });
+
+      return;
+    }
+
+    LocalStorage.store(LocalStorage.keys.websocket_address, websocket_address,
+      () => {
+        setWebSocketAddress(websocket_address);
 
         this.setState({
           connecting: true
         });
       });
-    } catch (err) {
-      console.error(err);
+  }
+
+  validateWss(address): boolean {
+    // TODO: this can be improved?
+    const wss_index = address.indexOf('wss://');
+    const ws_index = address.indexOf('ws://');
+
+    if (wss_index === 0 || ws_index === 0) {
+      return true;
     }
+
+    return false;
+  }
+
+  forceRead() {
+    this.onRead({data:
+      'wss://www.verboze.com/stream/1a30e451f3d84477b0db422e77db08ac/'});
+  }
+
+  renderCameraPermissionView() {
+    return (
+      <View style={styles.container}>
+        <Text style={TypeFaces.centered_header}>
+          Please give the camera permission.
+        </Text>
+      </View>
+    );
   }
 
   renderCameraView() {
+    const { reattempt } = this.state;
+
+    var reattempt_text = null;
+    if (reattempt) {
+      reattempt_text = (
+        <Text style={styles.helper_text}>
+          Please try again
+        </Text>
+      );
+    }
+
     /* create camera style allowing for padding for camera view borders */
     const camera_style = {
       height: this._camera_view_dimensions.height - 2,
@@ -84,10 +138,20 @@ class ConfigureView extends Component<PropsType, StateType> {
         <Text style={TypeFaces.centered_header}>Configure</Text>
         <View style={styles.camera_view_container}>
           <View style={this._camera_view_dimensions}>
-            <QRCodeScanner onRead={this.onRead.bind(this)}
+            <QRCodeScanner ref={(c) => this._qr_code_scanner = c}
+              reactivate={true}
+              reactivateTimeout={1000}
+              notAuthorizedView={this.renderCameraPermissionView()}
+              onRead={this.onRead.bind(this)}
               containerStyle={styles.camera_view}
               cameraStyle={camera_style} />
           </View>
+        </View>
+        <View style={styles.helper_text_container}>
+          {reattempt_text}
+          <Text style={styles.helper_text}>
+            Scan the QR code on a tablet on one of your walls
+          </Text>
         </View>
       </SafeAreaView>
     );
@@ -111,10 +175,19 @@ class ConfigureView extends Component<PropsType, StateType> {
       content = this.renderCameraView();
     }
 
+    var force_read_button = null;
+    if (__DEV__) {
+      force_read_button = (
+        <Button title={'Force Read'}
+          onPress={this.forceRead.bind(this)} />
+      );
+    }
+
     return (
       <LinearGradient colors={Gradients.background_dark}
         style={styles.container}>
         {content}
+        {force_read_button}
       </LinearGradient>
     );
   }
@@ -142,7 +215,7 @@ const styles = StyleSheet.create({
   helper_text_container: {
     marginTop: 20,
     width: '100%',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   helper_text: {
     ...TypeFaces.regular,

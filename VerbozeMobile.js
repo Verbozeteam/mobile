@@ -1,19 +1,20 @@
 /* @flow */
 
 import React, { Component } from 'react';
-import { AppState, StatusBar, Platform, AsyncStorage } from 'react-native';
-import { StackNavigator } from 'react-navigation';
+import { AppState, StatusBar, Platform } from 'react-native';
 import { connect } from 'react-redux';
 
+import LocalStorage from './js-api-utils/LocalStorage';
 import { ConfigManager } from './js-api-utils/ConfigManager';
 import { WebSocketCommunication } from './js-api-utils/WebSocketCommunication';
 import { setUsersName, setWebSocketAddress, setConnectionStatus }
   from './actions/ConfigurationActions';
 
+import { Colors } from './constants/styles';
+
+import LaunchScreenView from './views/LaunchScreenView';
 import MainNavigator from './navigation/MainNavigator';
 import FirstConfigureStack from './navigation/FirstConfigureStack';
-
-import { dummy_config } from './dummy_config';
 
 type PropsType = {
   users_name: string,
@@ -26,7 +27,11 @@ type PropsType = {
 };
 
 type StateType = {
-  appState: string
+  app_state: string,
+
+  loading_status: {
+    [string]: boolean
+  }
 };
 
 const mapStateToProps = (state: Object) => {
@@ -53,88 +58,126 @@ const mapDispatchToProps = (dispatch: Function) => {
 class VerbozeMobile extends Component<PropsType, StateType> {
 
   state = {
-    appState: AppState.currentState
+    app_state: AppState.currentState || '',
+    loading_status: {
+      users_name: false,
+      websocket_address: false,
+      cached_configuration: false
+    }
   };
 
   _unsubscribe: () => boolean = () => false;
 
+  /* code sent over WebSocket to receive configuration */
   _configuration_code: number = 0;
 
-  _configuration_interval: IntervalID;
+  /* interval for resending configuration code */
+  _configuration_resend_interval: IntervalID;
 
   componentWillMount() {
+    const { setUsersName, setWebSocketAddress } = this.props;
+
     this._unsubscribe =
       ConfigManager.registerConfigChangeCallback((config) => {
-        this.setCachedConfiguration(JSON.stringify(config));
-        this.forceUpdate();
+        LocalStorage.store(LocalStorage.keys.cached_configuration,
+          JSON.stringify(config), this.forceUpdate.bind(this));
       });
 
-    /* set status bar color to light */
-    Platform.OS === 'ios' ? StatusBar.setBarStyle('light-content', true) : StatusBar.setBackgroundColor('#1E1E1E');
-
-    /* clear all AsyncStorage for development purposes */
     if (__DEV__) {
-      // AsyncStorage.clear();
+      // LocalStorage.reset();
     }
 
+    /* set status bar color to light */
+    Platform.OS === 'ios' ?
+      StatusBar.setBarStyle('light-content', true) :
+      StatusBar.setBackgroundColor(Colors.blackish);
+
+    /* set up ConfigManager */
     ConfigManager.initialize(WebSocketCommunication);
     ConfigManager.setOnConfigReceived(this.configurationReceived.bind(this));
 
-    /* get user's name, websocket address and cached configuration */
-    this.getUsersName();
-    this.getWebsocketAddress();
-    this.getCachedConfiguration();
-
+    /* setup WebSocket communication callbacks */
     this.setupWebSocketCommunication();
+
+    /* get user's name, WebSocket address and cached configuration */
+    LocalStorage.get(LocalStorage.keys.users_name, setUsersName,
+      () => {}, () => this.updateLoading('users_name'));
+
+    LocalStorage.get(LocalStorage.keys.websocket_address, setWebSocketAddress,
+      () => {}, () => this.updateLoading('websocket_address'));
+
+    LocalStorage.get(LocalStorage.keys.cached_configuration, (config) => {
+      ConfigManager.setConfig(JSON.parse(config));
+      this.forceUpdate();
+    }, () => {}, () => this.updateLoading('cached_configuration'));
   }
 
   componentDidMount() {
+    console.log('VerbozeMobile mounted');
     AppState.addEventListener('change', this.handleAppStateChange.bind(this));
   }
 
   componentWillReceiveProps(nextProps: PropsType) {
-    const { websocket_address } = nextProps;
+    console.log('componentWillReceiveProps', nextProps);
+    const { websocket_address } = this.props;
 
-    if (websocket_address && WebSocketCommunication.url !== websocket_address) {
-      this.connectWebSocket(websocket_address);
+    /* check if WebSocket address changed */
+    if (nextProps.websocket_address &&
+      nextProps.websocket_address !== websocket_address) {
+      this.connectWebSocket(nextProps.websocket_address);
     }
   }
 
   componentWillUnmount() {
+    console.log('VerbozeMobile will unmount');
     AppState.removeEventListener('change', this.handleAppStateChange.bind(this));
     this._unsubscribe();
   }
 
   handleAppStateChange(nextAppState: string) {
+    console.log('handleAppStateChange', nextAppState);
     const { connection_status, websocket_address } = this.props;
-    const { appState } = this.state;
+    const { app_state } = this.state;
 
     /* check if app moved from inactive or background to foreground */
-    if (appState && appState.match(/inactive|background/) &&
+    if (app_state && app_state.match(/inactive|background/) &&
       nextAppState === 'active') {
-      console.log('app moved to foreground');
 
       /* if WebSocket not connected, connect immediately */
       if (connection_status < 1) {
-        console.log('app state invoked websocket connection.')
         this.connectWebSocket(websocket_address);
       }
     }
 
     this.setState({
-      appState: nextAppState
+      app_state: nextAppState
+    });
+  }
+
+  updateLoading(key: string) {
+    console.log('updateLoading', key);
+    const { loading_status } = this.state;
+
+    loading_status[key] = true;
+
+    this.setState({
+      loading_status
     });
   }
 
   requestConfiguration() {
+    console.log('requestConfiguration');
+    /* send request configuration message */
     WebSocketCommunication.sendMessage({code: this._configuration_code});
   }
 
   configurationReceived() {
+    console.log('configurationReceived');
     const { setConnectionStatus } = this.props;
 
-    if (this._configuration_interval) {
-      clearInterval(this._configuration_interval);
+    /* remove configuration request resend interval */
+    if (this._configuration_resend_interval) {
+      clearInterval(this._configuration_resend_interval);
     }
 
     /* update connection status */
@@ -142,21 +185,21 @@ class VerbozeMobile extends Component<PropsType, StateType> {
   }
 
   setupWebSocketCommunication() {
+    console.log('setupWebSocketCommunication');
     const { setConnectionStatus } = this.props;
 
-    /* request {code: 0} once connected */
+    /* request configuration once connected */
     WebSocketCommunication.setOnConnected(() => {
       console.log('WebSocket connected');
 
-      if (__DEV__) {
-        ConfigManager.onMiddlewareUpdate(dummy_config);
-      }
-
-      /* request configuration on connect - and request every 5 seconds until
+      /* request configuration on connect - request every 5 seconds until
          received */
-      this.requestConfiguration();
-      this._configuration_interval =
+      if (this._configuration_resend_interval) {
+        clearInterval(this._configuration_resend_interval);
+      }
+      this._configuration_resend_interval =
         setInterval(this.requestConfiguration.bind(this), 5000);
+      this.requestConfiguration();
 
       setConnectionStatus(1);
     });
@@ -173,71 +216,26 @@ class VerbozeMobile extends Component<PropsType, StateType> {
   }
 
   connectWebSocket(address: string) {
+    console.log('connectWebSocket', address);
     const { setConnectionStatus } = this.props;
 
     setConnectionStatus(1);
 
     try {
-      WebSocketCommunication.disconnect();
+      if (WebSocketCommunication.is_connected) {
+        WebSocketCommunication.disconnect();
+      }
+
       WebSocketCommunication.connect(address);
-    } catch (err) {
-      console.log('WebSocketCommunication failed to connect', err);
     }
-  }
 
-  async getUsersName() {
-    const { setUsersName } = this.props;
-
-    /* get user's name from AsyncStorage and set to state if exists */
-    try {
-      const users_name = await AsyncStorage.getItem('@users_name');
-      if (users_name !== null) {
-        setUsersName(users_name);
-      }
-    } catch (err) {
-      console.log(err);
-    }
-  }
-
-  async getWebsocketAddress() {
-    const { setWebSocketAddress } = this.props;
-
-    /* get configuration token from AsyncStorage and set to state if exist */
-    try {
-      const address = await AsyncStorage.getItem('@websocket_address');
-      if (address !== null) {
-        setWebSocketAddress(address);
-      }
-    } catch (err) {
-      console.error(err);
-    }
-  }
-
-  async getCachedConfiguration() {
-    /* get cached configuration from AsyncStorage and set ConfigManager
-      if exists */
-    try {
-      const config = await AsyncStorage.getItem('@cached_configuration');
-      if (config !== null) {
-        if (!ConfigManager.hasConfig) {
-          ConfigManager.setConfig(JSON.parse(config));
-          this.forceUpdate();
-        }
-      }
-    } catch (err) {
-      console.error(err);
-    }
-  }
-
-  setCachedConfiguration(config) {
-    try {
-      AsyncStorage.setItem('@cached_configuration', config);
-    } catch (err) {
+    catch (err) {
       console.log(err);
     }
   }
 
   checkConfigurationCompleted(): boolean {
+    console.log('checkConfigurationCompleted');
     const { users_name, websocket_address } = this.props;
 
     if (users_name && typeof users_name == 'string' &&
@@ -249,8 +247,21 @@ class VerbozeMobile extends Component<PropsType, StateType> {
     return false;
   }
 
+  checkLoadingCompleted(): boolean {
+    console.log('checkLoadingCompleted');
+    const { loading_status } = this.state;
+
+    return Object.values(loading_status).reduce(
+      (acc: boolean, curr: boolean) => acc && curr, true);
+  }
+
   render() {
     const configuration_completed = this.checkConfigurationCompleted();
+    const loading_completed = this.checkLoadingCompleted();
+
+    if (!loading_completed) {
+      return <LaunchScreenView />;
+    }
 
     if (configuration_completed && ConfigManager.hasConfig) {
       return <MainNavigator />;

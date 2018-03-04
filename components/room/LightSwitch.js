@@ -3,8 +3,6 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
-import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
-
 import MagicButton from '../../react-components/MagicButton';
 
 import { Colors, TypeFaces } from '../../constants/styles';
@@ -92,7 +90,6 @@ export default class LightSwtich extends Component<PropsType, StateType> {
           glowColor={ Colors.red_shadow }
           onColor={ Colors.red }
           onPress={ onPress }
-          haptic={() => ReactNativeHapticFeedback.trigger('impactMedium')}
           textStyle={TypeFaces.magic_button}
           sideText={!id ? "ALL" : ConfigManager.thingMetas[id].name}
           sideTextStyle={{ marginLeft: 10, lineHeight: 15, flexShrink: 1, ...TypeFaces.light_switch_label }}

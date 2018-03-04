@@ -41,7 +41,6 @@
 		537620A22043097D0060EF65 /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 537620A12043097D0060EF65 /* GameKit.framework */; };
 		537620A4204309910060EF65 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 537620A3204309910060EF65 /* StoreKit.framework */; };
 		53C0514C203476AA00FD6B7E /* libRNCamera.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 53C0514B2034758200FD6B7E /* libRNCamera.a */; };
-		53D18D5A2046F9920059DDE5 /* libRNReactNativeHapticFeedback.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 53D18D572046F96D0059DDE5 /* libRNReactNativeHapticFeedback.a */; };
 		5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		A9876D9EEDDD43F190BD2FFA /* CeraPRO-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 617E74A4D3394FFAB78991B2 /* CeraPRO-Regular.ttf */; };
@@ -337,13 +336,6 @@
 			remoteGlobalIDString = 4107012F1ACB723B00C6AA39;
 			remoteInfo = RNCamera;
 		};
-		53D18D562046F96D0059DDE5 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 53D18D282046F96D0059DDE5 /* RNReactNativeHapticFeedback.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 134814201AA4EA6300B7C361;
-			remoteInfo = RNReactNativeHapticFeedback;
-		};
 		5E9157321DD0AC6500FF2AA8 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */;
@@ -410,7 +402,6 @@
 		537620A12043097D0060EF65 /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
 		537620A3204309910060EF65 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		53C0511D2034758200FD6B7E /* RNCamera.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNCamera.xcodeproj; path = "../node_modules/react-native-camera/ios/RNCamera.xcodeproj"; sourceTree = "<group>"; };
-		53D18D282046F96D0059DDE5 /* RNReactNativeHapticFeedback.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNReactNativeHapticFeedback.xcodeproj; path = "../node_modules/react-native-haptic-feedback/ios/RNReactNativeHapticFeedback.xcodeproj"; sourceTree = "<group>"; };
 		5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAnimation.xcodeproj; path = "../node_modules/react-native/Libraries/NativeAnimation/RCTAnimation.xcodeproj"; sourceTree = "<group>"; };
 		60F23124F57141BDA0D11E31 /* libBVLinearGradient.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libBVLinearGradient.a; sourceTree = "<group>"; };
 		617E74A4D3394FFAB78991B2 /* CeraPRO-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "CeraPRO-Regular.ttf"; path = "../assets/fonts/CeraPRO-Regular.ttf"; sourceTree = "<group>"; };
@@ -436,7 +427,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				53D18D5A2046F9920059DDE5 /* libRNReactNativeHapticFeedback.a in Frameworks */,
 				53C0514C203476AA00FD6B7E /* libRNCamera.a in Frameworks */,
 				ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */,
 				5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */,
@@ -655,14 +645,6 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		53D18D292046F96D0059DDE5 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				53D18D572046F96D0059DDE5 /* libRNReactNativeHapticFeedback.a */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		5E91572E1DD0AC6500FF2AA8 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -684,7 +666,6 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
-				53D18D282046F96D0059DDE5 /* RNReactNativeHapticFeedback.xcodeproj */,
 				5322C9D4203C453C009577E4 /* RNSVG.xcodeproj */,
 				53C0511D2034758200FD6B7E /* RNCamera.xcodeproj */,
 				5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */,
@@ -949,10 +930,6 @@
 				{
 					ProductGroup = 53C0511E2034758200FD6B7E /* Products */;
 					ProjectRef = 53C0511D2034758200FD6B7E /* RNCamera.xcodeproj */;
-				},
-				{
-					ProductGroup = 53D18D292046F96D0059DDE5 /* Products */;
-					ProjectRef = 53D18D282046F96D0059DDE5 /* RNReactNativeHapticFeedback.xcodeproj */;
 				},
 				{
 					ProductGroup = 5322C9D5203C453C009577E4 /* Products */;
@@ -1241,13 +1218,6 @@
 			fileType = archive.ar;
 			path = libRNCamera.a;
 			remoteRef = 53C0514A2034758200FD6B7E /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		53D18D572046F96D0059DDE5 /* libRNReactNativeHapticFeedback.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libRNReactNativeHapticFeedback.a;
-			remoteRef = 53D18D562046F96D0059DDE5 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */ = {

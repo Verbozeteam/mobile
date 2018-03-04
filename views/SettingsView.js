@@ -1,13 +1,14 @@
 /* @flow */
 
 import React, { Component } from 'react';
-import { Button, View, Text, StyleSheet, SafeAreaView, AsyncStorage,
-  SectionList } from 'react-native';
+import { Button, View, Text, StyleSheet, SafeAreaView, SectionList }
+  from 'react-native';
 import { connect } from 'react-redux';
 
-import { resetConfiguration } from '../actions/ConfigurationActions';
+import LocalStorage from '../js-api-utils/LocalStorage';
 import { WebSocketCommunication } from '../js-api-utils/WebSocketCommunication';
 import { ConfigManager } from '../js-api-utils/ConfigManager';
+import { resetConfiguration } from '../actions/ConfigurationActions';
 
 import ConfigureView from './ConfigureView';
 import LinearGradient from 'react-native-linear-gradient';
@@ -81,6 +82,7 @@ class SettingsView extends Component<PropsType, StateType> {
   }
 
   reset() {
+    console.log('Settings reset');
     const { resetConfiguration } = this.props;
 
     /* reset Redux configurations state */
@@ -93,7 +95,7 @@ class SettingsView extends Component<PropsType, StateType> {
     ConfigManager.reset();
 
     /* reset user data stored locally */
-    AsyncStorage.clear();
+    LocalStorage.reset();
   }
 
   renderSectionHeader(something) {

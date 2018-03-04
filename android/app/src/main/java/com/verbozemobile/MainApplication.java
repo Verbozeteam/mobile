@@ -7,7 +7,6 @@ import org.reactnative.camera.RNCameraPackage;
 import com.cmcewen.blurview.BlurViewPackage;
 import com.BV.LinearGradient.LinearGradientPackage;
 import com.horcrux.svg.SvgPackage;
-import com.reactlibrary.RNReactNativeHapticFeedbackPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
@@ -32,7 +31,6 @@ public class MainApplication extends Application implements ReactApplication {
           new BlurViewPackage(),
           new LinearGradientPackage(),
           new SvgPackage(),
-          new RNReactNativeHapticFeedbackPackage()
       );
     }
 

@@ -9,6 +9,7 @@ export const Colors = {
   gray: '#707070',
   light_gray: '#D8D8D8',
   dark_gray: '#2E2E2E',
+  blackish: '#1E1E1E',
   black: '#000000',
   transparent_white: 'rgba(255, 255, 255, 0.1)',
   transparent_black: 'rgba(0, 0, 0, 0.4)',

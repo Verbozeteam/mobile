@@ -4,8 +4,6 @@ import React, { Component } from 'react';
 import { View, Image, Text, StyleSheet, Dimensions } from 'react-native';
 import PropTypes from 'prop-types';
 
-import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
-
 import { ConfigManager } from '../../js-api-utils/ConfigManager';
 import type { ThingStateType, ThingMetadataType } from '../../js-api-utils/ConfigManager';
 
@@ -120,7 +118,6 @@ export default class ThermostatCard extends Component<PropsType, StateType> {
       <CardRow>
         <View style={{marginLeft: 30}}>
           <MagicButton onPress={this.decrementTemperature.bind(this)}
-            haptic={() => ReactNativeHapticFeedback.trigger('impactMedium')}
             icon={this._minus_icon}
             iconStyle={{}}
             showBorder={false}
@@ -133,7 +130,6 @@ export default class ThermostatCard extends Component<PropsType, StateType> {
         </View>
         <View style={{marginRight: 30}}>
           <MagicButton onPress={this.incrementTemperature.bind(this)}
-            haptic={() => ReactNativeHapticFeedback.trigger('impactMedium')}
             icon={this._plus_icon}
             iconStyle={{}}
             showBorder={false}
@@ -154,7 +150,6 @@ export default class ThermostatCard extends Component<PropsType, StateType> {
         <MagicThermostatSlider width={this._screen_width - 40}
           round={this.roundTemperature.bind(this)}
           onChange={this.updateTemperature.bind(this)}
-          haptic={() => ReactNativeHapticFeedback.trigger('impactMedium')}
           margin={40}
           height={55}
           value={set_pt}
@@ -186,7 +181,6 @@ export default class ThermostatCard extends Component<PropsType, StateType> {
       speeds.push(
         <MagicButton key={'fan-speed-' + i}
           onPress={() => this.changeFan(speed)}
-          haptic={() => ReactNativeHapticFeedback.trigger('impactMedium')}
           text={fan_speeds[i]}
           textStyle={TypeFaces.magic_button}
           isOn={fan === i}

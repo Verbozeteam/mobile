@@ -1,21 +1,24 @@
 /* @flow */
 
 import React, { Component } from 'react';
-import { AsyncStorage, Animated, Dimensions, Image, View, Text, TextInput,
-  SafeAreaView, StyleSheet } from 'react-native';
+import { Animated, Dimensions, Image, View, Text, TextInput, SafeAreaView,
+  StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 
+import LocalStorage from '../js-api-utils/LocalStorage';
+import { WebSocketCommunication } from '../js-api-utils/WebSocketCommunication';
+import { ConfigManager } from '../js-api-utils/ConfigManager';
 import { setUsersName } from '../actions/ConfigurationActions';
 
-import LinearGradient from 'react-native-linear-gradient';
 
+import LinearGradient from 'react-native-linear-gradient';
 import { Colors, Gradients, TypeFaces } from '../constants/styles';
 
 type PropsType = {
   navigation: Object,
   users_name: string,
 
-  setUsersName: (users_name: string) => null
+  setUsersName: (users_name: string) => void
 };
 
 type StateType = {
@@ -35,29 +38,42 @@ const mapDispatchToProps = (dispatch: Function) => {
 
 class WelcomeView extends Component<PropsType, StateType> {
 
-  _logo: number = require('../assets/images/logo/verboze_logo.png')
-  _animation_delay: number = 500;
-  _animation_duration: number = 1500;
-
-  _welcome_input_flex: Object;
-  _welcome_input_opacity: Object;
-
   state = {
     show_welcome_input: false
   };
+
+  _logo: number = require('../assets/images/logo/verboze_logo.png');
+  _animation_delay: number = 500;
+  _animation_duration: number = 1500;
+
+  /* welcome page animation values */
+  _welcome_input_flex: Object;
+  _welcome_input_opacity: Object;
 
   componentWillMount() {
     /* initialize animation variables */
     this._welcome_input_flex = new Animated.Value(0);
     this._welcome_input_opacity = new Animated.Value(0);
 
-    /* reset AsyncStorage */
-    AsyncStorage.clear();
+    /* reset LocalStorage */
+    LocalStorage.reset();
+
+    /* reset WebSocket and disconnet */
+    WebSocketCommunication.reset();
+
+    /* reset configuration manager to remove config */
+    ConfigManager.reset();
   }
 
   componentDidMount() {
+    console.log('WelcomeView mounted');
+
     /* begin animation sequence by animating logo */
     this.animateLogo();
+  }
+
+  componentWillUnmount() {
+    console.log('WelcomeView will unmount');
   }
 
   animateLogo() {
@@ -88,15 +104,11 @@ class WelcomeView extends Component<PropsType, StateType> {
 
     const users_name = evt.nativeEvent.text.trim();
 
-    /* save name to AsyncStorage */
-    try {
-      AsyncStorage.setItem('@users_name', users_name, () => {
+    LocalStorage.store(LocalStorage.keys.users_name, users_name,
+      () => {
         setUsersName(users_name);
         navigation.navigate('Configure');
       });
-    } catch (err) {
-      console.error(err);
-    }
   }
 
   renderWelcomeAndInput() {
@@ -123,7 +135,7 @@ class WelcomeView extends Component<PropsType, StateType> {
             returnKeyType={'next'}
             onSubmitEditing={this.submitName.bind(this)} />
         </Animated.View>
-      )
+      );
     }
 
     return (
@@ -139,7 +151,7 @@ class WelcomeView extends Component<PropsType, StateType> {
         <Image source={this._logo}
           resizeMode={'contain'} />
       </View>
-    )
+    );
   }
 
   render() {

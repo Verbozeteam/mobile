@@ -18,7 +18,6 @@
     "react-native": "0.53.0",
     "react-native-blur": "^3.2.2",
     "react-native-camera": "^1.0.0",
-    "react-native-haptic-feedback": "^1.0.1",
     "react-native-iphone-x-helper": "^1.0.2",
     "react-native-linear-gradient": "^2.4.0",
     "react-native-qrcode-scanner": "0.0.30",
