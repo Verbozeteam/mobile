@@ -102,7 +102,7 @@ class ConfigureView extends React.Component<PropsType, StateType> {
 
   forceRead() {
     this.onRead({data:
-      'wss://www.verboze.com/stream/1a30e451f3d84477b0db422e77db08ac/'});
+      'wss://www.verboze.com/stream/78699edb-dec6-4a5b-8675-34e2687d4fb3/'});
   }
 
   renderCameraPermissionView() {

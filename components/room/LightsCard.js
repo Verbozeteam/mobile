@@ -121,7 +121,6 @@ export default class LightsCard extends Component<PropsType, StateType> {
         background={ this._background }>
         { this._renderLightControls() }
       </ControlCard>
-
     );
   }
 }
