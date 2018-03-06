@@ -14,6 +14,7 @@ import { ifIphoneX } from 'react-native-iphone-x-helper'
 import LightsCard from './LightsCard';
 import ThermostatCard from './ThermostatCard';
 import CurtainsCard from './CurtainsCard';
+import ServicesCard from './ServicesCard';
 
 type PropsType = {
   roomId: string
@@ -38,7 +39,8 @@ export default class RoomControls extends Component<PropsType, StateType> {
     'light_switches': 'light_switches',
     'dimmers': 'light_switches',
     'curtains': 'curtains',
-    'central_acs': 'central_acs'
+    'central_acs': 'central_acs',
+    'hotel_controls': 'hotel_controls',
   };
 
   getChildContext() {
@@ -62,7 +64,7 @@ export default class RoomControls extends Component<PropsType, StateType> {
     things: Array<ThingMetadataType>, presets?: Array<PresetType> = [] ) {
 
     return (
-      <LightsCard key={index}
+      <LightsCard key={'lights-card-' + index}
         name={name}
         lights={things}
         presets={presets} />
@@ -71,7 +73,7 @@ export default class RoomControls extends Component<PropsType, StateType> {
 
   _renderThermostatCard(index: number, meta: Array<ThingMetadataType>) {
     return (
-      <ThermostatCard key={index}
+      <ThermostatCard key={'thermostat-card-' + index}
         meta={meta[0]} />
     );
   }
@@ -80,9 +82,19 @@ export default class RoomControls extends Component<PropsType, StateType> {
     meta: Array<ThingMetadataType>) {
 
     return (
-      <CurtainsCard key={index}
+      <CurtainsCard key={'curtains-card-' + index}
         name={name}
         meta={meta} />
+    );
+  }
+
+  _renderServicesCard(index: number, name: string,
+    meta: Array<ThingMetadataType>) {
+
+    return (
+      <ServicesCard key={'services-card-' + index}
+        name={name}
+        meta={meta[0]} />
     );
   }
 
@@ -94,6 +106,7 @@ export default class RoomControls extends Component<PropsType, StateType> {
     const light_controls = [];
     const curtain_controls = [];
     const thermostat_controls = [];
+    const service_controls = [];
 
     for (var i = 0; i < roomGroups.length; i++) {
       var group: GroupType = roomGroups[i];
@@ -121,11 +134,17 @@ export default class RoomControls extends Component<PropsType, StateType> {
           case 'central_acs':
             thermostat_controls.push(this._renderThermostatCard(i, cleanedGroupThings));
             break;
+
+          case 'hotel_controls':
+            service_controls.push(this._renderServicesCard(i, group.name,
+              cleanedGroupThings));
+            break;
         }
       }
     }
 
-    return [].concat(light_controls, curtain_controls, thermostat_controls);
+    return [].concat(light_controls, curtain_controls, thermostat_controls,
+      service_controls);
   }
 
   changeScrolling(should_scroll: boolean) {
