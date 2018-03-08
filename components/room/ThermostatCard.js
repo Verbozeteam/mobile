@@ -1,7 +1,8 @@
 /* @flow */
 
 import React, { Component } from 'react';
-import { View, Image, Text, StyleSheet, Dimensions } from 'react-native';
+import { View, Image, Text, StyleSheet, Dimensions, TouchableWithoutFeedback }
+  from 'react-native';
 import PropTypes from 'prop-types';
 
 import { ConfigManager } from '../../js-api-utils/ConfigManager';
@@ -109,10 +110,17 @@ export default class ThermostatCard extends Component<PropsType, StateType> {
   }
 
   renderTemperatureAndButtons() {
-    const { set_pt, fan } = this.state;
+    const { set_pt, fan, fan_speeds } = this.state;
 
     const thermostat_text: string = (fan > 0) ?
       (set_pt.toFixed(1) + 'ºC') : 'Off';
+
+    const turnOn = () => {
+      console.log('turnOn clicked');
+      if (fan === 0 && fan_speeds.length > 0) {
+        this.changeFan(1);
+      }
+    }
 
     return (
       <CardRow>
@@ -125,9 +133,11 @@ export default class ThermostatCard extends Component<PropsType, StateType> {
             offColor={Colors.gray}
             glowColor={Colors.red}/>
         </View>
-        <View style={{flex: 1}}>
-          <Text style={TypeFaces.thermostat_temperature}>{thermostat_text}</Text>
-        </View>
+        <TouchableWithoutFeedback onPress={turnOn}>
+          <View style={{flex: 1}}>
+            <Text style={TypeFaces.thermostat_temperature}>{thermostat_text}</Text>
+          </View>
+        </TouchableWithoutFeedback>
         <View style={{marginRight: 30}}>
           <MagicButton onPress={this.incrementTemperature.bind(this)}
             icon={this._plus_icon}
