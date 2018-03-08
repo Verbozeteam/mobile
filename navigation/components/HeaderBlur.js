@@ -3,7 +3,7 @@
 import React, { Component } from 'react';
 import { View, StyleSheet } from 'react-native';
 
-import { TabBarBottom } from 'react-navigation';
+import { Header } from 'react-navigation';
 import { BlurView } from 'react-native-blur';
 
 import { Colors } from '../../constants/styles';
@@ -12,24 +12,24 @@ type PropsType = {
   [string]: any
 };
 
-export const TabBarBottomBlur = (props: PropsType) => (
-  <BlurView blurAmount={10} blurType={'dark'} style={styles.container}>
-    <View style={styles.top_border}>
-      <TabBarBottom {...props} />
+export const HeaderBlur = (props: PropsType) => (
+  <BlurView blurAmount={10} blurType={'dark'} style={styles.blur}>
+    <View style={styles.bottom_border}>
+      <Header {...props} />
     </View>
   </BlurView>
 );
 
 const styles = StyleSheet.create({
-  container: {
+  blur: {
     position: 'absolute',
-    bottom: 0,
+    top: 0,
     left: 0,
     right: 0,
     width: '100%',
   },
-  top_border: {
-    borderTopWidth: 0.5,
-    borderTopColor: Colors.dark_gray
+  bottom_border: {
+    borderBottomWidth: 0.5,
+    borderBottomColor: Colors.dark_gray
   }
 });

@@ -5,6 +5,8 @@ import { View, Text, Button, SafeAreaView, Dimensions, StyleSheet }
   from 'react-native';
 import { connect } from 'react-redux';
 
+import { NavigationActions } from 'react-navigation';
+
 import LocalStorage from '../js-api-utils/LocalStorage';
 import { setWebSocketAddress } from '../actions/ConfigurationActions';
 
@@ -64,7 +66,9 @@ class ConfigureView extends React.Component<PropsType, StateType> {
   }
 
   onRead(evt: Object) {
-    const { setWebSocketAddress } = this.props;
+    const { setWebSocketAddress, navigation } = this.props;
+    const { params } = navigation.state;
+    const shouldNavigateToHome = params ? params.shouldNavigateToHome : false;
     const websocket_address = evt.data;
 
     console.log('onRead', websocket_address);
@@ -82,9 +86,23 @@ class ConfigureView extends React.Component<PropsType, StateType> {
       () => {
         setWebSocketAddress(websocket_address);
 
-        this.setState({
-          connecting: true
-        });
+        if (shouldNavigateToHome) {
+          Promise.all([
+            navigation.dispatch(NavigationActions.reset({
+              index: 0,
+              actions: [
+                NavigationActions.navigate({routeName: 'Settings'})
+              ]
+            }))
+          ]).then(() => navigation.navigate('Home'));
+        }
+
+        else {
+          this.setState({
+            connecting: true
+          });
+        }
+
       });
   }
 
@@ -102,7 +120,7 @@ class ConfigureView extends React.Component<PropsType, StateType> {
 
   forceRead() {
     this.onRead({data:
-      'wss://www.verboze.com/stream/78699edb-dec6-4a5b-8675-34e2687d4fb3/'});
+      'wss://www.verboze.com/stream/3f4d765a-2b60-4425-ab5e-5fa82d219df9/'});
   }
 
   renderCameraPermissionView() {
@@ -124,6 +142,14 @@ class ConfigureView extends React.Component<PropsType, StateType> {
         <Text style={styles.helper_text}>
           Please try again
         </Text>
+      );
+    }
+
+    var force_read_button = null;
+    if (__DEV__) {
+      force_read_button = (
+        <Button title={'Force Read'}
+          onPress={this.forceRead.bind(this)} />
       );
     }
 
@@ -153,6 +179,7 @@ class ConfigureView extends React.Component<PropsType, StateType> {
             Scan the QR code on a tablet on one of your walls
           </Text>
         </View>
+        {force_read_button}
       </SafeAreaView>
     );
   }
@@ -175,19 +202,10 @@ class ConfigureView extends React.Component<PropsType, StateType> {
       content = this.renderCameraView();
     }
 
-    var force_read_button = null;
-    if (__DEV__) {
-      force_read_button = (
-        <Button title={'Force Read'}
-          onPress={this.forceRead.bind(this)} />
-      );
-    }
-
     return (
       <LinearGradient colors={Gradients.background_dark}
         style={styles.container}>
         {content}
-        {force_read_button}
       </LinearGradient>
     );
   }

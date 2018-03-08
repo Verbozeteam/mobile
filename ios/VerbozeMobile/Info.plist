@@ -41,6 +41,7 @@
 	<string></string>
 	<key>UIAppFonts</key>
 	<array>
+		<string>MaterialIcons.ttf</string>
 		<string>CeraPRO-Light.ttf</string>
 		<string>CeraPRO-Medium.ttf</string>
 		<string>CeraPRO-Regular.ttf</string>
