@@ -3,6 +3,7 @@
 import React, { Component } from 'react';
 import { AppState, StatusBar, Platform } from 'react-native';
 import { connect } from 'react-redux';
+import { Sentry } from 'react-native-sentry';
 
 import LocalStorage from './js-api-utils/LocalStorage';
 import { ConfigManager } from './js-api-utils/ConfigManager';
@@ -76,6 +77,9 @@ class VerbozeMobile extends Component<PropsType, StateType> {
 
   componentWillMount() {
     const { setUsersName, setWebSocketAddress } = this.props;
+
+    /* setup Sentry error logging */
+    Sentry.config('https://989271a686e24e4c9983cc2cfdbc4785:e9d8d39a79514443a3634118d033ca5c@sentry.io/301732').install();
 
     this._unsubscribe =
       ConfigManager.registerConfigChangeCallback((config) => {

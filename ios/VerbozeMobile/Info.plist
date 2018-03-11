@@ -38,7 +38,7 @@
 	<key>NSCameraUsageDescription</key>
 	<string>Camera access is needed to scan the QR code.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string/>
 	<key>UIAppFonts</key>
 	<array>
 		<string>MaterialIcons.ttf</string>
