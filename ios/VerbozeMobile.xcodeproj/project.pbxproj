@@ -37,6 +37,17 @@
 		2D11004D08BB4A49BB1541DC /* libRNBlur.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DEDFB46C44B24A318AD95A67 /* libRNBlur.a */; };
 		2D16E6881FA4F8E400B85C8A /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D16E6891FA4F8E400B85C8A /* libReact.a */; };
 		2DCD954D1E0B4F2C00145EB5 /* VerbozeMobileTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* VerbozeMobileTests.m */; };
+		531D2DD8205189CE004EB066 /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 531D2DA1205189CE004EB066 /* Octicons.ttf */; };
+		531D2DD9205189CE004EB066 /* Feather.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 531D2DA2205189CE004EB066 /* Feather.ttf */; };
+		531D2DDA205189CE004EB066 /* Entypo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 531D2DA3205189CE004EB066 /* Entypo.ttf */; };
+		531D2DDB205189CE004EB066 /* MaterialCommunityIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 531D2DA4205189CE004EB066 /* MaterialCommunityIcons.ttf */; };
+		531D2DDC205189CE004EB066 /* Foundation.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 531D2DA5205189CE004EB066 /* Foundation.ttf */; };
+		531D2DDD205189CE004EB066 /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 531D2DA6205189CE004EB066 /* Ionicons.ttf */; };
+		531D2DDE205189CE004EB066 /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 531D2DA7205189CE004EB066 /* FontAwesome.ttf */; };
+		531D2DDF205189CE004EB066 /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 531D2DA8205189CE004EB066 /* Zocial.ttf */; };
+		531D2DE0205189CE004EB066 /* EvilIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 531D2DA9205189CE004EB066 /* EvilIcons.ttf */; };
+		531D2DE1205189CE004EB066 /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 531D2DAA205189CE004EB066 /* SimpleLineIcons.ttf */; };
+		531D2DE2205189CE004EB066 /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 531D2DAB205189CE004EB066 /* MaterialIcons.ttf */; };
 		5322CA07203C457A009577E4 /* libRNSVG.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5322CA04203C453C009577E4 /* libRNSVG.a */; };
 		537620A22043097D0060EF65 /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 537620A12043097D0060EF65 /* GameKit.framework */; };
 		537620A4204309910060EF65 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 537620A3204309910060EF65 /* StoreKit.framework */; };
@@ -397,6 +408,17 @@
 		2D02E4901E0B4A5D006451C7 /* VerbozeMobile-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "VerbozeMobile-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D16E6891FA4F8E400B85C8A /* libReact.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libReact.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		493A5D76AFD74A3DAE827D1B /* CeraPRO-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "CeraPRO-Light.ttf"; path = "../assets/fonts/CeraPRO-Light.ttf"; sourceTree = "<group>"; };
+		531D2DA1205189CE004EB066 /* Octicons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Octicons.ttf; sourceTree = "<group>"; };
+		531D2DA2205189CE004EB066 /* Feather.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Feather.ttf; sourceTree = "<group>"; };
+		531D2DA3205189CE004EB066 /* Entypo.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Entypo.ttf; sourceTree = "<group>"; };
+		531D2DA4205189CE004EB066 /* MaterialCommunityIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = MaterialCommunityIcons.ttf; sourceTree = "<group>"; };
+		531D2DA5205189CE004EB066 /* Foundation.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Foundation.ttf; sourceTree = "<group>"; };
+		531D2DA6205189CE004EB066 /* Ionicons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Ionicons.ttf; sourceTree = "<group>"; };
+		531D2DA7205189CE004EB066 /* FontAwesome.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = FontAwesome.ttf; sourceTree = "<group>"; };
+		531D2DA8205189CE004EB066 /* Zocial.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Zocial.ttf; sourceTree = "<group>"; };
+		531D2DA9205189CE004EB066 /* EvilIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = EvilIcons.ttf; sourceTree = "<group>"; };
+		531D2DAA205189CE004EB066 /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = SimpleLineIcons.ttf; sourceTree = "<group>"; };
+		531D2DAB205189CE004EB066 /* MaterialIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = MaterialIcons.ttf; sourceTree = "<group>"; };
 		5322C9D4203C453C009577E4 /* RNSVG.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNSVG.xcodeproj; path = "../node_modules/react-native-svg/ios/RNSVG.xcodeproj"; sourceTree = "<group>"; };
 		5376209A204307800060EF65 /* VerbozeMobile.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = VerbozeMobile.entitlements; path = VerbozeMobile/VerbozeMobile.entitlements; sourceTree = "<group>"; };
 		537620A12043097D0060EF65 /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
@@ -601,6 +623,25 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		531D2DA0205189CE004EB066 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				531D2DA1205189CE004EB066 /* Octicons.ttf */,
+				531D2DA2205189CE004EB066 /* Feather.ttf */,
+				531D2DA3205189CE004EB066 /* Entypo.ttf */,
+				531D2DA4205189CE004EB066 /* MaterialCommunityIcons.ttf */,
+				531D2DA5205189CE004EB066 /* Foundation.ttf */,
+				531D2DA6205189CE004EB066 /* Ionicons.ttf */,
+				531D2DA7205189CE004EB066 /* FontAwesome.ttf */,
+				531D2DA8205189CE004EB066 /* Zocial.ttf */,
+				531D2DA9205189CE004EB066 /* EvilIcons.ttf */,
+				531D2DAA205189CE004EB066 /* SimpleLineIcons.ttf */,
+				531D2DAB205189CE004EB066 /* MaterialIcons.ttf */,
+			);
+			name = Fonts;
+			path = "../node_modules/react-native-vector-icons/Fonts";
+			sourceTree = "<group>";
+		};
 		5322C9D5203C453C009577E4 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -698,6 +739,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				531D2DA0205189CE004EB066 /* Fonts */,
 				13B07FAE1A68108700A75B9A /* VerbozeMobile */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* VerbozeMobileTests */,
@@ -1270,10 +1312,21 @@
 			buildActionMask = 2147483647;
 			files = (
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				531D2DDC205189CE004EB066 /* Foundation.ttf in Resources */,
+				531D2DE1205189CE004EB066 /* SimpleLineIcons.ttf in Resources */,
+				531D2DDD205189CE004EB066 /* Ionicons.ttf in Resources */,
+				531D2DE0205189CE004EB066 /* EvilIcons.ttf in Resources */,
+				531D2DD9205189CE004EB066 /* Feather.ttf in Resources */,
+				531D2DDF205189CE004EB066 /* Zocial.ttf in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
+				531D2DE2205189CE004EB066 /* MaterialIcons.ttf in Resources */,
 				BE68FF04867646BB818C3082 /* CeraPRO-Light.ttf in Resources */,
 				04269DDE703E464D93687E54 /* CeraPRO-Medium.ttf in Resources */,
+				531D2DDA205189CE004EB066 /* Entypo.ttf in Resources */,
+				531D2DD8205189CE004EB066 /* Octicons.ttf in Resources */,
+				531D2DDB205189CE004EB066 /* MaterialCommunityIcons.ttf in Resources */,
 				A9876D9EEDDD43F190BD2FFA /* CeraPRO-Regular.ttf in Resources */,
+				531D2DDE205189CE004EB066 /* FontAwesome.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1405,11 +1458,7 @@
 				INFOPLIST_FILE = VerbozeMobileTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-lc++",
@@ -1434,11 +1483,7 @@
 				INFOPLIST_FILE = VerbozeMobileTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-lc++",
@@ -1529,11 +1574,7 @@
 				);
 				INFOPLIST_FILE = "VerbozeMobile-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-lc++",
@@ -1565,11 +1606,7 @@
 				);
 				INFOPLIST_FILE = "VerbozeMobile-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-lc++",
@@ -1595,11 +1632,7 @@
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = "VerbozeMobile-tvOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.facebook.REACT.VerbozeMobile-tvOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
@@ -1621,11 +1654,7 @@
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = "VerbozeMobile-tvOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.facebook.REACT.VerbozeMobile-tvOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;

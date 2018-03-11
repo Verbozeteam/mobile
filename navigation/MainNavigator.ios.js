@@ -7,8 +7,6 @@ import { TabNavigator } from 'react-navigation';
 import { TabBarBottomBlur } from './components/TabBarBottomBlur';
 
 import NotificationsView from '../views/NotificationsView';
-// import HomeView from '../views/HomeView';
-// import SettingsView from '../views/SettingsView';
 import HomeStack from './HomeStack';
 import SettingsStack from './SettingsStack';
 
