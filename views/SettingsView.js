@@ -2,7 +2,7 @@
 
 import React, { Component } from 'react';
 import { Button, View, Text, StyleSheet, SafeAreaView, SectionList,
-  TouchableHighlight, Platform, Dimensions } from 'react-native';
+  TouchableHighlight, Platform, Dimensions, Alert } from 'react-native';
 import { connect } from 'react-redux';
 
 import LocalStorage from '../js-api-utils/LocalStorage';
@@ -73,7 +73,7 @@ class SettingsView extends Component<PropsType, StateType> {
           {
             key: 'reset',
             title: 'Reset',
-            action: this.reset.bind(this)
+            action: this.showResetAlert.bind(this)
           }
         ]
       }
@@ -99,6 +99,18 @@ class SettingsView extends Component<PropsType, StateType> {
 
     /* reset user data stored locally */
     LocalStorage.reset();
+  }
+
+  showResetAlert() {
+    Alert.alert('Reset',
+      'Are you sure you want to reset?',
+      [
+        {text: 'Cancel', style: 'cancel'},
+        {text: 'Reset', onPress: this.reset.bind(this), style: 'destructive'}
+      ],
+      {
+        onDismiss: () => {}
+      });
   }
 
   renderSectionHeader(something) {
