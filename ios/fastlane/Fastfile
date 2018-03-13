@@ -1,0 +1,48 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+
+# Uncomment the line if you want fastlane to automatically update itself
+update_fastlane
+
+default_platform(:ios)
+
+platform :ios do
+  desc "Push a new beta build to TestFlight"
+  lane :beta do
+    changelog = prompt(
+      text: "Changelog: ",
+      multi_line_end_keyword: "END")
+
+    increment_build_number(xcodeproj: "VerbozeMobile.xcodeproj")
+
+    xcclean
+    build_app(
+      scheme: "VerbozeMobile",
+      include_bitcode: true)
+
+    notification(
+      subtitle: "Finished VerbozeMobile iOS Build",
+      sound: "purr",
+      message: "Ready to upload to TestFlight")
+
+    upload_to_testflight
+
+    download_dsyms
+    sentry_upload_dsym(
+      auth_token: "a627bc5308ed41198bb5f2c70068c279eb74732506f441a28d2697e8f6205750",
+      org_slug: "verboze-qstp-llc",
+      project_slug: "verbozemobile",
+    )
+
+    slack(
+      message: "Successfully distributed a new iOS beta build",
+      slack_url: "https://hooks.slack.com/services/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",
+      channel: "#fastlane",
+      success: true)
+  end
+end

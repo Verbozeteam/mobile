@@ -5,6 +5,7 @@
 	};
 	objectVersion = 46;
 	objects = {
+
 /* Begin PBXBuildFile section */
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
 		00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
@@ -52,12 +53,12 @@
 		537620A4204309910060EF65 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 537620A3204309910060EF65 /* StoreKit.framework */; };
 		53C0514C203476AA00FD6B7E /* libRNCamera.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 53C0514B2034758200FD6B7E /* libRNCamera.a */; };
 		5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
+		7DAEC65D589746229743D396 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B998413062B4EB8BE14AFFB /* libz.tbd */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		A9876D9EEDDD43F190BD2FFA /* CeraPRO-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 617E74A4D3394FFAB78991B2 /* CeraPRO-Regular.ttf */; };
 		ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADBDB9271DFEBF0700ED6528 /* libRCTBlob.a */; };
-		BE68FF04867646BB818C3082 /* CeraPRO-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 493A5D76AFD74A3DAE827D1B /* CeraPRO-Light.ttf */; };
 		BD21DC6450514162BBADE616 /* libRNSentry.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F83D043C25C84AF09280AD10 /* libRNSentry.a */; };
-		7DAEC65D589746229743D396 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B998413062B4EB8BE14AFFB /* libz.tbd */; };
+		BE68FF04867646BB818C3082 /* CeraPRO-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 493A5D76AFD74A3DAE827D1B /* CeraPRO-Light.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -341,6 +342,13 @@
 			remoteGlobalIDString = 64D1BD361EEFE88700F3F219;
 			remoteInfo = "RNBlur-tvOS";
 		};
+		5394E1432055670800DB449B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F1B902E1B16E4DDF9B57B74D /* RNSentry.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 134814201AA4EA6300B7C361;
+			remoteInfo = RNSentry;
+		};
 		53C0514A2034758200FD6B7E /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 53C0511D2034758200FD6B7E /* RNCamera.xcodeproj */;
@@ -405,6 +413,7 @@
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = VerbozeMobile/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = VerbozeMobile/main.m; sourceTree = "<group>"; };
 		146833FF1AC3E56700842450 /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "../node_modules/react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
+		2B998413062B4EB8BE14AFFB /* libz.tbd */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		2D02E47B1E0B4A5D006451C7 /* VerbozeMobile-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "VerbozeMobile-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E4901E0B4A5D006451C7 /* VerbozeMobile-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "VerbozeMobile-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D16E6891FA4F8E400B85C8A /* libReact.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libReact.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -435,9 +444,8 @@
 		D31D43EDBC8C433790AA4039 /* RNBlur.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNBlur.xcodeproj; path = "../node_modules/react-native-blur/ios/RNBlur.xcodeproj"; sourceTree = "<group>"; };
 		DEDFB46C44B24A318AD95A67 /* libRNBlur.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNBlur.a; sourceTree = "<group>"; };
 		E6587FBA1C9143A9A907D25C /* CeraPRO-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "CeraPRO-Medium.ttf"; path = "../assets/fonts/CeraPRO-Medium.ttf"; sourceTree = "<group>"; };
-		F1B902E1B16E4DDF9B57B74D /* RNSentry.xcodeproj */ = {isa = PBXFileReference; name = "RNSentry.xcodeproj"; path = "../node_modules/react-native-sentry/ios/RNSentry.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
-		F83D043C25C84AF09280AD10 /* libRNSentry.a */ = {isa = PBXFileReference; name = "libRNSentry.a"; path = "libRNSentry.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
-		2B998413062B4EB8BE14AFFB /* libz.tbd */ = {isa = PBXFileReference; name = "libz.tbd"; path = "usr/lib/libz.tbd"; sourceTree = SDKROOT; fileEncoding = undefined; lastKnownFileType = sourcecode.text-based-dylib-definition; explicitFileType = undefined; includeInIndex = 0; };
+		F1B902E1B16E4DDF9B57B74D /* RNSentry.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNSentry.xcodeproj; path = "../node_modules/react-native-sentry/ios/RNSentry.xcodeproj"; sourceTree = "<group>"; };
+		F83D043C25C84AF09280AD10 /* libRNSentry.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNSentry.a; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -663,6 +671,7 @@
 			children = (
 				60F23124F57141BDA0D11E31 /* libBVLinearGradient.a */,
 				DEDFB46C44B24A318AD95A67 /* libRNBlur.a */,
+				F83D043C25C84AF09280AD10 /* libRNSentry.a */,
 			);
 			name = "Recovered References";
 			sourceTree = "<group>";
@@ -681,6 +690,14 @@
 			children = (
 				5387CB92202C5A1C00CBD89D /* libRNBlur.a */,
 				5387CB94202C5A1C00CBD89D /* libRNBlur.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		5394E1402055670800DB449B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				5394E1442055670800DB449B /* libRNSentry.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -747,8 +764,8 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
-				531D2DA0205189CE004EB066 /* Fonts */,
 				13B07FAE1A68108700A75B9A /* VerbozeMobile */,
+				531D2DA0205189CE004EB066 /* Fonts */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* VerbozeMobileTests */,
 				83CBBA001A601CBA00E9B192 /* Products */,
@@ -791,14 +808,6 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		C194335A022746E9AA1730E3 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Frameworks;
-			path = Application;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -828,7 +837,6 @@
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
-				D32F5B21ED3B4B53AD29270F /* Upload Debug Symbols to Sentry */,
 			);
 			buildRules = (
 			);
@@ -989,6 +997,10 @@
 				{
 					ProductGroup = 53C0511E2034758200FD6B7E /* Products */;
 					ProjectRef = 53C0511D2034758200FD6B7E /* RNCamera.xcodeproj */;
+				},
+				{
+					ProductGroup = 5394E1402055670800DB449B /* Products */;
+					ProjectRef = F1B902E1B16E4DDF9B57B74D /* RNSentry.xcodeproj */;
 				},
 				{
 					ProductGroup = 5322C9D5203C453C009577E4 /* Products */;
@@ -1272,6 +1284,13 @@
 			remoteRef = 5387CB93202C5A1C00CBD89D /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		5394E1442055670800DB449B /* libRNSentry.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNSentry.a;
+			remoteRef = 5394E1432055670800DB449B /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		53C0514B2034758200FD6B7E /* libRNCamera.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -1392,20 +1411,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "export SENTRY_PROPERTIES=sentry.properties\nexport NODE_BINARY=node\n../node_modules/@sentry/cli/bin/sentry-cli react-native xcode ../node_modules/react-native/scripts/react-native-xcode.sh";
-		};
-		D32F5B21ED3B4B53AD29270F /* Upload Debug Symbols to Sentry */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			name = "Upload Debug Symbols to Sentry";
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			shellPath = /bin/sh;
-			shellScript = "export SENTRY_PROPERTIES=sentry.properties\n../node_modules/@sentry/cli/bin/sentry-cli upload-dsym";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -1541,7 +1546,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 10;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = R5876Z52CA;
 				HEADER_SEARCH_PATHS = (
@@ -1573,7 +1578,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 10;
 				DEVELOPMENT_TEAM = R5876Z52CA;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
