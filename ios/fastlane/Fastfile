@@ -21,11 +21,12 @@ platform :ios do
     increment_build_number(xcodeproj: "VerbozeMobile.xcodeproj")
 
     xcclean
-    build_app(scheme: "VerbozeMobile",
-              include_bitcode: true)
+    build_app(
+      scheme: "VerbozeMobile",
+      include_bitcode: true)
 
     notification(
-      subtitle: "Finished Building",
+      subtitle: "Finished VerbozeMobile iOS Build",
       sound: "purr",
       message: "Ready to upload to TestFlight")
 

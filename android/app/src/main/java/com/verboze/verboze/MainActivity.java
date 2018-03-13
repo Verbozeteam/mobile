@@ -1,4 +1,4 @@
-package com.verbozemobile;
+package com.verboze.verboze;
 
 import com.facebook.react.ReactActivity;
 

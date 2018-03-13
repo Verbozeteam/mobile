@@ -95,31 +95,73 @@ def enableSeparateBuildPerCPUArchitecture = false
 def enableProguardInReleaseBuilds = false
 
 def getPassword(String currentUser, String keyChain) {
-  def stdout = new ByteArrayOutputStream()
-  def stderr = new ByteArrayOutputStream()
-  exec {
-    commandLine 'security', '-q', 'find-generic-password', '-a', currentUser,
-    '-s', keyChain, '-w'
-    standardOutput = stdout
-    errorOutput = stderr
-    ignoreExitValue true
-  }
+    def stdout = new ByteArrayOutputStream()
+    def stderr = new ByteArrayOutputStream()
+    exec {
+      commandLine 'security', '-q', 'find-generic-password', '-a', currentUser,
+        '-s', keyChain, '-w'
+        standardOutput = stdout
+        errorOutput = stderr
+        ignoreExitValue true
+    }
 
-  stdout.toString().trim()
+    stdout.toString().trim()
 }
 
 def pass = getPassword('mohammedfituri', 'VerbozeMobileAndroidKeystore')
+
+def incrementBuildNumber() {
+    def versionFile = new File(project.rootDir, 'version.properties')
+
+    def version = readVersionProperties()
+
+    def build = version['build'] as int
+    build++
+    version['build'] = build.toString()
+
+    def stream = new FileOutputStream(versionFile)
+    version.store(stream, null)
+    stream.close()
+
+    println "Build number incremented now..." + build
+    return build
+}
+
+def readVersionProperties() {
+    def versionFile = new File(project.rootDir, 'version.properties')
+    def version = new Properties()
+    def stream = new FileInputStream(versionFile)
+    version.load(stream)
+    if (stream != null) stream.close()
+    return version
+}
+
+def readVersionNumber() {
+    def version = readVersionProperties()
+    return "${version['version']}"
+}
+
+def readBuildNumber() {
+    def version = readVersionProperties()
+    def build = version['build'] as int
+    return build
+}
+
+task doIncrementBuildNumber << {
+    println "Incrementing build number..."
+    incrementBuildNumber()
+}
 
 android {
     compileSdkVersion 23
     buildToolsVersion "25.0.2"
 
     defaultConfig {
-        applicationId "com.verbozemobile"
+        applicationId "com.verboze.verboze"
         minSdkVersion 16
         targetSdkVersion 22
-        versionCode 1
-        versionName "1.0"
+        versionCode readBuildNumber()
+        versionName readVersionNumber()
         ndk {
             abiFilters "armeabi-v7a", "x86"
         }
@@ -145,19 +187,22 @@ android {
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
             signingConfig signingConfigs.release
+            versionNameSuffix "-build" + readBuildNumber()
         }
     }
+
     // applicationVariants are e.g. debug, release
     applicationVariants.all { variant ->
         variant.outputs.each { output ->
-            // For each separate APK per architecture, set a unique version code as described here:
-            // http://tools.android.com/tech-docs/new-build-system/user-guide/apk-splits
-            def versionCodes = ["armeabi-v7a":1, "x86":2]
             def abi = output.getFilter(OutputFile.ABI)
-            if (abi != null) {  // null for the universal-debug, universal-release variants
-                output.versionCodeOverride =
-                        versionCodes.get(abi) * 1048576 + defaultConfig.versionCode
+            def architectureType = "universal"
+            if (abi != null) {
+                architectureType = abi
             }
+            output.outputFile = new File(
+                output.outputFile.parent,
+                "VerbozeMobile-${architectureType}-${variant.versionName}.apk"
+            )
         }
     }
 }

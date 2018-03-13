@@ -79,7 +79,9 @@ class VerbozeMobile extends Component<PropsType, StateType> {
     const { setUsersName, setWebSocketAddress } = this.props;
 
     /* setup Sentry error logging */
-    Sentry.config('https://989271a686e24e4c9983cc2cfdbc4785:e9d8d39a79514443a3634118d033ca5c@sentry.io/301732').install();
+    if (!__DEV__) {
+      Sentry.config('https://989271a686e24e4c9983cc2cfdbc4785:e9d8d39a79514443a3634118d033ca5c@sentry.io/301732').install();
+    }
 
     this._unsubscribe =
       ConfigManager.registerConfigChangeCallback((config) => {
@@ -120,7 +122,7 @@ class VerbozeMobile extends Component<PropsType, StateType> {
     console.log('VerbozeMobile mounted');
     AppState.addEventListener('change', this.handleAppStateChange.bind(this));
 
-    Sentry.captureMessage('Testing Sentry.');
+    Sentry.captureMessage('Verboze Mobile ran on a device.', {level: 'info'});
   }
 
   componentWillReceiveProps(nextProps: PropsType) {
@@ -150,7 +152,7 @@ class VerbozeMobile extends Component<PropsType, StateType> {
       nextAppState === 'active') {
 
       /* if WebSocket not connected, connect immediately */
-      if (connection_status < 1) {
+      if (connection_status < 1 && websocket_address) {
         this.connectWebSocket(websocket_address);
       }
     }
