@@ -80,7 +80,7 @@ class VerbozeMobile extends Component<PropsType, StateType> {
 
     /* setup Sentry error logging */
     if (!__DEV__) {
-      Sentry.config('https://989271a686e24e4c9983cc2cfdbc4785:e9d8d39a79514443a3634118d033ca5c@sentry.io/301732').install();
+      Sentry.config('https://6c4fe995e1ff4d2aa3dd8455917e7528:78d81847be544d92adfd6082c5b148bf@sentry.verboze.com/2').install();
     }
 
     this._unsubscribe =
