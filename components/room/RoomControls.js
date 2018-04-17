@@ -114,7 +114,7 @@ export default class RoomControls extends Component<PropsType, StateType> {
       var groupCategory = null;
 
       if (Object.keys(group).length > 0 && group.things.length > 0) {
-        const cleanedGroupThings = group.things.filter(t => t.category !== 'empty');
+        const cleanedGroupThings = group.things.filter(t => t.category !== 'empty' && t.category !== 'soft_switches');
         groupCategory = this._determineGroupCategoryType(cleanedGroupThings);
 
         switch(groupCategory) {
