@@ -33,7 +33,7 @@ export default class ThermostatCard extends Component<PropsType, StateType> {
     set_pt: 0,
     temp: 0,
     fan: 0,
-    fan_speeds: ['Off'],
+    fan_speeds: ['Off', 'Lo', 'Hi'],
   };
 
   _unsubscribe: () => boolean = () => false;
@@ -83,10 +83,10 @@ export default class ThermostatCard extends Component<PropsType, StateType> {
       fan = thermostat_state.fan;
     }
 
-    if ('fan_speeds' in thermostat_state &&
+    if ('fan_speeds' in meta &&
       JSON.stringify(fan_speeds) !== JSON.stringify(meta.fan_speeds)) {
 
-      fan_speeds = ['Off'].concat(meta.fan_speeds);
+      fan_speeds = meta.fan_speeds;
     }
 
     this.setState({

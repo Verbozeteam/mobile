@@ -40,6 +40,7 @@ export default class RoomControls extends Component<PropsType, StateType> {
     'dimmers': 'light_switches',
     'curtains': 'curtains',
     'central_acs': 'central_acs',
+    'honeywell_thermostat_t7560': 'honeywell_thermostat_t7560',
     'hotel_controls': 'hotel_controls',
   };
 
@@ -132,6 +133,7 @@ export default class RoomControls extends Component<PropsType, StateType> {
               cleanedGroupThings));
             break;
           case 'central_acs':
+          case 'honeywell_thermostat_t7560':
             thermostat_controls.push(this._renderThermostatCard(i, cleanedGroupThings));
             break;
 
