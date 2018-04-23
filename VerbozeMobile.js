@@ -1,5 +1,9 @@
 /* @flow */
 
+if (!__DEV__) {
+  console.log = () => {};
+}
+
 import React, { Component } from 'react';
 import { AppState, StatusBar, Platform } from 'react-native';
 import { connect } from 'react-redux';
