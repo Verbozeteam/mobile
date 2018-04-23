@@ -54,6 +54,10 @@ export default class LightPresets extends Component<PropsType, StateType> {
     for (var k in preset)
       if (state[k] == undefined)
         delete preset[k];
+
+    if (Object.keys(preset).length === 0)
+      return 0;
+
     var preset_intensity = Object.keys(preset).map((tid) => !preset[tid].intensity ? 0 : (state[tid].category == 'dimmers' ? preset[tid].intensity / 100 : preset[tid].intensity)).reduce((a, b) => a + b);
     var state_intensity = Object.keys(state).filter((k) => k in preset).map((tid) => !state[tid].intensity ? 0 : (state[tid].category == 'dimmers' ? state[tid].intensity / 100 : state[tid].intensity)).reduce((a, b) => a + b);
     return Math.abs(preset_intensity - state_intensity);
