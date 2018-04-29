@@ -114,11 +114,13 @@ export default class RoomControls extends Component<PropsType, StateType> {
       var groupCategory = null;
 
       if (Object.keys(group).length > 0 && group.things.length > 0) {
-        const cleanedGroupThings = group.things.filter(t => t.category !== 'empty' && t.category !== 'soft_switches');
+        var cleanedGroupThings = group.things.filter(t => t.category !== 'empty');
         groupCategory = this._determineGroupCategoryType(cleanedGroupThings);
 
         switch(groupCategory) {
+          case 'dimmers':
           case 'light_switches':
+            cleanedGroupThings = cleanedGroupThings.filter(t => t.category === 'dimmers' || t.category === 'light_switches');
             if (typeof group.presets !== 'undefined') {
               light_controls.push(this._renderLightsCard(i, group.name,
                 cleanedGroupThings, group.presets));
@@ -129,15 +131,17 @@ export default class RoomControls extends Component<PropsType, StateType> {
             }
             break;
           case 'curtains':
+            cleanedGroupThings = cleanedGroupThings.filter(t => t.category === 'curtains');
             curtain_controls.push(this._renderCurtainCard(i, group.name,
               cleanedGroupThings));
             break;
           case 'central_acs':
           case 'honeywell_thermostat_t7560':
+            cleanedGroupThings = cleanedGroupThings.filter(t => t.category === 'central_acs' || t.category === 'honeywell_thermostat_t7560');
             thermostat_controls.push(this._renderThermostatCard(i, cleanedGroupThings));
             break;
-
           case 'hotel_controls':
+            cleanedGroupThings = cleanedGroupThings.filter(t => t.category === 'hotel_controls')
             service_controls.push(this._renderServicesCard(i, group.name,
               cleanedGroupThings));
             break;
