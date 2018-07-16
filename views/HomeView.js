@@ -9,6 +9,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import WelcomeBanner from '../components/home/WelcomeBanner';
 import RoomsSections from '../components/home/RoomsSection';
 import QuickAccessSection from '../components/home/QuickAccessSection';
+import LoadingOverlay from '../components/LoadingOverlay';
 
 import { Gradients, TypeFaces } from '../constants/styles';
 
@@ -45,6 +46,7 @@ class HomeView extends Component<PropsType, StateType> {
             connectionStatus={connection_status} />
           <RoomsSections />
           <QuickAccessSection />
+          <LoadingOverlay connectionStatus={connection_status}/>
         </SafeAreaView>
       </LinearGradient>
     );

@@ -3,6 +3,7 @@
 import * as React from 'react';
 import { View, SafeAreaView, Text, ScrollView, StyleSheet, Dimensions }
   from 'react-native';
+import { connect } from 'react-redux';
 
 import { ConfigManager } from '../js-api-utils/ConfigManager';
 import type { ConfigType, RoomType } from '../js-api-utils/ConfigManager';
@@ -14,10 +15,13 @@ import { Header } from 'react-navigation';
 
 import RoomsTopTabBar from '../components/room/RoomsTopTabBar';
 import RoomControls from '../components/room/RoomControls';
+import LoadingOverlay from '../components/LoadingOverlay';
 
 
 type PropsType = {
-  navigation: Object
+  navigation: Object,
+
+  connection_status: 0 | 1 | 2
 };
 
 type StateType = {
@@ -25,7 +29,17 @@ type StateType = {
   selected_index: number /* index of selected room */
 };
 
-export default class RoomsView extends React.Component<PropsType, StateType> {
+const mapStateToProps = (state: Object) => {
+  return {
+    connection_status: state.configuration.connection_status
+  };
+};
+
+const mapDispatchToProps = (dispatch: Function) => {
+  return {};
+}
+
+class RoomsView extends React.Component<PropsType, StateType> {
 
   _scroll_view: ?React.Ref<ScrollView>;
   _screen_width: number = Dimensions.get('screen').width;
@@ -104,6 +118,7 @@ export default class RoomsView extends React.Component<PropsType, StateType> {
   }
 
   render() {
+    const { connection_status } = this.props;
     const { selected_index } = this.state;
     const rooms = ConfigManager.rooms;
 
@@ -133,6 +148,7 @@ export default class RoomsView extends React.Component<PropsType, StateType> {
 
           {this.renderRoomControls()}
         </ScrollView>
+        <LoadingOverlay connectionStatus={connection_status}/>
       </LinearGradient>
     );
   }
@@ -146,3 +162,6 @@ const styles = StyleSheet.create({
     flex: 1
   }
 });
+
+RoomsView = connect(mapStateToProps, mapDispatchToProps) (RoomsView);
+export default RoomsView;
