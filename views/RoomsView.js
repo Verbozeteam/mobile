@@ -48,7 +48,7 @@ class RoomsView extends React.Component<PropsType, StateType> {
     const { navigation } = this.props;
 
     /* set selected room from react-navigation params */
-    this.setSelectedRoom(-1, navigation.state.params.room_id, true);
+    this.setSelectedRoom(-1, 0, false);
   }
 
   scrollToRoom(index: number, animated?: boolean = true) {
