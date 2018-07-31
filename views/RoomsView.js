@@ -16,11 +16,13 @@ import { Header } from 'react-navigation';
 import RoomsTopTabBar from '../components/room/RoomsTopTabBar';
 import RoomControls from '../components/room/RoomControls';
 import LoadingOverlay from '../components/LoadingOverlay';
+import WelcomeBanner from '../components/home/WelcomeBanner';
 
 
 type PropsType = {
   navigation: Object,
 
+  users_name: string,
   connection_status: 0 | 1 | 2
 };
 
@@ -31,6 +33,7 @@ type StateType = {
 
 const mapStateToProps = (state: Object) => {
   return {
+    users_name: state.configuration.users_name,
     connection_status: state.configuration.connection_status
   };
 };
@@ -47,8 +50,14 @@ class RoomsView extends React.Component<PropsType, StateType> {
   componentWillMount() {
     const { navigation } = this.props;
 
+    var room_id = '';
+
+    try {
+      room_id = ConfigManager.rooms[0].id;
+    } catch (e) {}
+
     /* set selected room from react-navigation params */
-    this.setSelectedRoom(-1, 0, false);
+    this.setSelectedRoom(-1, room_id, false);
   }
 
   scrollToRoom(index: number, animated?: boolean = true) {
@@ -118,7 +127,7 @@ class RoomsView extends React.Component<PropsType, StateType> {
   }
 
   render() {
-    const { connection_status } = this.props;
+    const { connection_status, users_name } = this.props;
     const { selected_index } = this.state;
     const rooms = ConfigManager.rooms;
 
@@ -131,7 +140,11 @@ class RoomsView extends React.Component<PropsType, StateType> {
         style={styles.container}>
 
         {/* top padding for topbar */}
-        <View style={{height: top_margin}}></View>
+        <View style={{height: top_margin, flexDirection: 'row',
+          alignItems: 'flex-end'}}>
+          <View style={{height: ifIphoneX(24, 0)}}></View>
+          <WelcomeBanner name={users_name} hideConnectionStatus={true} />
+        </View>
 
         {/* intentionally using a normal view instead of a SafeAreaView */}
         <RoomsTopTabBar selectedIndex={selected_index}
