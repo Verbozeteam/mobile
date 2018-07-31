@@ -21,6 +21,11 @@ or alternatively using `brew cask install fastlane`
 fastlane ios beta
 ```
 Push a new beta build to TestFlight
+### ios beta_do_sentry
+```
+fastlane ios beta_do_sentry
+```
+Upload beta builds DSYM files to Sentry
 
 ----
 
