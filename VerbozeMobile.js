@@ -125,8 +125,6 @@ class VerbozeMobile extends Component<PropsType, StateType> {
   componentDidMount() {
     console.log('VerbozeMobile mounted');
     AppState.addEventListener('change', this.handleAppStateChange.bind(this));
-
-    Sentry.captureMessage('Verboze Mobile ran on a device.', {level: 'info'});
   }
 
   componentWillReceiveProps(nextProps: PropsType) {
