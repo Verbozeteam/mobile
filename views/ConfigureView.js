@@ -176,7 +176,7 @@ class ConfigureView extends React.Component<PropsType, StateType> {
         <View style={styles.helper_text_container}>
           {reattempt_text}
           <Text style={styles.helper_text}>
-            Scan the QR code on a tablet on one of your walls
+            Scan the QR code
           </Text>
         </View>
         {force_read_button}
