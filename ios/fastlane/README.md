@@ -15,12 +15,17 @@ Install _fastlane_ using
 or alternatively using `brew cask install fastlane`
 
 # Available Actions
-## Android
-### android beta
+## iOS
+### ios beta
 ```
-fastlane android beta
+fastlane ios beta
 ```
-Push a new beta build to Play Store
+Push a new beta build to TestFlight
+### ios beta_do_sentry
+```
+fastlane ios beta_do_sentry
+```
+Upload beta builds DSYM files to Sentry
 
 ----
 

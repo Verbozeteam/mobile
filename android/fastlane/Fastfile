@@ -1,0 +1,58 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
+
+# Uncomment the line if you want fastlane to automatically update itself
+# update_fastlane
+
+default_platform(:android)
+
+platform :android do
+  desc "Runs all the tests"
+  lane :test do
+    gradle(task: "test")
+  end
+
+  desc "Push a new beta build to Play Store"
+  lane :beta do
+    changelog = prompt(
+      text: "Changelog: ",
+      multi_line_end_keyword: "END")
+
+    gradle(task: "clean")
+
+    gradle(task: "doIncrementBuildNumber")
+
+    gradle(task: "assembleRelease")
+
+    notification(
+      subtitle: "Finished VerbozeMobile Android beta Build",
+      sound: "purr",
+      message: "Ready to upload to Play Store")
+
+    supply(
+      track: "beta",
+      rollout: "1",
+      skip_upload_aab: true)
+
+    slack(
+      message: "Successfully distributed a new Android beta build",
+      slack_url: "https://hooks.slack.com/services/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",
+      channel: "#fastlane",
+      success: true)
+  end
+
+  desc "Deploy a new version to the Google Play"
+  lane :deploy do
+    gradle(task: "clean assembleRelease")
+    upload_to_play_store
+  end
+end
