@@ -69,17 +69,39 @@ class ConfigureView extends React.Component<PropsType, StateType> {
     const { setWebSocketAddress, navigation } = this.props;
     const { params } = navigation.state;
     const shouldNavigateToHome = params ? params.shouldNavigateToHome : false;
-    const websocket_address = evt.data;
+    const qrcode_address = evt.data;
 
-    console.log('onRead', websocket_address);
+    console.log('onRead', qrcode_address);
 
-    if (!this.validateWss(websocket_address)) {
+    var websocket_address = '';
+
+    // extract token from qrcode_address
+    const token = qrcode_address.substring(qrcode_address.substring(0,
+      qrcode_address.lastIndexOf('/')).lastIndexOf('/') + 1).slice(0, -1);
+
+    // check token is valid uuid4
+    const re = new RegExp(/^[0-9A-F]{8}-[0-9A-F]{4}-[4][0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i);
+    if (!re.test(token)) {
       this._qr_code_scanner.reactivate();
       this.setState({
         reattempt: true
       });
 
       return;
+    }
+
+    // create websocket address
+    if (this.checkWebsocket(qrcode_address)) {
+      websocket_address = qrcode_address;
+    }
+
+    else {
+      websocket_address = qrcode_address.replace('/qrcode/', '/stream/');
+      if (qrcode_address.indexOf('https') != -1) {
+        websocket_address = websocket_address.replace('https', 'wss');
+      } else {
+        websocket_address = websocket_address.replace('http', 'ws');
+      }
     }
 
     LocalStorage.store(LocalStorage.keys.websocket_address, websocket_address,
@@ -106,8 +128,7 @@ class ConfigureView extends React.Component<PropsType, StateType> {
       });
   }
 
-  validateWss(address): boolean {
-    // TODO: this can be improved?
+  checkWebsocket(address): boolean {
     const wss_index = address.indexOf('wss://');
     const ws_index = address.indexOf('ws://');
 
@@ -119,8 +140,7 @@ class ConfigureView extends React.Component<PropsType, StateType> {
   }
 
   forceRead() {
-    this.onRead({data:
-      'wss://www.verboze.com/stream/d9ecc31d-558b-4d1e-9c56-a833237063b9/'});
+    this.onRead({data: ''});
   }
 
   renderCameraPermissionView() {
