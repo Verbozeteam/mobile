@@ -21,6 +21,7 @@ DerivedData
 *.ipa
 *.xcuserstate
 project.xcworkspace
+*.dSYM.zip
 
 # Android/IntelliJ
 #
@@ -51,4 +52,4 @@ buck-out/
 */fastlane/report.xml
 */fastlane/Preview.html
 */fastlane/screenshots
-android/fastlane/Google-Play-Android-Developer-7873641333c6.json
+android/fastlane/Google-key.json

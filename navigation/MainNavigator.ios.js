@@ -9,6 +9,7 @@ import { TabBarBottomBlur } from './components/TabBarBottomBlur';
 import NotificationsView from '../views/NotificationsView';
 import HomeStack from './HomeStack';
 import SettingsStack from './SettingsStack';
+import RoomsView from '../views/RoomsView';
 
 import { Colors, TypeFaces } from '../constants/styles';
 
@@ -22,19 +23,19 @@ const settings_tabbar_icon_selected = require('../assets/navigation/settings_sel
 
 
 const structure = {
-  Notifications: {
-    screen: NotificationsView,
-    navigationOptions: {
-      tabBarIcon: (state: {focused: boolean}) => (
-        <Image style={styles.tabbar_icon}
-          source={(state.focused) ? notifications_tabbar_icon_selected :
-            notifications_tabbar_icon} />
-      ),
-      tabBarLabel: 'Notifications',
-    }
-  },
+  // Notifications: {
+  //   screen: NotificationsView,
+  //   navigationOptions: {
+  //     tabBarIcon: (state: {focused: boolean}) => (
+  //       <Image style={styles.tabbar_icon}
+  //         source={(state.focused) ? notifications_tabbar_icon_selected :
+  //           notifications_tabbar_icon} />
+  //     ),
+  //     tabBarLabel: 'Notifications',
+  //   }
+  // },
   Home: {
-    screen: HomeStack,
+    screen: RoomsView,
     navigationOptions: {
       tabBarIcon: (state: {focused: boolean}) => (
         <Image style={styles.tabbar_icon}
@@ -42,6 +43,8 @@ const structure = {
             home_tabbar_icon} />
       ),
       tabBarLabel: 'Home',
+      // header: null,
+      title: 'Home'
     }
   },
   Settings: {

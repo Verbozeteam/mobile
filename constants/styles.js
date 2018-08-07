@@ -56,7 +56,7 @@ export const TypeFaces = {
     paddingTop: 4
   },
   welcome_banner: {
-    fontSize: 27,
+    fontSize: 24,
     color: Colors.white,
     fontFamily: 'CeraPRO-Regular',
   },

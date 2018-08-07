@@ -7,7 +7,8 @@ import { Colors, TypeFaces } from '../../constants/styles';
 
 type PropsType = {
   name: string,
-  connectionStatus: 0 | 1 | 2
+  connectionStatus: 0 | 1 | 2,
+  hideConnectionStatus: boolean
 };
 
 type StateType = {};
@@ -15,7 +16,8 @@ type StateType = {};
 export default class WelcomeBanner extends Component<PropsType, StateType> {
 
   static defaultProps = {
-    connectionStatus: 0
+    connectionStatus: 0,
+    hideConnectionStatus: false
   };
 
   renderConnectionStatus() {
@@ -42,12 +44,12 @@ export default class WelcomeBanner extends Component<PropsType, StateType> {
   }
 
   render() {
-    const { name } = this.props;
+    const { name, hideConnectionStatus } = this.props;
 
     return (
       <View style={styles.container}>
         <Text style={styles.header}>Welcome, {name}</Text>
-        {this.renderConnectionStatus()}
+        {(hideConnectionStatus) ? null : this.renderConnectionStatus()}
       </View>
     );
   }
