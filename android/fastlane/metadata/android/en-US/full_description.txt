@@ -1,1 +1,4 @@
-Verboze
+Verboze makes rooms smart, allowing the control of lights, ACs and other aspects of the room from your smartphone.
+
+
+** Requires installed Verboze hardware. Visit www.verboze.com for more info.fo.
