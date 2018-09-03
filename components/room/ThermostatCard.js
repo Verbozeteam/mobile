@@ -87,6 +87,10 @@ export default class ThermostatCard extends Component<PropsType, StateType> {
       JSON.stringify(fan_speeds) !== JSON.stringify(meta.fan_speeds)) {
 
       fan_speeds = meta.fan_speeds;
+
+      if (fan_speeds.length > 0) {
+        fan_speeds.unshift('Off');
+      }
     }
 
     this.setState({
