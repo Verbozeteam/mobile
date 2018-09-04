@@ -1,7 +1,7 @@
 /* @flow */
 
 import * as React from 'react';
-import { View, Text, Button, SafeAreaView, Dimensions, StyleSheet }
+import { View, Text, Image, Button, SafeAreaView, Dimensions, StyleSheet }
   from 'react-native';
 import { connect } from 'react-redux';
 
@@ -12,6 +12,7 @@ import { setWebSocketAddress } from '../actions/ConfigurationActions';
 
 import LinearGradient from 'react-native-linear-gradient';
 import { Colors, Gradients, TypeFaces } from '../constants/styles';
+import LoadingSpinner from '../assets/images/loading-spinner.gif';
 import QRCodeScanner from 'react-native-qrcode-scanner';
 
 type PropsType = {
@@ -206,8 +207,10 @@ class ConfigureView extends React.Component<PropsType, StateType> {
 
   renderConnectingMessage() {
     return (
-      <SafeAreaView style={styles.container}>
+      <SafeAreaView style={styles.connecting_container}>
         <Text style={TypeFaces.centered_header}>Connecting...</Text>
+        <Image source={LoadingSpinner} style={styles.spinner}
+          resizeMode={'contain'} />
       </SafeAreaView>
     );
   }
@@ -234,7 +237,15 @@ class ConfigureView extends React.Component<PropsType, StateType> {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center'
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  connecting_container: {
+    position: 'absolute',
+    height: '100%',
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   header: {
     position: 'absolute',
@@ -259,6 +270,10 @@ const styles = StyleSheet.create({
     ...TypeFaces.regular,
     textAlign: 'center',
     width: '80%'
+  },
+  spinner: {
+    height: '30%',
+    width: '30%'
   }
 });
 
