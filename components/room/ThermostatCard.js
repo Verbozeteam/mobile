@@ -23,6 +23,7 @@ type PropsType = {
 type StateType = {
   set_pt: number,
   temp: number,
+  temp_range: [number, number],
   fan: number,
   fan_speeds: Array<string>,
 };
@@ -32,14 +33,12 @@ export default class ThermostatCard extends Component<PropsType, StateType> {
   state = {
     set_pt: 0,
     temp: 0,
+    temp_range: [16, 32],
     fan: 0,
     fan_speeds: ['Off', 'Lo', 'Hi'],
   };
 
   _unsubscribe: () => boolean = () => false;
-
-  _min_temp: number = 16;
-  _max_temp: number = 32;
 
   _background: number = require('../../assets/images/thermostat_background.png');
   _minus_icon: number = require('../../assets/icons/minus.png');
@@ -69,7 +68,9 @@ export default class ThermostatCard extends Component<PropsType, StateType> {
   }
 
   onChange(meta: ThingMetadataType, thermostat_state: ThingStateType) {
-    var { set_pt, temp, fan, fan_speeds } = this.state;
+    var { set_pt, temp, fan, fan_speeds, temp_range } = this.state;
+
+    console.log('THERMOSTAT', meta, thermostat_state);
 
     if ('set_pt' in thermostat_state && set_pt !== thermostat_state.set_pt) {
       set_pt = thermostat_state.set_pt
@@ -88,14 +89,24 @@ export default class ThermostatCard extends Component<PropsType, StateType> {
 
       fan_speeds = meta.fan_speeds;
 
-      if (fan_speeds.length > 0) {
+      if (fan_speeds.length > 0 && fan_speeds[0] !== 'Off') {
         fan_speeds.unshift('Off');
       }
+    }
+
+    if ('temp_range' in meta &&
+      JSON.stringify(temp_range) !== JSON.stringify(meta.temp_range)) {
+
+      if (meta.temp_range.length == 2) {
+        temp_range = meta.temp_range
+      }
+
     }
 
     this.setState({
       set_pt,
       temp,
+      temp_range,
       fan,
       fan_speeds
     });
@@ -111,13 +122,13 @@ export default class ThermostatCard extends Component<PropsType, StateType> {
   }
 
   incrementTemperature() {
-    const { set_pt } = this.state;
-    this.updateTemperature(Math.min(set_pt + 0.5, this._max_temp));
+    const { set_pt, temp_range } = this.state;
+    this.updateTemperature(Math.min(set_pt + 0.5, temp_range[1]));
   }
 
   decrementTemperature() {
-    const { set_pt } = this.state;
-    this.updateTemperature(Math.max(set_pt - 0.5, this._min_temp));
+    const { set_pt, temp_range } = this.state;
+    this.updateTemperature(Math.max(set_pt - 0.5, temp_range[0]));
   }
 
   changeFan(speed: number) {
@@ -126,7 +137,7 @@ export default class ThermostatCard extends Component<PropsType, StateType> {
   }
 
   renderTemperatureAndButtons() {
-    const { set_pt, fan, fan_speeds } = this.state;
+    const { set_pt, fan, fan_speeds, temp_range } = this.state;
     console.log('set_pt', set_pt);
 
     const thermostat_text: string = (fan > 0) ?
@@ -146,7 +157,7 @@ export default class ThermostatCard extends Component<PropsType, StateType> {
             icon={this._minus_icon}
             iconStyle={{}}
             showBorder={false}
-            enabled={fan > 0 && set_pt > this._min_temp}
+            enabled={fan > 0 && set_pt > temp_range[0]}
             offColor={Colors.gray}
             glowColor={Colors.red}/>
         </View>
@@ -160,7 +171,7 @@ export default class ThermostatCard extends Component<PropsType, StateType> {
             icon={this._plus_icon}
             iconStyle={{}}
             showBorder={false}
-            enabled={fan > 0 && set_pt < this._max_temp}
+            enabled={fan > 0 && set_pt < temp_range[1]}
             offColor={Colors.gray}
             glowColor={Colors.red}/>
         </View>
@@ -169,7 +180,7 @@ export default class ThermostatCard extends Component<PropsType, StateType> {
   }
 
   renderTemperatureSlider() {
-    const { set_pt, fan} = this.state;
+    const { set_pt, fan, temp_range} = this.state;
     const { blockParentScroll, unblockParentScroll } = this.context;
 
     return (
@@ -183,8 +194,8 @@ export default class ThermostatCard extends Component<PropsType, StateType> {
           enabled={fan > 0}
           blockParentScroll={blockParentScroll}
           unblockParentScroll={unblockParentScroll}
-          minTemp={this._min_temp}
-          maxTemp={this._max_temp} />
+          minTemp={temp_range[0]}
+          maxTemp={temp_range[1]} />
       </CardRow>
     );
   }
