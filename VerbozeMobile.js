@@ -232,10 +232,7 @@ class VerbozeMobile extends Component<PropsType, StateType> {
     setConnectionStatus(1);
 
     try {
-      if (WebSocketCommunication.is_connected) {
-        WebSocketCommunication.disconnect();
-      }
-
+      WebSocketCommunication.reset();
       WebSocketCommunication.connect(address);
     }
 
