@@ -98,7 +98,6 @@ export default class ThermostatCard extends Component<PropsType, StateType> {
       if (meta.temp_range.length == 2) {
         temp_range = meta.temp_range
       }
-
     }
 
     this.setState({
