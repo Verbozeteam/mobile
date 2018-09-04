@@ -70,8 +70,6 @@ export default class ThermostatCard extends Component<PropsType, StateType> {
   onChange(meta: ThingMetadataType, thermostat_state: ThingStateType) {
     var { set_pt, temp, fan, fan_speeds, temp_range } = this.state;
 
-    console.log('THERMOSTAT', meta, thermostat_state);
-
     if ('set_pt' in thermostat_state && set_pt !== thermostat_state.set_pt) {
       set_pt = thermostat_state.set_pt
     }
@@ -138,13 +136,11 @@ export default class ThermostatCard extends Component<PropsType, StateType> {
 
   renderTemperatureAndButtons() {
     const { set_pt, fan, fan_speeds, temp_range } = this.state;
-    console.log('set_pt', set_pt);
 
     const thermostat_text: string = (fan > 0) ?
       (set_pt.toFixed(1) + 'ºC') : 'Off';
 
     const turnOn = () => {
-      console.log('turnOn clicked');
       if (fan === 0 && fan_speeds.length > 1) {
         this.changeFan(1);
       }
@@ -202,7 +198,6 @@ export default class ThermostatCard extends Component<PropsType, StateType> {
 
   renderRoomTemperature() {
     const { temp } = this.state;
-    console.log('temp', temp);
 
     return (
       <CardRow>
