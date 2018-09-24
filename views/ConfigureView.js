@@ -76,6 +76,10 @@ class ConfigureView extends React.Component<PropsType, StateType> {
 
     var websocket_address = '';
 
+    /* add trailing / if not there */
+    if (qrcode_address.charAt(qrcode_address.length-1) !== '/')
+      qrcode_address += '/';
+
     // extract token from qrcode_address
     const token = qrcode_address.substring(qrcode_address.substring(0,
       qrcode_address.lastIndexOf('/')).lastIndexOf('/') + 1).slice(0, -1);
