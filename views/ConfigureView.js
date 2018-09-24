@@ -70,7 +70,7 @@ class ConfigureView extends React.Component<PropsType, StateType> {
     const { setWebSocketAddress, navigation } = this.props;
     const { params } = navigation.state;
     const shouldNavigateToHome = params ? params.shouldNavigateToHome : false;
-    const qrcode_address = evt.data;
+    var qrcode_address = evt.data;
 
     console.log('onRead', qrcode_address);
 
