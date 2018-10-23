@@ -8,7 +8,7 @@ import { TabNavigator } from 'react-navigation';
 import NotificationsView from '../views/NotificationsView';
 import HomeStack from './HomeStack';
 import SettingsStack from './SettingsStack';
-import RoomsView from '../views/RoomsView';
+import IOSLookingRoomsView from '../views/IOSLookingRoomsView';
 
 import { Colors, TypeFaces } from '../constants/styles';
 
@@ -29,7 +29,7 @@ const structure = {
   //   }
   // },
   Home: {
-    screen: RoomsView,
+    screen: IOSLookingRoomsView,
     navigationOptions: {
       tabBarIcon: (state: {focused: boolean}) => (
         <Image style={styles.tabbar_icon}

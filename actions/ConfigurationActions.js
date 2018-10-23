@@ -4,6 +4,8 @@ export const SET_USERS_NAME = 'SET_USERS_NAME';
 export const SET_WEBSOCKET_ADDRESS = 'SET_WEBSOCKET_ADDRESS';
 export const SET_CONNECTION_STATUS = 'SET_CONNECTION_STATUS';
 export const RESET_CONFIGURATION = 'RESET_CONFIGURATION';
+export const SET_ROOM_CARD_IN = 'SET_ROOM_CARD_IN';
+export const SET_ROOM_TEMPERATURE = 'SET_ROOM_TEMPERATURE';
 
 /* set user's name */
 export function setUsersName(users_name: string) {
@@ -35,3 +37,17 @@ export function resetConfiguration() {
     type: RESET_CONFIGURATION
   };
 };
+
+export function set_room_card_in(is_in: ?number) {
+  return {
+    type: SET_ROOM_CARD_IN,
+    isIn: is_in,
+  }
+}
+
+export function set_room_temperature(temperture: ?number) {
+  return {
+    type: SET_ROOM_TEMPERATURE,
+    temperature: temperture,
+  }
+}

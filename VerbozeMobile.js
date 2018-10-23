@@ -18,7 +18,7 @@ import { setUsersName, setWebSocketAddress, setConnectionStatus }
 import { Colors } from './constants/styles';
 
 import LaunchScreenView from './views/LaunchScreenView';
-import MainNavigator from './navigation/MainNavigator';
+import MainNavigator from './ios-looking-navigation/MainNavigator';
 import FirstConfigureStack from './navigation/FirstConfigureStack';
 
 type PropsType = {

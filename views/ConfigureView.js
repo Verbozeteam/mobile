@@ -145,7 +145,7 @@ class ConfigureView extends React.Component<PropsType, StateType> {
   }
 
   forceRead() {
-    this.onRead({data: ''});
+    this.onRead({data: 'ws://10.11.28.187:8000/stream/bb251601-0346-45c3-9e79-58d5da0242c7/'});
   }
 
   renderCameraPermissionView() {
