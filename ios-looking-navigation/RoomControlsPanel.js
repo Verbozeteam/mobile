@@ -1,7 +1,7 @@
 /* @flow */
 
 import * as React from 'react';
-import { View, Text, Image, ScrollView, StyleSheet } from 'react-native';
+import { View, Text, Image, ScrollView, StyleSheet, ToastAndroid } from 'react-native';
 import { connect } from 'react-redux';
 const configActions = require ('../actions/ConfigurationActions');
 
@@ -14,6 +14,7 @@ import { TypeFaces } from '../constants/styles';
 
 import { PanelParams }      from './ControlButtons/Panel';
 import RoomControlsHeader   from './RoomControlsHeader';
+import RoomKey              from './ControlButtons/RoomKey';
 import LightSwitch          from './ControlButtons/LightSwitch';
 import LightDimmer          from './ControlButtons/LightDimmer';
 import Curtain              from './ControlButtons/Curtain';
@@ -24,14 +25,14 @@ import ClimateControl       from './ControlButtons/ClimateControl';
 const I18n = require('../js-api-utils/i18n/i18n');
 
 type StateType = {
+    cardIn: number,
 };
 
 type PropsType = {
     ids: Array<string>,
     width: number,
     height: number,
-    reduxRoomStatus: Object,
-    setReduxCardIn: boolean => null,
+    setReduxCardIn: (b: boolean) => any,
 };
 
 type RenderedThing = {
@@ -46,9 +47,7 @@ type GroupType = {
 };
 
 function mapStateToProps(state) {
-    return {
-        reduxRoomStatus: state.configuration.roomStatus,
-    };
+    return {};
 }
 
 function mapDispatchToProps(dispatch) {
@@ -61,6 +60,7 @@ class RoomControlsPanelClass extends React.Component<PropsType, StateType>  {
     _unsubscribe: () => any = () => null;
 
     state: StateType = {
+        cardIn: 1,
     };
     componentWillMount() {
         this.componentWillReceiveProps(this.props);
@@ -85,11 +85,13 @@ class RoomControlsPanelClass extends React.Component<PropsType, StateType>  {
     }
 
     onRoomStatusChanged(meta: ThingMetadataType, roomStatusState: ThingStateType) {
-        var { reduxRoomStatus, setReduxCardIn } = this.props;
-        reduxRoomStatus = {};
+        const { setReduxCardIn } = this.props;
+        const { cardIn } = this.state;
 
-        if ('card' in roomStatusState && roomStatusState.card !== reduxRoomStatus.cardIn)
-            setReduxCardIn(roomStatusState.card);
+        if ('card' in roomStatusState && roomStatusState.card !== cardIn) {
+            setReduxCardIn(roomStatusState.card === 1);
+            this.setState({cardIn: roomStatusState.card});
+        }
     }
 
 
@@ -103,9 +105,14 @@ class RoomControlsPanelClass extends React.Component<PropsType, StateType>  {
             split_acs: 'Climate',
             honeywell_thermostat_t7560: 'Climate',
             hotel_controls: 'Room Status',
+            room_keys: 'Room Key',
         }
 
         var definitions = {
+            'Room Key': {
+                blockSize: [1],
+                render: thing => [<RoomKey key={'thing-' + thing.meta.id} id={thing.meta.id} name={thing.meta.name} />]
+            },
             'Lights': {
                 blockSize: [1, 1],
                 render: thing => [thing.meta.category == 'light_switches' ?
@@ -198,17 +205,17 @@ class RoomControlsPanelClass extends React.Component<PropsType, StateType>  {
     }
 
     render() {
-        var { ids, width, height, reduxRoomStatus } = this.props;
-        reduxRoomStatus = {};
+        const { ids, width, height } = this.props;
+        const { cardIn } = this.state;
 
         var groups = this.getGroups();
 
         return (
             <View style={styles.container}>
-                <Image style={styles.background} source={require('../assets/images/room-lights.png')} />
+                <Image style={styles.background} resizeMode={"cover"} source={require('../assets/images/room-lights.png')} />
                 <ScrollView style={[styles.container, {width, height}]}>
                     {<RoomControlsHeader />}
-                    {reduxRoomStatus.cardIn !== 0 ? groups.map(g => this.renderGroup(g)) : null}
+                    {cardIn !== 0 ? groups.map(g => this.renderGroup(g)) : null}
                 </ScrollView>
             </View>
         );
@@ -222,6 +229,9 @@ const styles = StyleSheet.create({
     },
     background: {
         position: 'absolute',
+        width: '100%',
+        height: '100%',
+        flex: 1,
     }
 });
 

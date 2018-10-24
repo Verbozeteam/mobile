@@ -4,6 +4,7 @@ import * as React from 'react';
 import { View, Text, Dimensions, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { TabNavigator } from 'react-navigation';
 import PropTypes from 'prop-types';
+import { TabBarBottomBlur } from '../navigation/components/TabBarBottomBlur';
 
 import { ConfigManager } from '../js-api-utils/ConfigManager';
 import type { GroupType, ThingMetadataType, ConfigType } from '../js-api-utils/ConfigManager';
@@ -122,6 +123,7 @@ export default class MainNavigator extends React.Component<any, StateType> {
                     case 'curtains':
                     case 'hotel_controls':
                     case 'honeywell_thermostat_t7560':
+                    case 'room_keys':
                         roomThings.push(thing);
                         break;
                     case 'alarm_system':
@@ -191,6 +193,7 @@ export default class MainNavigator extends React.Component<any, StateType> {
             lazy: true,
             initialRouteName: Object.keys(structure)[0],
             tabBarPosition: 'bottom',
+            tabBarComponent: TabBarBottomBlur,
             tabBarOptions: {
                 showIcon: true,
                 activeTintColor: Colors.white,

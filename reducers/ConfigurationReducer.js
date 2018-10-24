@@ -49,13 +49,14 @@ const reducer = (state: StateType = defaultState, action: Object) => {
 
     case SET_ROOM_CARD_IN:
       if (new_state.roomStatus.cardIn === action.isIn)
-          return state;
-          new_state.roomStatus.cardIn = action.isIn;
+        return state;
+      new_state.roomStatus = {...new_state.roomStatus, cardIn: action.isIn};
       break;
+
     case SET_ROOM_TEMPERATURE:
       if (new_state.roomStatus.temperature === action.temperature)
-          return state;
-        new_state.roomStatus.temperature = action.temperature;
+        return state;
+      new_state.roomStatus = {...new_state.roomStatus, temperature: action.temperature};
       break;
   }
 

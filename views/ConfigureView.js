@@ -171,7 +171,7 @@ class ConfigureView extends React.Component<PropsType, StateType> {
     }
 
     var force_read_button = null;
-    if (__DEV__) {
+    if (__DEV__ || true) {
       force_read_button = (
         <Button title={'Force Read'}
           onPress={this.forceRead.bind(this)} />
