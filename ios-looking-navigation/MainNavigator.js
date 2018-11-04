@@ -139,7 +139,7 @@ export default class MainNavigator extends React.Component<any, StateType> {
                             background: this._backgrounds.hotel_controls,
                             things: [thing],
                             viewName: 'AmenitiesPanel',
-                            render: (w, h) => (props => <AmenitiesPanel {...props} id={thing.id} />)
+                            render: (w, h) => (props => <AmenitiesPanel {...props} width={w} height={h} id={thing.id} />)
                         });
                         break;
                 }
@@ -153,7 +153,7 @@ export default class MainNavigator extends React.Component<any, StateType> {
                 background: this._backgrounds.dimmers,
                 things: roomThings,
                 viewName: 'RoomControlsPanel',
-                render: (w, h) => (props => <RoomControlsPanel {...props} ids={roomThings.map(t => t.id)} />)
+                render: (w, h) => (props => <RoomControlsPanel {...props} width={w} height={h} ids={roomThings.map(t => t.id)} />)
             }].concat(pages);
         pages.push({
             name: 'Settings',
@@ -170,14 +170,13 @@ export default class MainNavigator extends React.Component<any, StateType> {
     render() {
         var pages = this.getPages();
 
-        const w = 100;
-        const h = 100;
+        const { width, height } = Dimensions.get('window');
 
         var structure = {};
         for (var p = 0; p < pages.length; p++) {
             const page = pages[p];
             structure[page.viewName] = {
-                screen: page.render(w, h),
+                screen: page.render(width, height),
                 navigationOptions: {
                     tabBarIcon: (state: {focused: boolean}) => (
                         <Image style={styles.tabbar_icon}
@@ -222,4 +221,3 @@ const styles = StyleSheet.create({
         resizeMode: 'contain'
     }
 });
-

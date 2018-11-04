@@ -1,7 +1,7 @@
 /* @flow */
 
 import * as React from 'react';
-import { View, Text, Image, ScrollView, StyleSheet, ToastAndroid } from 'react-native';
+import { View, Text, Image, ScrollView, StyleSheet, ToastAndroid, SafeAreaView } from 'react-native';
 import { connect } from 'react-redux';
 const configActions = require ('../actions/ConfigurationActions');
 
@@ -211,13 +211,13 @@ class RoomControlsPanelClass extends React.Component<PropsType, StateType>  {
         var groups = this.getGroups();
 
         return (
-            <View style={styles.container}>
-                <Image style={styles.background} resizeMode={"cover"} source={require('../assets/images/room-lights.png')} />
-                <ScrollView style={[styles.container, {width, height}]}>
+            <SafeAreaView style={styles.container}>
+                <Image style={[styles.background, {width, height}]} resizeMode={"cover"} source={require('../assets/images/room-lights.png')} />
+                <ScrollView style={[styles.container]}>
                     {<RoomControlsHeader />}
                     {cardIn !== 0 ? groups.map(g => this.renderGroup(g)) : null}
                 </ScrollView>
-            </View>
+            </SafeAreaView>
         );
     }
 }

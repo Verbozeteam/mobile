@@ -1,7 +1,7 @@
 /* @flow */
 
 import * as React from 'react';
-import { View, Text, Image, TouchableWithoutFeedback, TouchableOpacity, ScrollView, StyleSheet } from 'react-native';
+import { View, Text, Image, TouchableWithoutFeedback, TouchableOpacity, ScrollView, StyleSheet, SafeAreaView } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -162,7 +162,7 @@ class AmenitiesPanelClass extends React.Component<PropsType, StateType> {
         if (confirmationMessage) {
             return (
                 <LinearGradient colors={Gradients.background_dark} style={styles.container}>
-                    <View style={styles.confirmationContainer}>
+                    <SafeAreaView style={styles.confirmationContainer}>
                         <View style={styles.confirmationBox}>
                             <Text style={[styles.textStyle, {color: textColor, textAlign: 'center', marginBottom: 10}]}>
                                 {I18n.t(confirmationMessage)}
@@ -175,13 +175,13 @@ class AmenitiesPanelClass extends React.Component<PropsType, StateType> {
                                 </View>
                             </View>
                         </View>
-                    </View>
+                    </SafeAreaView>
                 </LinearGradient>
             );
         } else if (selectedItem) {
             return (
                 <LinearGradient colors={Gradients.background_dark} style={styles.container}>
-                    <View style={styles.confirmationContainer}>
+                    <SafeAreaView style={styles.confirmationContainer}>
                         <View style={styles.confirmationBox}>
                             <Text style={[styles.textStyle, {color: textColor, textAlign: 'center', marginBottom: 10}]}>
                                 {selectedItem.customPreorderPrompt ? I18n.t(selectedItem.customPreorderPrompt) : (I18n.t("You are placing an order for ") + I18n.t(selectedItem.name))}
@@ -202,19 +202,21 @@ class AmenitiesPanelClass extends React.Component<PropsType, StateType> {
                                 </View>
                             </View>
                         </View>
-                    </View>
+                    </SafeAreaView>
                 </LinearGradient>
             );
         } else {
             return (
                 <LinearGradient colors={Gradients.background_dark} style={styles.container}>
-                    <ScrollView style={[styles.container, {width, height}]}>
-                        <View style={headingStyles.container}>
-                            <Text style={headingStyles.heading}>{I18n.t(menu.heading)}</Text>
-                            <Text style={headingStyles.comment}>{I18n.t(menu.subheading)}</Text>
-                        </View>
-                        {menu.groups.map(g => this.renderGroup(g))}
-                    </ScrollView>
+                    <SafeAreaView style={styles.container}>
+                        <ScrollView style={[styles.container, {width, height}]}>
+                            <View style={headingStyles.container}>
+                                <Text style={headingStyles.heading}>{I18n.t(menu.heading)}</Text>
+                                <Text style={headingStyles.comment}>{I18n.t(menu.subheading)}</Text>
+                            </View>
+                            {menu.groups.map(g => this.renderGroup(g))}
+                        </ScrollView>
+                    </SafeAreaView>
                 </LinearGradient>
             );
         }

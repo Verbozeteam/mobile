@@ -13,11 +13,7 @@ type PropsType = {
 };
 
 export const TabBarBottomBlur = (props: PropsType) => (
-  <BlurView blurAmount={10} blurType={'dark'} style={styles.container}>
-    <View style={styles.top_border}>
-      <TabBarBottom {...props} />
-    </View>
-  </BlurView>
+  <TabBarBottom {...props} />
 );
 
 const styles = StyleSheet.create({
